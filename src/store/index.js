@@ -4,6 +4,7 @@ import * as getters from './getters'
 import * as actions from './actions'
 import mutations from './mutations'
 import StoreCache from '../utils/storeCache'
+import auth from './modules/authUser'
 
 Vue.use(Vuex)
 let cache = new StoreCache('vuex')
@@ -16,6 +17,9 @@ const state = {
 }
 
 export default new Vuex.Store({
+  modules: {
+    auth
+  },
   state,
   getters,
   actions,

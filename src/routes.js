@@ -1,5 +1,9 @@
 export default [
   {
+    path: '/login/',
+    component: require('./pages/auth/login.vue')
+  },
+  {
     path: '/profile/',
     component: require('./pages/profile.vue')
   },

@@ -1,6 +1,6 @@
 export default {
   app: {
-    app_name: 'HiApp',
+    app_name: 'Beedle',
     back: 'Back',
     save: 'Save',
     unknown: 'Unknown',

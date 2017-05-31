@@ -5,15 +5,15 @@
         <div class="logo">
             <img src="../../static/img/hiapp_logo@2x.png" alt="logo">
         </div>
-        <div class="app-name">HiApp</div>
+        <div class="app-name">Beedle</div>
     </f7-block>
     <f7-block class="detail">
-        <p>GitHub: BelinChung/HiApp</p>
-        <p>Email: BelinChung@gmail.com</p>
-        <p>Twitter: @BelinChung</p>
+        <p>Web: caspiansoft.com</p>
+        <p>Email: info@caspiansoft.com</p>
+        <p>Twitter: @caspiansoft</p>
     </f7-block>
     <f7-block class="copyright">
-        Copyright © 2017 BelinChung.
+        Copyright © 2017 CaspianSoft.
     </f7-block>
   </f7-page>
 </template>
