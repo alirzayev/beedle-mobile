@@ -24,11 +24,11 @@ export default {
     let update = {}
     switch(type) {
     case 'like':
-      update.like_count = item.like_count + 1
+      update.likes_count = item.likes_count + 1
       update.liked = true
       break
     case 'unlike':
-      update.like_count = item.like_count - 1
+      update.likes_count = item.likes_count - 1
       update.liked = false
       break
     }

@@ -1,7 +1,10 @@
+/* eslint-disable indent */
 import axios from 'axios'
+import topicServices from '../api/topic'
+
 import * as types from './mutation-types'
 
-export function getLoginUser({commit}) {
+export function getLoginUser ({commit}) {
   axios.get('/user_login.json').then(res => {
     let user = res.data.user
     commit(types.INIT_USER_INFO, {
@@ -10,11 +13,11 @@ export function getLoginUser({commit}) {
   })
 }
 
-export function setLang({ commit }, lang) {
+export function setLang ({commit}, lang) {
   commit(types.UPDATE_LANG, lang)
 }
 
-export function getContacts({commit}) {
+export function getContacts ({commit}) {
   axios.get('/contacts.json').then(res => {
     let contacts = res.data
     commit(types.INIT_CONTACTS, {
@@ -23,19 +26,39 @@ export function getContacts({commit}) {
   })
 }
 
-export function getTimeline({commit}, callback = () => {}) {
-  axios.get('/timeline.json').then(res => {
-    let timeline = res.data
-    commit(types.INIT_TIMETIME, {
-      timeline
+export function getTimeline ({commit}, callback = () => {}) {
+  topicServices.topics()
+    .then((response) => {
+      let timeline = response.body.topics
+      console.log('topics', timeline)
+      commit(types.INIT_TIMETIME, {
+        timeline
+      })
+      callback()
     })
-    callback()
-  })
 }
 
-export function updateTimeline({commit}, { mid, type }) {
-  commit(types.UPDATE_TIMETIME, {
-    mid,
-    type
-  })
+export function updateTimeline ({commit}, {mid, type}) {
+  switch (type) {
+    case 'like':
+      topicServices.like(mid)
+        .then((response) => {
+          console.log('likes', response)
+          commit(types.UPDATE_TIMETIME, {
+            mid,
+            type
+          })
+        })
+      break
+    case 'unlike':
+      topicServices.dislike(mid)
+        .then((response) => {
+          console.log('dislikes', response)
+          commit(types.UPDATE_TIMETIME, {
+            mid,
+            type
+          })
+        })
+      break
+  }
 }

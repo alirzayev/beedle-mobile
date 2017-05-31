@@ -3,6 +3,7 @@ export default {
     app_name: 'Beedle',
     back: 'Back',
     save: 'Save',
+    edit: 'Edit',
     unknown: 'Unknown',
     home: 'Home',
     contacts: 'Contacts',

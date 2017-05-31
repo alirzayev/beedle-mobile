@@ -30,6 +30,7 @@
         this.$f7.mainView.router.load({url: `/post/?mid=${data.id}`})
       }
     },
+
     components: {
       Card
     }
