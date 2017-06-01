@@ -1,6 +1,8 @@
 /* eslint-disable indent */
 import axios from 'axios'
 import topicServices from '../api/topic'
+import brandServices from '../api/brand'
+
 
 import * as types from './mutation-types'
 
@@ -10,6 +12,20 @@ export function getLoginUser ({commit}) {
     commit(types.INIT_USER_INFO, {
       user
     })
+  })
+}
+
+export function getBrands ({commit}) {
+  brandServices.brands()
+    .then((response) => {
+      let brands = response.body.brands
+      console.log('brands', brands)
+      commit(types.INIT_BRANDS, {
+        brands
+      })
+    })
+  axios.get('/user_login.json').then(res => {
+
   })
 }
 

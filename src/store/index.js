@@ -13,6 +13,7 @@ const state = {
   user: {},
   lang: cache.get('lang') || 'en',
   contacts: [],
+  brands: [],
   timeline: [],
 }
 

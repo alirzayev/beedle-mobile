@@ -138,9 +138,15 @@
         .card-content {
             padding: 5px 10px;
             .image {
-                margin-top: 5px;
+                margin: auto;
+                width: 400px;
+                padding: 10px;
+                overflow: hidden;
                 > img {
+                    display: block;
                     width: 100%;
+                    height: auto;
+                    margin: -70px 0px -70px 0px;
                 }
             }
         }

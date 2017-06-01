@@ -7,9 +7,13 @@ export default {
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },
-
+  show(id) {
+    return Vue.http.get('api/topics/'+ id)
+      .then((response) => Promise.resolve(response))
+      .catch((error) => Promise.reject(error))
+  },
   create(data) {
-    return Vue.http.post('api/admin/brands', data)
+    return Vue.http.post('api/topics', data)
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },

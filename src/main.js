@@ -15,8 +15,8 @@ import 'framework7/dist/css/framework7.ios.colors.min.css'
  import Framework7ThemeColors from 'framework7/dist/css/framework7.material.colors.min.css'
  */
 // Import App Custom Styles
-import './assets/fonts/iconfont.css'
 import './assets/styles/framework7-icons.css'
+import './assets/fonts/iconfont.css'
 import './assets/styles/app.less'
 // Import Routes
 import Routes from './routes'
@@ -46,11 +46,7 @@ Vue.http.interceptors.push((request, next) => {
   next(function (response) {
     // modify response
     if (response.body.error === true) {
-      alert(
-        'Error Found!',
-        response.body.message,
-        'error'
-      )
+      console.log('main.js -> error occured', response.body.message)
     }
   })
 })
@@ -72,6 +68,7 @@ new Vue({
     modalTitle: Vue.t('app.modal.title'),
     modalButtonOk: Vue.t('app.modal.button_ok'),
     modalButtonCancel: Vue.t('app.cancel'),
+    smartSelectOpenIn: 'page',
     /* Uncomment to enable Material theme: */
     // material: true,
     routes: Routes

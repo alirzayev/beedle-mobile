@@ -13,6 +13,9 @@ export default {
     Vue.set(state, 'lang', lang)
     cache.set('lang', lang)
   },
+  [types.INIT_BRANDS] (state, { brands }) {
+    Vue.set(state, 'brands', brands)
+  },
   [types.INIT_CONTACTS] (state, { contacts }) {
     Vue.set(state, 'contacts', contacts)
   },

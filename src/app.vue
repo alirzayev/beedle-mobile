@@ -22,16 +22,16 @@
                     <f7-page toolbar-fixed navbar-fixed>
                         <f7-toolbar tabbar>
                             <f7-link tab-link="#home" active>
-                                <f7-icon f7="home_fill"></f7-icon>
+                                <f7-icon f7="home"></f7-icon>
                             </f7-link>
                             <f7-link tab-link="#contacts">
-                                <f7-icon f7="world_fill"></f7-icon>
+                                <f7-icon f7="chat"></f7-icon>
                             </f7-link>
-                            <f7-link tab-link="#notification">
-                                <f7-icon f7="bolt_fill"></f7-icon>
+                            <f7-link tab-link="#notifications">
+                                <f7-icon f7="bolt"></f7-icon>
                             </f7-link>
                             <f7-link tab-link="#settings">
-                                <f7-icon f7="gear_fill"></f7-icon>
+                                <f7-icon f7="person"></f7-icon>
                             </f7-link>
                         </f7-toolbar>
                         <f7-tabs>
@@ -93,7 +93,7 @@
       },
       created(){
         this.$nextTick(() => {
-          if (!this.$store.getters.isLoggedIn) {
+          if (!this.$store.getters.user) {
             this.$f7.mainView.router.load({url: 'login'})
           }
         })
