@@ -139,7 +139,7 @@
             padding: 5px 10px;
             .image {
                 margin: auto;
-                width: 400px;
+                width: 100%;
                 padding: 10px;
                 overflow: hidden;
                 > img {

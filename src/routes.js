@@ -8,6 +8,10 @@ export default [
     component: require('./pages/profile.vue')
   },
   {
+    path: '/user/',
+    component: require('./pages/user.vue')
+  },
+  {
     path: '/language/',
     component: require('./pages/language.vue')
   },
@@ -26,5 +30,9 @@ export default [
   {
     path: '/post/',
     component: require('./pages/post.vue')
+  },
+  {
+    path: '/comment/',
+    component: require('./pages/comment.vue')
   },
 ]

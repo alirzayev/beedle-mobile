@@ -1,6 +1,8 @@
 export const INIT_USER_INFO = 'INIT_USER_INFO'
+export const INIT_USERS = 'INIT_USERS'
 export const UPDATE_LANG = 'UPDATE_LANG'
 export const INIT_CONTACTS = 'INIT_CONTACTS'
 export const INIT_BRANDS = 'INIT_BRANDS'
+export const INIT_COMMENTS = 'INIT_COMMENTS'
 export const INIT_TIMETIME = 'INIT_TIMETIME'
 export const UPDATE_TIMETIME = 'UPDATE_TIMETIME'

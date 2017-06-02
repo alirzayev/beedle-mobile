@@ -3,8 +3,7 @@ import Vue from 'vue'
 export default {
 
   users() {
-
-    return Vue.http.get('api/admin/users')
+    return Vue.http.get('api/users')
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },

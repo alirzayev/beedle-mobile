@@ -9,12 +9,18 @@ export default {
   [types.INIT_USER_INFO] (state, { user }) {
     Vue.set(state, 'user', user)
   },
+  [types.INIT_USERS] (state, { users }) {
+    Vue.set(state, 'users', users)
+  },
   [types.UPDATE_LANG] (state, lang) {
     Vue.set(state, 'lang', lang)
     cache.set('lang', lang)
   },
   [types.INIT_BRANDS] (state, { brands }) {
     Vue.set(state, 'brands', brands)
+  },
+  [types.INIT_COMMENTS] (state, { comments }) {
+    Vue.set(state, 'comments', comments)
   },
   [types.INIT_CONTACTS] (state, { contacts }) {
     Vue.set(state, 'contacts', contacts)

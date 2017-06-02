@@ -8,7 +8,9 @@ export default {
     home: 'Home',
     contacts: 'Contacts',
     settings: 'Settings',
+    explore: 'Explore',
     city: 'City',
+    email: 'Email',
     profile: 'Profile',
     language: 'Language',
     feedback: 'Feedback',
@@ -43,6 +45,7 @@ export default {
   },
   comment: {
     placeholder: 'write a comment...',
+    result: 'Thank you for your comment'
   },
   publisher: {
     publisher: 'Publisher',

@@ -2,8 +2,8 @@
 import axios from 'axios'
 import topicServices from '../api/topic'
 import brandServices from '../api/brand'
-
-
+import commentServices from '../api/comments'
+import userServices from '../api/user'
 import * as types from './mutation-types'
 
 export function getLoginUser ({commit}) {
@@ -15,6 +15,17 @@ export function getLoginUser ({commit}) {
   })
 }
 
+export function getUsers ({commit}) {
+  userServices.users()
+    .then((response) => {
+      let users = response.body.users
+      console.log('users', users)
+      commit(types.INIT_USERS, {
+        users
+      })
+    })
+}
+
 export function getBrands ({commit}) {
   brandServices.brands()
     .then((response) => {
@@ -24,9 +35,17 @@ export function getBrands ({commit}) {
         brands
       })
     })
-  axios.get('/user_login.json').then(res => {
+}
 
-  })
+export function getComments ({commit}) {
+  commentServices.comments()
+    .then((response) => {
+      let comments = response.body.comments
+      console.log('brands', comments)
+      commit(types.INIT_COMMENTS, {
+        comments
+      })
+    })
 }
 
 export function setLang ({commit}, lang) {

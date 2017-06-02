@@ -10,7 +10,7 @@
             <f7-nav-center :title="$t('app.profile')"></f7-nav-center>
         </f7-navbar>
 
-        <f7-list class="user-profile">
+        <f7-list  class="user-profile">
             <f7-list-item :media="avatarMedia">
                 <div class="detail">
                     <div class="name">{{user.fullname}}</div>
@@ -89,12 +89,15 @@
 
 <script>
   import { Carousel, Slide } from 'vue-carousel'
+  import find from 'lodash/find'
 
   export default {
+    data() {
+      return {
+        user: {},
+      }
+    },
     computed: {
-      user() {
-        return this.$store.getters.user
-      },
       users(){
         return this.$store.state.users
       },
@@ -105,9 +108,21 @@
         return `<img class='avatar' src='${this.user.cover_url}' />`
       }
     },
+    created() {
+      let query = this.$route.query
+      this.user = find(this.users, user => user.id === parseInt(query.uid))
+      console.log('related user', this.user)
+    },
     components: {
       Carousel,
       Slide
+    },
+    methods: {
+      formatGender(gender) {
+        if (gender === 'm') return this.$t('app.male')
+        else if (gender === 'f') return this.$t('app.female')
+        else return this.$t('app.unknown')
+      }
     }
   }
 </script>

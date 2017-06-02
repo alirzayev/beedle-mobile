@@ -1,42 +1,49 @@
 <template>
-  <f7-popup id="commentPopup">
-    <f7-page navbar-fixed>
-      <f7-navbar theme="white">
-        <f7-nav-left>
-          <f7-link :text="$t('app.close')" close-popup></f7-link>
-        </f7-nav-left>
-        <f7-nav-center :title="$t('tweet.comment')"></f7-nav-center>
-        <f7-nav-right>
-          <f7-link :text="$t('app.send')" @click="sendComment"></f7-link>
-        </f7-nav-right>
-      </f7-navbar>
-      <editor :placeholder="$t('comment.placeholder')" @text:change="editorTextChange" enableTools="emotion,at"></editor>
+    <f7-page class="feedback-page">
+        <f7-navbar :title="$t('app.feedback')" :back-link="$t('app.back')" sliding>
+            <f7-nav-right>
+                <f7-link :text="$t('app.send')" @click="sendComment"></f7-link>
+            </f7-nav-right>
+        </f7-navbar>
+        <editor :placeholder="$t('feedback.placeholder')" @text:change="editorTextChange"
+                enableTools="emotion"></editor>
     </f7-page>
-  </f7-popup>
 </template>
 
 <script>
-import Editor from '../components/editor.vue'
-export default {
-  data() {
-    return {
-      text: ''
-    }
-  },
-  methods: {
-    editorTextChange(text) {
-      this.text = text
+  import Editor from '../components/editor.vue'
+  import commentServices from '../api/comments'
+  export default {
+    data() {
+      return {
+        text: ''
+      }
     },
-    sendComment() {
-      this.$f7.showPreloader(this.$t('app.submitting'))
-      setTimeout(_ => {
-        this.$f7.hidePreloader()
-        this.$f7.closeModal('#commentPopup')
-      }, 1500)
+    methods: {
+      editorTextChange(text) {
+        this.text = text
+      },
+      sendComment() {
+        let query = this.$route.query
+
+        var formData = new FormData()
+        formData.append('topic_id', query.tid)
+        formData.append('content', this.text)
+        commentServices.create(formData).then(
+          (response) => {
+            if(response.body.error){
+              this.$f7.alert(response.body.message)
+            }
+            this.$f7.alert(this.$t('comment.result'))
+            this.$set(this.$store.state.getTimeline, 0, formData)
+            this.$store.dispatch('getComments')
+            console.log('comment created', response.body)
+          }
+        )
+      }
+    },
+    components: {
+      Editor
     }
-  },
-  components: {
-    Editor
   }
-}
 </script>

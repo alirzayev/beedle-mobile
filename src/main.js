@@ -32,10 +32,13 @@ import VueI18n from 'vue-i18n'
 import StoreCache from './utils/storeCache'
 import enUS from './lang/en_us'
 import zhCN from './lang/zh_cn'
+// Carousel framework
+import VueCarousel from 'vue-carousel'
 
 // Init Vue Plugin
 Vue.use(Framework7Vue)
 Vue.use(VueResource)
+Vue.use(VueCarousel)
 
 Vue.http.options.root = 'http://localhost:8000'
 Vue.http.options.emulateJSON = true

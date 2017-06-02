@@ -14,7 +14,7 @@
                     <f7-nav-right>
                         <f7-link open-popup="#publisherPopup"
                                  v-show="activedTab === 'home'">
-                            <f7-icon f7="add" size="22px"></f7-icon>
+                            <f7-icon style="color: gray" f7="add" size="22px"></f7-icon>
                         </f7-link>
                     </f7-nav-right>
                 </f7-navbar>
@@ -41,6 +41,9 @@
                             <f7-tab id="contacts" @tab:show="tabActived('contacts')">
                                 <contacts-view></contacts-view>
                             </f7-tab>
+                            <f7-tab id="notifications" @tab:show="tabActived('notifications')">
+                                <explore></explore>
+                            </f7-tab>
                             <f7-tab id="settings" @tab:show="tabActived('settings')">
                                 <settings-view></settings-view>
                             </f7-tab>
@@ -58,13 +61,14 @@
 </template>
 
 <script>
-    /* eslint-disable indent */
+    /* eslint-disable indent,no-undef */
     import HomeView from './pages/home.vue'
     import ContactsView from './pages/contacts.vue'
     import SettingsView from './pages/settings.vue'
     import CommentPopup from './pages/comment.vue'
     import PublisherPopup from './pages/publisher.vue'
     import LoginView from './pages/auth/login.vue'
+    import Explore from './pages/explore.vue'
 
     export default {
       data () {
@@ -81,8 +85,8 @@
               return this.$t('app.contacts')
             case 'settings':
               return this.$t('app.settings')
-            case 'login':
-              return 'login'
+            case 'notifications':
+              return this.$t('app.explore')
           }
         }
       },
@@ -104,7 +108,8 @@
         SettingsView,
         CommentPopup,
         PublisherPopup,
-        LoginView
+        LoginView,
+        Explore
       }
     }
 </script>

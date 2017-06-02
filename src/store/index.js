@@ -14,7 +14,9 @@ const state = {
   lang: cache.get('lang') || 'en',
   contacts: [],
   brands: [],
+  users: [],
   timeline: [],
+  comments: []
 }
 
 export default new Vuex.Store({

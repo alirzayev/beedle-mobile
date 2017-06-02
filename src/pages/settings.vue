@@ -5,8 +5,8 @@
                 <div slot="inner-start" class="detail">
                     <div class="name">{{userInfo.fullname}}</div>
                     <div class="location">
-                        <span>{{$t('app.city')}}: </span>
-                        <span>{{userInfo.location}}</span>
+                        <span>{{$t('app.email')}}: </span>
+                        <span>{{userInfo.email}}</span>
                     </div>
                 </div>
             </f7-list-item>
@@ -16,7 +16,7 @@
                           media="<i class='iconfont icon-language'></i>"></f7-list-item>
         </f7-list>
         <f7-list>
-            <f7-list-item :title="$t('app.feedback')" link="/feedback/"
+            <f7-list-item :title="$t('app.chat')" link="/feedback/"
                           media="<i class='iconfont icon-feedback2'></i>"></f7-list-item>
         </f7-list>
         <f7-list>

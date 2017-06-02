@@ -1,6 +1,13 @@
 <template>
     <f7-page class="post-page" navbar-fixed toolbar-fixed>
-        <f7-navbar :title="$t('post.post')" :back-link="$t('app.back')" sliding>
+        <f7-navbar >
+                <f7-nav-left>
+                    <a href="#" class="back link">
+                        <f7-icon f7="left"></f7-icon>
+                        <span>{{$t('app.back')}}</span>
+                    </a>
+                </f7-nav-left>
+            <f7-nav-center :title="$t('post.post')"></f7-nav-center>
         </f7-navbar>
         <card :enableToolbar="false" :data="post"></card>
         <div class="comments">
@@ -8,7 +15,7 @@
                 <span>{{$t('tweet.comment')}}</span>
             </div>
             <div class="list">
-                <template v-if="post.comments">
+                <template v-if="post.comments.length > 0">
                     <div class="comment flex-row" v-for="(comment, index) in post.comments" :key="comment.name">
                         <img class="avatar" :src="comment.owner.cover_url"/>
                         <div class="detail flex-rest-width">
@@ -32,7 +39,7 @@
                 <span class="fonticon f7-icons">bolt</span>
                 <span class="text" v-text="post.likes_count ? post.likes_count : $t('tweet.like')"></span>
             </f7-link>
-            <f7-link class="tool flex-rest-width" @click="openCommentPopup">
+            <f7-link class="tool flex-rest-width" :href="'/comment/?tid='+post.id">
                 <span class="fonticon f7-icons">chat</span>
                 <span class="text" v-text="post.comments_count ? post.comments_count : $t('tweet.comment')"></span>
             </f7-link>
@@ -42,7 +49,6 @@
 
 
 <script>
-  import axios from 'axios'
   import Card from '../components/card.vue'
   import moment from 'moment'
   import { getRemoteAvatar } from '../utils/appFunc'
@@ -65,18 +71,15 @@
       }
     },
     mounted() {
+      this.$nextTick(_ => {
+        this.$store.dispatch('getTimeline', () => {
+        })
+      })
+      this.$store.dispatch('getComments')
       let query = this.$route.query
       this.post = find(this.timeline, p => p.id === parseInt(query.mid))
-      this.getComments()
     },
     methods: {
-      getComments() {
-        let random = Math.floor(Math.random() * 2)
-        if (!random) return []
-        axios.get('/comments.json').then(res => {
-          this.comments = res.data
-        })
-      },
       formatTime(time) {
         return moment(Date.parse(time)).fromNow()
       },
@@ -115,6 +118,9 @@
     @import "../assets/styles/mixins.less";
 
     .post-page {
+        .red-color {
+            color: red;
+        }
         .custom-toolbar {
             background: #fff;
             &:before {
