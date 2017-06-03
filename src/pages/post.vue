@@ -1,12 +1,12 @@
 <template>
     <f7-page class="post-page" navbar-fixed toolbar-fixed>
-        <f7-navbar >
-                <f7-nav-left>
-                    <a href="#" class="back link">
-                        <f7-icon f7="left"></f7-icon>
-                        <span>{{$t('app.back')}}</span>
-                    </a>
-                </f7-nav-left>
+        <f7-navbar>
+            <f7-nav-left>
+                <a href="#" class="back link">
+                    <f7-icon f7="left"></f7-icon>
+                    <span>{{$t('app.back')}}</span>
+                </a>
+            </f7-nav-left>
             <f7-nav-center :title="$t('post.post')"></f7-nav-center>
         </f7-navbar>
         <card :enableToolbar="false" :data="post"></card>
@@ -16,7 +16,7 @@
             </div>
             <div class="list">
                 <template v-if="post.comments.length > 0">
-                    <div class="comment flex-row" v-for="(comment, index) in post.comments" :key="comment.name">
+                    <div class="comment flex-row" v-for="(comment, index) in getComments" :key="comment.name">
                         <img class="avatar" :src="comment.owner.cover_url"/>
                         <div class="detail flex-rest-width">
                             <div class="name"><span>{{comment.owner.fullname}}</span></div>
@@ -51,6 +51,7 @@
 <script>
   import Card from '../components/card.vue'
   import moment from 'moment'
+  import notificationServices from '../api/notifications'
   import { getRemoteAvatar } from '../utils/appFunc'
   import { mapState } from 'vuex'
   import find from 'lodash/find'
@@ -68,16 +69,30 @@
       }),
       user(){
         return this.$store.getters.user
+      },
+      getComments(){
+        return this.comments
       }
     },
     mounted() {
+      let query = this.$route.query
       this.$nextTick(_ => {
         this.$store.dispatch('getTimeline', () => {
         })
       })
       this.$store.dispatch('getComments')
-      let query = this.$route.query
       this.post = find(this.timeline, p => p.id === parseInt(query.mid))
+      this.comments = this.post.comments
+
+      if (this.user.id === this.post.user.id) {
+        notificationServices.update(query.mid)
+          .then((response) => {
+            console.log('notification is updated', response.body)
+          })
+      }
+      this.$bus.$on('refresh', this.refresh)
+    },
+    created(){
     },
     methods: {
       formatTime(time) {
@@ -106,6 +121,12 @@
           })
         }
         return data.liked
+      },
+      refresh(){
+        this.$nextTick(_ => {
+          this.$store.dispatch('getTimeline', () => {
+          })
+        })
       }
     },
     components: {

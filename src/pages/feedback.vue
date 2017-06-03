@@ -1,32 +1,69 @@
 <template>
-  <f7-page class="feedback-page">
-    <f7-navbar :title="$t('app.feedback')" :back-link="$t('app.back')" sliding>
-      <f7-nav-right>
-        <f7-link :text="$t('app.send')" @click="sendFeedback"></f7-link>
-      </f7-nav-right>
-    </f7-navbar>
-    <editor :placeholder="$t('feedback.placeholder')" @text:change="editorTextChange" enableTools="emotion"></editor>
-  </f7-page>
+    <f7-page class="feedback-page">
+        <f7-navbar :title="$t('app.feedback')" :back-link="$t('app.back')" sliding>
+            <f7-nav-right>
+                <f7-link :text="$t('app.send')" @click="sendFeedback"></f7-link>
+            </f7-nav-right>
+        </f7-navbar>
+        <div class="contacts-view">
+            <f7-list contacts>
+                <f7-list-group v-for="(group, key) in contacts" :key="key">
+                    <f7-list-item :title="key" group-title></f7-list-item>
+                    <f7-list-item v-for="contact in group"
+                                  :link="getLink(contact.nickname)"
+                                  :key="contact.nickname"
+                                  :title="contact.nickname"
+                                  :after="contact.location"
+                                  :media="getAvatarMedia(contact.avatar)"
+                    ></f7-list-item>
+                </f7-list-group>
+            </f7-list>
+        </div>
+    </f7-page>
 </template>
 
 <script>
-import Editor from '../components/editor.vue'
-export default {
-  data() {
-    return {
-      text: ''
-    }
-  },
-  methods: {
-    editorTextChange(text) {
-      this.text = text
+  import {mapState} from 'vuex'
+  import groupBy from 'lodash/groupBy'
+  import {getRemoteAvatar} from '../utils/appFunc'
+  export default {
+    computed: {
+      ...mapState({
+        contacts: state => groupBy(state.contacts, 'header'),
+      })
     },
-    sendFeedback() {
-      this.$f7.alert(this.$t('feedback.result'))
+    mounted() {
+      this.$store.dispatch('getContacts')
+    },
+    methods: {
+      getAvatarMedia(id) {
+        return `<img class='avatar' src='${getRemoteAvatar(id)}' />`
+      },
+      getLink(name) {
+        return `/message/?nickname=${name}`
+      }
     }
-  },
-  components: {
-    Editor
   }
-}
 </script>
+
+<style lang="less">
+    .contacts-view{
+        .contacts-block{
+            margin: 20px 0;
+            .list-group-title{
+                line-height: 25px;
+                height: 25px;
+                background: #f7f7f7;
+                color: #8e8e93;
+                font-weight: normal !important;
+                font-size: 14px;
+            }
+            .item-media{
+                > img {
+                    width: 35px;
+                    height: 35px;
+                }
+            }
+        }
+    }
+</style>

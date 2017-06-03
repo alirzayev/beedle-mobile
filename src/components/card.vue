@@ -129,7 +129,7 @@
                     margin-top: 3px;
                 }
                 .name {
-                    color: #ff9630;
+                    color: @mainColor;
                     font-weight: bold;
                     font-size: 14px;
                 }

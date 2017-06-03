@@ -84,6 +84,7 @@
             console.log('new topic created', response.body)
             this.$f7.hidePreloader()
             this.$f7.closeModal('#publisherPopup')
+            this.$bus.$emit('refreshPosts')
           })
       },
       onFileChange (ele) {

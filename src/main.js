@@ -31,6 +31,7 @@ import './network'
 import VueI18n from 'vue-i18n'
 import StoreCache from './utils/storeCache'
 import enUS from './lang/en_us'
+import az from './lang/az'
 import zhCN from './lang/zh_cn'
 // Carousel framework
 import VueCarousel from 'vue-carousel'
@@ -44,8 +45,6 @@ Vue.http.options.root = 'http://localhost:8000'
 Vue.http.options.emulateJSON = true
 Vue.http.interceptors.push((request, next) => {
   request.headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'))
-  request.headers.set('Accept', 'application/json')
-
   next(function (response) {
     // modify response
     if (response.body.error === true) {
@@ -58,7 +57,18 @@ let cache = new StoreCache('vuex')
 Vue.use(VueI18n)
 Vue.config.lang = cache.get('lang') || 'en'
 Vue.locale('en', enUS)
+Vue.locale('az', az)
 Vue.locale('zh', zhCN)
+
+const EventBus = new Vue()
+
+Object.defineProperties(Vue.prototype, {
+  $bus: {
+    get: function () {
+      return EventBus
+    }
+  }
+})
 
 // Init App
 new Vue({

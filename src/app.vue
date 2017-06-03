@@ -24,10 +24,10 @@
                             <f7-link tab-link="#home" active>
                                 <f7-icon f7="home"></f7-icon>
                             </f7-link>
-                            <f7-link tab-link="#contacts">
-                                <f7-icon f7="chat"></f7-icon>
+                            <f7-link tab-link="#explore">
+                                <f7-icon f7="world"></f7-icon>
                             </f7-link>
-                            <f7-link tab-link="#notifications">
+                            <f7-link open-popup="#notificationPopup">
                                 <f7-icon f7="bolt"></f7-icon>
                             </f7-link>
                             <f7-link tab-link="#settings">
@@ -38,11 +38,11 @@
                             <f7-tab id="home" active @tab:show="tabActived('home')">
                                 <home-view></home-view>
                             </f7-tab>
-                            <f7-tab id="contacts" @tab:show="tabActived('contacts')">
-                                <contacts-view></contacts-view>
+                            <f7-tab id="explore" @tab:show="tabActived('contacts')">
+                                <explore></explore>
                             </f7-tab>
                             <f7-tab id="notifications" @tab:show="tabActived('notifications')">
-                                <explore></explore>
+                                <contacts-view></contacts-view>
                             </f7-tab>
                             <f7-tab id="settings" @tab:show="tabActived('settings')">
                                 <settings-view></settings-view>
@@ -53,9 +53,10 @@
             </f7-view>
         </f7-views>
 
-        <!-- Comment, publisher Popup -->
+        <!-- Comment, publisher, Notification Popup -->
         <comment-popup></comment-popup>
         <publisher-popup></publisher-popup>
+        <notification-popup></notification-popup>
 
     </div>
 </template>
@@ -67,6 +68,7 @@
     import SettingsView from './pages/settings.vue'
     import CommentPopup from './pages/comment.vue'
     import PublisherPopup from './pages/publisher.vue'
+    import NotificationPopup from './pages/notifications.vue'
     import LoginView from './pages/auth/login.vue'
     import Explore from './pages/explore.vue'
 
@@ -108,6 +110,7 @@
         SettingsView,
         CommentPopup,
         PublisherPopup,
+        NotificationPopup,
         LoginView,
         Explore
       }

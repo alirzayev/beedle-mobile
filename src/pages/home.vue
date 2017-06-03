@@ -18,16 +18,20 @@
       })
     },
     mounted() {
-      this.$nextTick(_ => {
-        this.$f7.showIndicator()
-        this.$store.dispatch('getTimeline', () => {
-          this.$f7.hideIndicator()
-        })
-      })
+      this.refresh()
+      this.$bus.$on('refreshPosts', this.refresh)
     },
     methods: {
       routeToPost(data) {
         this.$f7.mainView.router.load({url: `/post/?mid=${data.id}`})
+      },
+      refresh(){
+        this.$nextTick(_ => {
+          this.$f7.showIndicator()
+          this.$store.dispatch('getTimeline', () => {
+            this.$f7.hideIndicator()
+          })
+        })
       }
     },
     components: {

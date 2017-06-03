@@ -16,7 +16,8 @@ const state = {
   brands: [],
   users: [],
   timeline: [],
-  comments: []
+  comments: [],
+  notifications: [],
 }
 
 export default new Vuex.Store({

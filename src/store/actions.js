@@ -4,6 +4,7 @@ import topicServices from '../api/topic'
 import brandServices from '../api/brand'
 import commentServices from '../api/comments'
 import userServices from '../api/user'
+import notificationServices from '../api/notifications'
 import * as types from './mutation-types'
 
 export function getLoginUser ({commit}) {
@@ -44,6 +45,17 @@ export function getComments ({commit}) {
       console.log('brands', comments)
       commit(types.INIT_COMMENTS, {
         comments
+      })
+    })
+}
+
+export function getNotifications ({commit}) {
+  notificationServices.notifications()
+    .then((response) => {
+      let notifications = response.body.notifications
+      console.log('notifications', notifications)
+      commit(types.INIT_NOTIFICATIONS, {
+        notifications
       })
     })
 }

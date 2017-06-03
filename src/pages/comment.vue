@@ -25,7 +25,6 @@
       },
       sendComment() {
         let query = this.$route.query
-
         var formData = new FormData()
         formData.append('topic_id', query.tid)
         formData.append('content', this.text)
@@ -35,9 +34,8 @@
               this.$f7.alert(response.body.message)
             }
             this.$f7.alert(this.$t('comment.result'))
-            this.$set(this.$store.state.getTimeline, 0, formData)
-            this.$store.dispatch('getComments')
-            console.log('comment created', response.body)
+            this.$bus.$emit('refresh')
+            console.log('comment created', response.body.comment)
           }
         )
       }

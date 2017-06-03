@@ -22,6 +22,9 @@ export default {
   [types.INIT_COMMENTS] (state, { comments }) {
     Vue.set(state, 'comments', comments)
   },
+  [types.INIT_NOTIFICATIONS] (state, { notifications }) {
+    Vue.set(state, 'notifications', notifications)
+  },
   [types.INIT_CONTACTS] (state, { contacts }) {
     Vue.set(state, 'contacts', contacts)
   },
