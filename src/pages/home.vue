@@ -1,6 +1,22 @@
 <template>
     <div class="home-view">
-        <card v-for="(item, index) in timeline" :key="item.id" :data="item" @card:content-click="routeToPost"></card>
+        <f7-toolbar tabbar>
+            <f7-link tab-link="#trending" class="tool tool-border" :class="{pressed: pressed.trending}">TRENDING
+
+            </f7-link>
+            <f7-link tab-link="#recent" class="tool" :class="{pressed: pressed.recent}">RECENT</f7-link>
+        </f7-toolbar>
+        <f7-tabs swipeable>
+            <f7-tab id="trending" active @tab:show="tabActived('trending')">
+                <card v-for="(trend, index) in trends" :key="trend.id" :data="trend"
+                      @card:content-click="routeToPost"></card>
+            </f7-tab>
+
+            <f7-tab id="recent" @tab:show="tabActived('recent')">
+                <card v-for="(item, index) in timeline" :key="item.id" :data="item"
+                      @card:content-click="routeToPost"></card>
+            </f7-tab>
+        </f7-tabs>
     </div>
 </template>
 
@@ -12,10 +28,21 @@
   import Card from '../components/card.vue'
   import { mapState } from 'vuex'
   export default {
+    data(){
+      return {
+        pressed: {
+          'trending': true,
+          'recent': false,
+        },
+      }
+    },
     computed: {
       ...mapState({
         timeline: state => state.timeline,
-      })
+      }),
+      trends() {
+        return this.$store.state.trends
+      }
     },
     mounted() {
       this.refresh()
@@ -25,10 +52,22 @@
       routeToPost(data) {
         this.$f7.mainView.router.load({url: `/post/?mid=${data.id}`})
       },
+      tabActived (tab) {
+        if (tab === 'trending') {
+          this.pressed.trending = true
+          this.pressed.recent = false
+        } else {
+          this.pressed.trending = false
+          this.pressed.recent = true
+        }
+      },
       refresh(){
         this.$nextTick(_ => {
           this.$f7.showIndicator()
           this.$store.dispatch('getTimeline', () => {
+            this.$f7.hideIndicator()
+          })
+          this.$store.dispatch('getTrends', () => {
             this.$f7.hideIndicator()
           })
         })
@@ -39,3 +78,32 @@
     }
   }
 </script>
+
+<style lang="less">
+    @import "../assets/styles/mixins.less";
+
+    .home-view {
+        .tool {
+            font-weight: 400;
+            font-size: 12px;
+            justify-content: center;
+            &.tool-border {
+                border-right: 1px solid #e1e1e1;
+            }
+            &.pressed {
+                border-bottom: 2px solid @mainColor;
+            }
+            > span {
+                color: #6D6D78;
+                vertical-align: middle;
+            }
+            .iconfont {
+                font-size: 18px;
+            }
+            .text {
+                font-size: 15px;
+            }
+        }
+    }
+
+</style>

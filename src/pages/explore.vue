@@ -22,11 +22,11 @@
             <f7-card-header>Review</f7-card-header>
             <f7-card-content>
                 <carousel
-                          :scrollPerPage="true"
-                          :perPageCustom="[[480, 2], [768, 3]]"
-                          :perPage="3"
-                          :paginationEnabled="true"
-                >
+                        :scrollPerPage="true"
+                        :perPageCustom="[[480, 2], [768, 3]]"
+                        :perPage="3"
+                        :paginationEnabled="false">
+
                     <slide v-for="comment in comments">
                         <div class="review">
                             <img @click="routeToPost(comment.topic.id)" :src="comment.topic.model.cover_url"/>
@@ -124,9 +124,10 @@
         .card-content {
             padding: 5px 10px;
             color: gray;
+            text-align: center;
             .avatar > img {
-                width: 40px;
-                height: 40px;
+                width: 50px;
+                height: 50px;
                 padding: 10px;
                 border-radius: 50%;
                 border: solid #eeeeee;
@@ -148,7 +149,6 @@
                 background-color: rgba(0, 0, 0, 0.7);
                 width: 100px;
                 height: 100px;
-                padding: 5px;
                 border: solid #eeeeee;
             }
             .review > p {

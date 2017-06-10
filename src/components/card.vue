@@ -18,12 +18,15 @@
             <div class="text">{{data.content}}</div>
         </div>
         <div class="card-footer flex-row" v-if="enableToolbar">
-            <f7-button color="white" class="tool" :class="{liked: checkMyLike(data, user)}"
-                       @click.stop="toggleLike(data.id, data.liked)">
+            <f7-button v-if="isLoggedIn" color="white" class="tool" :class="{liked: checkMyLike(data, user)}" @click.stop="toggleLike(data.id, data.liked)">
                 <span class="fonticon f7-icons">bolt</span>
                 <span class="text" v-text="data.likes_count ? data.likes_count : $t('tweet.like')"></span>
             </f7-button>
-            <f7-button v-if="data.user.id === user.id" color="white" class="tool"
+            <f7-button disabled v-else color="white" class="tool">
+                <span class="fonticon f7-icons">bolt</span>
+                <span class="text" v-text="data.likes_count ? data.likes_count : $t('tweet.like')"></span>
+            </f7-button>
+            <f7-button v-if="isLoggedIn && isMyPost(data.user)" color="white" class="tool"
                        @click.stop="">
                 <span class="fonticon f7-icons">compose</span>
                 <span class="text" v-text="$t('app.edit')"></span>
@@ -53,6 +56,9 @@
       }
     },
     computed: {
+      isLoggedIn(){
+        return this.$store.getters.isLoggedIn
+      },
       user(){
         return this.$store.getters.user
       }
@@ -93,6 +99,13 @@
           }
         })
         return data.liked
+      },
+      isMyPost(user){
+        if (this.user.id === user.id) {
+          return true
+        } else {
+          return false
+        }
       }
     }
   }
@@ -136,11 +149,9 @@
             }
         }
         .card-content {
-            padding: 5px 10px;
             .image {
                 margin: auto;
                 width: 100%;
-                padding: 10px;
                 overflow: hidden;
                 > img {
                     display: block;
@@ -148,6 +159,9 @@
                     height: auto;
                     margin: -70px 0px -70px 0px;
                 }
+            }
+            .text {
+                padding: 10px;
             }
         }
         .card-footer {

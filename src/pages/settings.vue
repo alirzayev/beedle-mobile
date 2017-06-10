@@ -1,28 +1,45 @@
 <template>
     <div class="settings-view">
-        <f7-list class="user-profile">
-            <f7-list-item link="/profile/" :media="avatarMedia">
-                <div slot="inner-start" class="detail">
-                    <div class="name">{{userInfo.fullname}}</div>
-                    <div class="location">
-                        <span>{{$t('app.email')}}: </span>
-                        <span>{{userInfo.email}}</span>
+        <div v-if="isLoggedIn">
+            <f7-list class="user-profile">
+                <f7-list-item link="/profile/" :media="avatarMedia">
+                    <div slot="inner-start" class="detail">
+                        <div class="name">{{userInfo.fullname}}</div>
+                        <div class="location">
+                            <span>{{$t('app.email')}}: </span>
+                            <span>{{userInfo.email}}</span>
+                        </div>
                     </div>
-                </div>
-            </f7-list-item>
-        </f7-list>
-        <f7-list>
-            <f7-list-item :title="$t('app.language')" link="/language/"
-                          media="<i class='iconfont icon-language'></i>"></f7-list-item>
-        </f7-list>
-        <f7-list>
-            <f7-list-item :title="$t('app.chat')" link="/feedback/"
-                          media="<i class='iconfont icon-feedback2'></i>"></f7-list-item>
-        </f7-list>
-        <f7-list>
-            <f7-list-item :title="$t('app.about')" link="/about/"
-                          media="<i class='iconfont icon-about1'></i>"></f7-list-item>
-        </f7-list>
+                </f7-list-item>
+            </f7-list>
+            <f7-list>
+                <f7-list-item :title="$t('app.language')" link="/language/"
+                              media="<i class='iconfont icon-language'></i>"></f7-list-item>
+            </f7-list>
+            <f7-list>
+                <f7-list-item :title="$t('app.chat')" link="/feedback/"
+                              media="<i class='iconfont icon-feedback2'></i>"></f7-list-item>
+            </f7-list>
+            <f7-list>
+                <f7-list-item :title="$t('app.about')" link="/about/"
+                              media="<i class='iconfont icon-about1'></i>"></f7-list-item>
+            </f7-list>
+            <f7-list>
+                <f7-list-item :title="$t('app.logout')"
+                              @click="logout"
+                              media="<i class='iconfont icon-logout'></i>"></f7-list-item>
+            </f7-list>
+
+        </div>
+        <div v-else="" class="empty-content">
+            <i class="iconfont icon-about"/>
+            <div class="text">
+                <span>{{$t('app.login_needed')}}</span>
+                <p>
+                    <f7-link href="/login/">{{$t('app.login')}}</f7-link>
+                </p>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -65,14 +82,27 @@
 </style>
 
 <script>
+  import LoginView from '../pages/auth/login.vue'
+
   export default {
     computed: {
+      isLoggedIn() {
+        return this.$store.getters.isLoggedIn
+      },
       userInfo() {
         return this.$store.getters.user
       },
       avatarMedia() {
         return `<img class='avatar' src='${this.userInfo.cover_url}' />`
       }
+    },
+    methods: {
+      logout(){
+        this.$store.dispatch('destroyToken')
+      }
+    },
+    components: {
+      LoginView
     }
   }
 </script>

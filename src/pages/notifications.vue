@@ -13,25 +13,33 @@
                             </f7-link>
                         </f7-nav-right>
                     </f7-navbar>
-                    <f7-list v-if="notifications.length" v-for="notification in notifications" class="notification">
-                        <f7-list-item :media="avatarMedia(notification.owner.cover_url)"
-                                      :link="'/post/?mid='+notification.topic.id">
-                            <div class="detail">
-                                <div class="fullname"><strong>{{notification.owner.fullname}}</strong>
-                                    commented on your post
-                                </div>
-                                <div class="subtext">
-                                    <span>{{notification.created_at}}</span>
-                                </div>
-                            </div>
-                        </f7-list-item>
-                    </f7-list>
-                    <div class="empty-content" v-show="notifications.length === 0">
-                        <i class="iconfont icon-wujieguoyangshi"/>
+                    <div v-if="!user" class="empty-content" >
+                        <i class="iconfont icon-about"/>
                         <div class="text">
-                            <span>{{$t('app.empty_container')}}</span>
+                            <span>{{$t('app.login_needed')}}</span>
                         </div>
                     </div>
+                    <f7-page v-else>
+                        <f7-list v-if="notifications.length" v-for="notification in notifications" class="notification">
+                            <f7-list-item :media="avatarMedia(notification.owner.cover_url)"
+                                          :link="'/post/?mid='+notification.topic.id">
+                                <div class="detail">
+                                    <div class="fullname"><strong>{{notification.owner.fullname}}</strong>
+                                        commented on your post
+                                    </div>
+                                    <div class="subtext">
+                                        <span>{{notification.created_at}}</span>
+                                    </div>
+                                </div>
+                            </f7-list-item>
+                        </f7-list>
+                        <div class="empty-content" v-show="notifications.length===0">
+                            <i class="iconfont icon-wujieguoyangshi"/>
+                            <div class="text">
+                                <span>{{$t('app.empty_container')}}</span>
+                            </div>
+                        </div>
+                    </f7-page>
                 </f7-page>
             </f7-pages>
         </f7-view>

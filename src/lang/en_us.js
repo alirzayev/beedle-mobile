@@ -27,6 +27,9 @@ export default {
     close: 'Close',
     submitting: 'submitting...',
     empty_container: 'Empty Data ~',
+    login: 'Login',
+    login_needed: 'You have to login!',
+    logout: 'Logout',
     modal: {
       title: 'System',
       button_ok: 'OK'

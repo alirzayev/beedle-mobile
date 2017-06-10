@@ -27,7 +27,7 @@
                             <f7-link tab-link="#explore">
                                 <f7-icon f7="world"></f7-icon>
                             </f7-link>
-                            <f7-link open-popup="#notificationPopup">
+                            <f7-link  open-popup="#notificationPopup">
                                 <f7-icon f7="bolt"></f7-icon>
                             </f7-link>
                             <f7-link tab-link="#settings">
@@ -38,11 +38,8 @@
                             <f7-tab id="home" active @tab:show="tabActived('home')">
                                 <home-view></home-view>
                             </f7-tab>
-                            <f7-tab id="explore" @tab:show="tabActived('contacts')">
+                            <f7-tab id="explore" @tab:show="tabActived('explore')">
                                 <explore></explore>
-                            </f7-tab>
-                            <f7-tab id="notifications" @tab:show="tabActived('notifications')">
-                                <contacts-view></contacts-view>
                             </f7-tab>
                             <f7-tab id="settings" @tab:show="tabActived('settings')">
                                 <settings-view></settings-view>
@@ -79,12 +76,15 @@
         }
       },
       computed: {
+        isLoggedIn(){
+          return this.$store.getters.isLoggedIn
+        },
         navbarTitle () {
           switch (this.activedTab) {
             case 'home':
               return this.$t('app.app_name')
-            case 'contacts':
-              return this.$t('app.contacts')
+            case 'explore':
+              return this.$t('app.explore')
             case 'settings':
               return this.$t('app.settings')
             case 'notifications':
@@ -96,13 +96,6 @@
         tabActived (tab) {
           this.activedTab = tab
         }
-      },
-      created(){
-        this.$nextTick(() => {
-          if (!this.$store.getters.user) {
-            this.$f7.mainView.router.load({url: 'login'})
-          }
-        })
       },
       components: {
         HomeView,

@@ -7,6 +7,11 @@ export default {
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },
+  trends() {
+    return Vue.http.get('api/topics/trends')
+      .then((response) => Promise.resolve(response))
+      .catch((error) => Promise.reject(error))
+  },
   show(id) {
     return Vue.http.get('api/topics/'+ id)
       .then((response) => Promise.resolve(response))

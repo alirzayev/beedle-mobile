@@ -33,7 +33,7 @@
                 </div>
             </div>
         </div>
-        <f7-toolbar class="custom-toolbar flex-row">
+        <f7-toolbar v-if="user" class="custom-toolbar flex-row">
             <f7-link class="tool tool-border flex-rest-width" :class="{liked: checkMyLike(post,user)}"
                      @click="toggleLike(post.id, post.liked)">
                 <span class="fonticon f7-icons">bolt</span>
@@ -91,8 +91,6 @@
           })
       }
       this.$bus.$on('refresh', this.refresh)
-    },
-    created(){
     },
     methods: {
       formatTime(time) {

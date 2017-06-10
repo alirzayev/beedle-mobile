@@ -85,6 +85,18 @@ export function getTimeline ({commit}, callback = () => {}) {
     })
 }
 
+export function getTrends ({commit}, callback = () => {}) {
+  topicServices.trends()
+    .then((response) => {
+      let trends = response.body.topics
+      console.log('trends', trends)
+      commit(types.INIT_TRENDS, {
+        trends
+      })
+      callback()
+    })
+}
+
 export function updateTimeline ({commit}, {mid, type}) {
   switch (type) {
     case 'like':

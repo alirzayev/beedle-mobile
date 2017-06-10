@@ -41,14 +41,22 @@ const actions = {
   },
   getAuthUser({commit}){
     authService.user()
-      .then((response) => {
-        localStorage.setItem('user', JSON.stringify(response.body))
-        console.log('auth user', response)
-        commit(AUTH_USER, {user: response.body})
+      .then((response, error) => {
+        if (response) {
+          localStorage.setItem('user', JSON.stringify(response.body))
+          console.log('auth user', response)
+          commit(AUTH_USER, {user: response.body})
+        }
+        else {
+          console.log('auth user failed', error)
+        }
       })
-      .then((error) => {
-        console.log('auth user failed', error)
-      })
+  },
+  destroyToken({commit}){
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    commit(AUTHENTICATE_FAILURE)
+    console.log('User is Logout!')
   }
 }
 
@@ -59,7 +67,7 @@ const mutations = {
     state.isLoggedIn = true
   },
 
-  [AUTHENTICATE_FAILURE] (state, error) {
+  [AUTHENTICATE_FAILURE] (state) {
     state.isLoggedIn = false
   },
 

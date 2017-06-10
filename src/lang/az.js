@@ -27,6 +27,9 @@ export default {
     close: 'Bağla',
     submitting: 'gönderilir...',
     empty_container: 'Boş ~',
+    login: 'Login',
+    login_needed: 'Login olmaq vacibdir!',
+    logout: 'Çıx',
     modal: {
       title: 'System',
       button_ok: 'OK'

@@ -1,8 +1,17 @@
 <template>
     <div class="login-view">
-        <div data-page="login-screen" class="page no-navbar no-toolbar no-swipeback">
+        <div data-page="login-screen" class="page no-swipeback">
+            <f7-navbar>
+                <f7-nav-left>
+                    <a href="#" class="back link">
+                        <f7-icon f7="left"></f7-icon>
+                        <span>{{$t('app.back')}}</span>
+                    </a>
+                </f7-nav-left>
+                <f7-nav-center :title="$t('app.login')"></f7-nav-center>
+            </f7-navbar>
             <div class="page-content login-screen-content">
-                <div class="login-screen-title">My App</div>
+                <div class="login-screen-title">{{$t('app.login')}}</div>
                 <form>
                     <div class="list-block">
                         <ul>
@@ -48,7 +57,6 @@
     methods: {
       login() {
         const data = {
-
           username: this.username,
           password: this.password,
           client_id: '2',
@@ -56,6 +64,7 @@
           grant_type: 'password'
         }
         this.$store.dispatch('login', data)
+        this.$f7.mainView.router.back()
       }
     }
   }
@@ -63,6 +72,8 @@
 </script>
 <style lang="less">
     .login-view {
-        display: block;
+        .login-screen-title{
+            padding: 50px;
+        }
     }
 </style>
