@@ -2,6 +2,10 @@
     <div class="home-view">
         <f7-toolbar tabbar>
             <f7-link tab-link="#trending" class="tool tool-border" :class="{pressed: pressed.trending}">TRENDING
+
+
+
+
             </f7-link>
             <f7-link tab-link="#recent" class="tool" :class="{pressed: pressed.recent}">RECENT</f7-link>
         </f7-toolbar>

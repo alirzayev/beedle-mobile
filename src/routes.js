@@ -28,6 +28,10 @@ export default [
     component: require('./pages/message.vue')
   },
   {
+    path: '/posts/',
+    component: require('./pages/posts.vue')
+  },
+  {
     path: '/post/',
     component: require('./pages/post.vue')
   },

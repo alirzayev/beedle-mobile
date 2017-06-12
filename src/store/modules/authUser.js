@@ -23,17 +23,16 @@ const getters = {
 
 // actions
 const actions = {
-  login ({commit, dispatch}, data) {
+  login ({commit}, data) {
     return authService.authenticate(data)
       .then(response => {
         localStorage.setItem('token', response.body.access_token)
         console.log('login success', response)
         commit(AUTHENTICATE_SUCCESS)
-        dispatch('getAuthUser')
       })
   },
   getAuthUser({commit}){
-    authService.user()
+    return authService.user()
       .then((response) => {
         localStorage.setItem('user', JSON.stringify(response.body))
         console.log('auth user', response)

@@ -103,6 +103,7 @@
       }
     },
     mounted(){
+      this.$bus.$emit('refreshPosts')
       this.$store.dispatch('getAuthUser')
     },
     components: {

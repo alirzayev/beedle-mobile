@@ -6,11 +6,13 @@
             <f7-card-content>
                 <f7-grid no-gutter>
                     <f7-col v-for="brand in brands" width="33">
-                        <div class="avatar">
-                            <img :src="brand.cover_url"/>
-                        </div>
-                        <div class="text">
-                            <p class="text" v-text="brand.name"></p>
+                        <div @click="routeToPosts(brand)">
+                            <div class="avatar">
+                                <img :src="brand.cover_url"/>
+                            </div>
+                            <div class="text">
+                                <p class="text" v-text="brand.name"></p>
+                            </div>
                         </div>
                     </f7-col>
                 </f7-grid>
@@ -91,6 +93,9 @@
       },
       routeToUser(id) {
         this.$f7.mainView.router.load({url: `/user/?uid=${id}`})
+      },
+      routeToPosts(brand) {
+        this.$f7.mainView.router.load({url: `/posts/?bid=${brand.id}&brand=${brand.name}`})
       }
     },
   }

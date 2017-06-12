@@ -9,6 +9,7 @@ export default {
     contacts: 'Contacts',
     settings: 'Settings',
     explore: 'Explore',
+    search: 'Search',
     city: 'City',
     email: 'Email',
     profile: 'Profile',

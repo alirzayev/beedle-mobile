@@ -40,6 +40,12 @@ export default {
   [types.INIT_MODEL_TOPICS] (state, { topics }) {
     Vue.set(state, 'timeline', topics)
   },
+  [types.INIT_BRAND_TOPICS] (state, { topics }) {
+    Vue.set(state, 'timeline', topics)
+  },
+  [types.INIT_FILTERED_TOPICS] (state, { topics }) {
+    Vue.set(state, 'filteredData', topics)
+  },
   [types.UPDATE_TIMETIME] (state, { mid, type }) {
     let item = find(state.timeline, p => p.id === mid)
     let update = {}

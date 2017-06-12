@@ -16,6 +16,7 @@ const state = {
   brands: [],
   users: [],
   timeline: [],
+  filteredData: [],
   trends: [],
   comments: [],
   notifications: [],

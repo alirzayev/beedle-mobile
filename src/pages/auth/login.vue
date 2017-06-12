@@ -69,8 +69,10 @@
           grant_type: 'password'
         }
         this.$store.dispatch('login', data).then(() => {
-          this.$bus.$emit('refreshPosts')
-          this.$f7.mainView.router.back()
+          this.$store.dispatch('getAuthUser').then(() => {
+            this.$bus.$emit('refreshPosts')
+            this.$f7.mainView.router.back()
+          })
         })
       }
     }

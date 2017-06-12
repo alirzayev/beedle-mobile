@@ -27,6 +27,9 @@
                             <f7-link tab-link="#explore">
                                 <f7-icon f7="world"></f7-icon>
                             </f7-link>
+                            <f7-link tab-link="#search">
+                                <f7-icon f7="search"></f7-icon>
+                            </f7-link>
                             <f7-link open-popup="#notificationPopup">
                                 <f7-icon f7="bolt"></f7-icon>
                             </f7-link>
@@ -41,6 +44,9 @@
                             <f7-tab id="explore" @tab:show="tabActived('explore')">
                                 <explore></explore>
                             </f7-tab>
+                            <f7-tab id="search" @tab:show="tabActived('search')">
+                                <search-view></search-view>
+                            </f7-tab>
                             <f7-tab id="settings" @tab:show="tabActived('settings')">
                                 <settings-view></settings-view>
                             </f7-tab>
@@ -54,7 +60,6 @@
         <comment-popup></comment-popup>
         <publisher-popup></publisher-popup>
         <notification-popup></notification-popup>
-
     </div>
 </template>
 
@@ -68,6 +73,7 @@
     import NotificationPopup from './pages/notifications.vue'
     import LoginView from './pages/auth/login.vue'
     import Explore from './pages/explore.vue'
+    import SearchView from './pages/search.vue'
 
     export default {
       data () {
@@ -96,6 +102,8 @@
               return this.$t('app.settings')
             case 'notifications':
               return this.$t('app.explore')
+            case 'search':
+              return this.$t('app.search')
           }
         }
       },
@@ -112,7 +120,8 @@
         PublisherPopup,
         NotificationPopup,
         LoginView,
-        Explore
+        Explore,
+        SearchView
       }
     }
 </script>

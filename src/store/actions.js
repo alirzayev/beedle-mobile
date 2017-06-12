@@ -105,7 +105,7 @@ export function getTrends ({commit}, model_id = null) {
         commit(types.INIT_MODEL_TRENDS, {
           trends
         })
-    })
+      })
   } else {
     return topicServices.trends()
       .then((response) => {
@@ -116,6 +116,28 @@ export function getTrends ({commit}, model_id = null) {
         })
       })
   }
+}
+
+export function getBrandTopics ({commit}, brand_id) {
+  return brandServices.topics(brand_id)
+    .then((response) => {
+      let topics = response.body.topics
+      console.log('brand topics', topics)
+      commit(types.INIT_BRAND_TOPICS, {
+        topics
+      })
+    })
+}
+
+export function getFilteredPosts ({commit}, brand_id) {
+  return topicServices.topics()
+    .then((response) => {
+      let topics = response.body.topics
+      console.log('filtered topics', topics)
+      commit(types.INIT_FILTERED_TOPICS, {
+        topics
+      })
+    })
 }
 
 export function updateTimeline ({commit}, {mid, type}) {
