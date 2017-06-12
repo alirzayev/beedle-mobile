@@ -34,6 +34,12 @@ export default {
   [types.INIT_TRENDS] (state, { trends }) {
     Vue.set(state, 'trends', trends)
   },
+  [types.INIT_MODEL_TRENDS] (state, { trends }) {
+    Vue.set(state, 'trends', trends)
+  },
+  [types.INIT_MODEL_TOPICS] (state, { topics }) {
+    Vue.set(state, 'timeline', topics)
+  },
   [types.UPDATE_TIMETIME] (state, { mid, type }) {
     let item = find(state.timeline, p => p.id === mid)
     let update = {}

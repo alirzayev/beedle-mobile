@@ -31,7 +31,7 @@
             </f7-list>
 
         </div>
-        <div v-else="" class="empty-content">
+        <div v-else class="empty-content">
             <i class="iconfont icon-about"/>
             <div class="text">
                 <span>{{$t('app.login_needed')}}</span>
@@ -99,7 +99,11 @@
     methods: {
       logout(){
         this.$store.dispatch('destroyToken')
+        this.$bus.$emit('refreshPosts')
       }
+    },
+    mounted(){
+      this.$store.dispatch('getAuthUser')
     },
     components: {
       LoginView

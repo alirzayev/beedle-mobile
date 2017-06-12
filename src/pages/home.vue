@@ -2,7 +2,6 @@
     <div class="home-view">
         <f7-toolbar tabbar>
             <f7-link tab-link="#trending" class="tool tool-border" :class="{pressed: pressed.trending}">TRENDING
-
             </f7-link>
             <f7-link tab-link="#recent" class="tool" :class="{pressed: pressed.recent}">RECENT</f7-link>
         </f7-toolbar>
@@ -26,7 +25,6 @@
 
 <script>
   import Card from '../components/card.vue'
-  import { mapState } from 'vuex'
   export default {
     data(){
       return {
@@ -37,9 +35,15 @@
       }
     },
     computed: {
-      ...mapState({
-        timeline: state => state.timeline,
-      }),
+      isLoggedIn(){
+        return this.$store.getters.isLoggedIn
+      },
+      user() {
+        return this.$store.getters.user
+      },
+      timeline() {
+        return this.$store.state.timeline
+      },
       trends() {
         return this.$store.state.trends
       }
@@ -62,14 +66,29 @@
         }
       },
       refresh(){
-        this.$nextTick(_ => {
+        this.$nextTick(function () {
           this.$f7.showIndicator()
-          this.$store.dispatch('getTimeline', () => {
-            this.$f7.hideIndicator()
-          })
-          this.$store.dispatch('getTrends', () => {
-            this.$f7.hideIndicator()
-          })
+          // - if it is authenticated
+          if (this.isLoggedIn) {
+            // - posts
+            this.$store.dispatch('getTimeline', this.user.car.model_id).then(() => {
+              this.$f7.hideIndicator()
+            })
+            // - trends
+            this.$store.dispatch('getTrends', this.user.car.model_id).then(() => {
+              this.$f7.hideIndicator()
+            })
+          } else { // not authenticated
+            // - trends
+            console.log('not loggedIn')
+            this.$store.dispatch('getTrends', null).then(() => {
+              this.$f7.hideIndicator()
+            })
+            // - posts
+            this.$store.dispatch('getTimeline', null).then(() => {
+              this.$f7.hideIndicator()
+            })
+          }
         })
       }
     },

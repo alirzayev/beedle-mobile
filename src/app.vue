@@ -27,7 +27,7 @@
                             <f7-link tab-link="#explore">
                                 <f7-icon f7="world"></f7-icon>
                             </f7-link>
-                            <f7-link  open-popup="#notificationPopup">
+                            <f7-link open-popup="#notificationPopup">
                                 <f7-icon f7="bolt"></f7-icon>
                             </f7-link>
                             <f7-link tab-link="#settings">
@@ -79,10 +79,17 @@
         isLoggedIn(){
           return this.$store.getters.isLoggedIn
         },
+        userCar(){
+          return this.$store.getters.user.car
+        },
         navbarTitle () {
           switch (this.activedTab) {
             case 'home':
-              return this.$t('app.app_name')
+              if (this.isLoggedIn) {
+                return this.userCar.model.name
+              } else {
+                return this.$t('app.app_name')
+              }
             case 'explore':
               return this.$t('app.explore')
             case 'settings':

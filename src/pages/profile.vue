@@ -23,7 +23,7 @@
         <f7-grid class="custom-toolbar flex-row">
             <f7-col width="50" class="tool tool-border flex-rest-width">
                 <p class="title">Car</p>
-                <p class="text">Fiat 500</p>
+                <p v-if="user.car" class="text">{{user.car.model.brand.name}} {{user.car.model.name}}</p>
             </f7-col>
             <f7-col width="50" class="tool flex-rest-width">
                 <p class="title">Total</p>

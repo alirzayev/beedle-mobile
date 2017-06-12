@@ -1,7 +1,8 @@
-/* eslint-disable indent */
+/* eslint-disable indent,camelcase */
 import axios from 'axios'
 import topicServices from '../api/topic'
 import brandServices from '../api/brand'
+import modelServices from '../api/model'
 import commentServices from '../api/comments'
 import userServices from '../api/user'
 import notificationServices from '../api/notifications'
@@ -73,28 +74,48 @@ export function getContacts ({commit}) {
   })
 }
 
-export function getTimeline ({commit}, callback = () => {}) {
-  topicServices.topics()
-    .then((response) => {
-      let timeline = response.body.topics
-      console.log('topics', timeline)
-      commit(types.INIT_TIMETIME, {
-        timeline
+export function getTimeline ({commit}, model_id = null) {
+  if (model_id) {
+    return modelServices.topics(model_id)
+      .then((response) => {
+        let topics = response.body.topics
+        console.log('model topics', topics)
+        commit(types.INIT_MODEL_TOPICS, {
+          topics
+        })
       })
-      callback()
-    })
+  } else {
+    return topicServices.topics()
+      .then((response) => {
+        let timeline = response.body.topics
+        console.log('topics', timeline)
+        commit(types.INIT_TIMETIME, {
+          timeline
+        })
+      })
+  }
 }
 
-export function getTrends ({commit}, callback = () => {}) {
-  topicServices.trends()
-    .then((response) => {
-      let trends = response.body.topics
-      console.log('trends', trends)
-      commit(types.INIT_TRENDS, {
-        trends
-      })
-      callback()
+export function getTrends ({commit}, model_id = null) {
+  if (model_id) {
+    return modelServices.trends(model_id)
+      .then((response) => {
+        let trends = response.body.topics
+        console.log('trends', trends)
+        commit(types.INIT_MODEL_TRENDS, {
+          trends
+        })
     })
+  } else {
+    return topicServices.trends()
+      .then((response) => {
+        let trends = response.body.topics
+        console.log('trends', trends)
+        commit(types.INIT_TRENDS, {
+          trends
+        })
+      })
+  }
 }
 
 export function updateTimeline ({commit}, {mid, type}) {

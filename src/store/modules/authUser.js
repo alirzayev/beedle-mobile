@@ -24,32 +24,20 @@ const getters = {
 // actions
 const actions = {
   login ({commit, dispatch}, data) {
-    authService.authenticate(data)
-      .then((response, error) => {
-        if (response) {
-          localStorage.setItem('token', response.body.access_token)
-          console.log('login success', response)
-          commit(AUTHENTICATE_SUCCESS)
-          dispatch('getAuthUser')
-        }
-        else {
-          console.log('login failed', error)
-          commit(AUTHENTICATE_FAILURE)
-        }
-
+    return authService.authenticate(data)
+      .then(response => {
+        localStorage.setItem('token', response.body.access_token)
+        console.log('login success', response)
+        commit(AUTHENTICATE_SUCCESS)
+        dispatch('getAuthUser')
       })
   },
   getAuthUser({commit}){
     authService.user()
-      .then((response, error) => {
-        if (response) {
-          localStorage.setItem('user', JSON.stringify(response.body))
-          console.log('auth user', response)
-          commit(AUTH_USER, {user: response.body})
-        }
-        else {
-          console.log('auth user failed', error)
-        }
+      .then((response) => {
+        localStorage.setItem('user', JSON.stringify(response.body))
+        console.log('auth user', response)
+        commit(AUTH_USER, {user: response.body})
       })
   },
   destroyToken({commit}){

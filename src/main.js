@@ -42,9 +42,12 @@ Vue.use(VueResource)
 Vue.use(VueCarousel)
 
 Vue.http.options.root = 'http://localhost:8000'
+Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
 Vue.http.options.emulateJSON = true
+
 Vue.http.interceptors.push((request, next) => {
   request.headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'))
+  request.headers.set('Accept', 'application/json')
   next(function (response) {
     // modify response
     if (response.body.error === true) {

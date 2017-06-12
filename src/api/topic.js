@@ -13,7 +13,7 @@ export default {
       .catch((error) => Promise.reject(error))
   },
   show(id) {
-    return Vue.http.get('api/topics/'+ id)
+    return Vue.http.get('api/topics/' + id)
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },
@@ -30,12 +30,12 @@ export default {
   },
 
   like(id) {
-    return Vue.http.post('api/topics/' + id +'/like')
+    return Vue.http.post('api/topics/' + id + '/like')
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },
   dislike(id) {
-    return Vue.http.post('api/topics/' + id +'/remove-like')
+    return Vue.http.post('api/topics/' + id + '/remove-like')
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   }

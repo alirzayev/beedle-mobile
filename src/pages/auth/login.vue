@@ -54,6 +54,11 @@
         password: this.password
       }
     },
+    computed: {
+      isLoggedIn() {
+        return this.$store.getters.isLoggedIn
+      }
+    },
     methods: {
       login() {
         const data = {
@@ -63,8 +68,10 @@
           client_secret: 'Bk6xkvVJ1uPjooooC6z0MOj6y2JRdREknJJzsm9u',
           grant_type: 'password'
         }
-        this.$store.dispatch('login', data)
-        this.$f7.mainView.router.back()
+        this.$store.dispatch('login', data).then(() => {
+          this.$bus.$emit('refreshPosts')
+          this.$f7.mainView.router.back()
+        })
       }
     }
   }
@@ -72,7 +79,7 @@
 </script>
 <style lang="less">
     .login-view {
-        .login-screen-title{
+        .login-screen-title {
             padding: 50px;
         }
     }

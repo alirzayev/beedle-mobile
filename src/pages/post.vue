@@ -1,5 +1,5 @@
 <template>
-    <f7-page class="post-page" navbar-fixed toolbar-fixed>
+    <f7-page  class="post-page" navbar-fixed toolbar-fixed>
         <f7-navbar>
             <f7-nav-left>
                 <a href="#" class="back link">
@@ -33,7 +33,7 @@
                 </div>
             </div>
         </div>
-        <f7-toolbar v-if="user" class="custom-toolbar flex-row">
+        <f7-toolbar v-if="post && user" class="custom-toolbar flex-row">
             <f7-link class="tool tool-border flex-rest-width" :class="{liked: checkMyLike(post,user)}"
                      @click="toggleLike(post.id, post.liked)">
                 <span class="fonticon f7-icons">bolt</span>
@@ -76,10 +76,6 @@
     },
     mounted() {
       let query = this.$route.query
-      this.$nextTick(_ => {
-        this.$store.dispatch('getTimeline', () => {
-        })
-      })
       this.$store.dispatch('getComments')
       this.post = find(this.timeline, p => p.id === parseInt(query.mid))
       this.comments = this.post.comments
@@ -90,7 +86,6 @@
             console.log('notification is updated', response.body)
           })
       }
-      this.$bus.$on('refresh', this.refresh)
     },
     methods: {
       formatTime(time) {
@@ -121,10 +116,7 @@
         return data.liked
       },
       refresh(){
-        this.$nextTick(_ => {
-          this.$store.dispatch('getTimeline', () => {
-          })
-        })
+        this.$bus.$emit('refreshPosts')
       }
     },
     components: {

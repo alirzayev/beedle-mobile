@@ -18,7 +18,8 @@
             <div class="text">{{data.content}}</div>
         </div>
         <div class="card-footer flex-row" v-if="enableToolbar">
-            <f7-button v-if="isLoggedIn" color="white" class="tool" :class="{liked: checkMyLike(data, user)}" @click.stop="toggleLike(data.id, data.liked)">
+            <f7-button v-if="isLoggedIn && data" color="white" class="tool" :class="{liked: checkMyLike(data, user)}"
+                       @click.stop="toggleLike(data.id, data.liked)">
                 <span class="fonticon f7-icons">bolt</span>
                 <span class="text" v-text="data.likes_count ? data.likes_count : $t('tweet.like')"></span>
             </f7-button>
@@ -89,6 +90,7 @@
           mid,
           type: status ? 'unlike' : 'like'
         })
+        this.$bus.$emit('refreshPosts')
       },
       checkMyLike(data, user) {
         data.likes.forEach(function (like) {
