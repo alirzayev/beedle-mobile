@@ -1,119 +1,114 @@
 <template>
-  <f7-page class="message-page">
-    <f7-navbar :title="nickname" :back-link="$t('app.back')" sliding></f7-navbar>
-    <f7-messages>
-      <f7-message v-for="message in messages"
-        :key="message.mid"
-        :text="message.text"
-        :label="message.label"
-        :date="message.date"
-        :name="message.name"
-        :avatar="message.avatar"
-        :type="message.type"
-        :day="message.day"
-        :time="message.time"
-        @click="onClick"
-        @click:text="onTextClick"
-        @click:name="onNameClick"
-        @click:avatar="onAvatarClick"
-      ></f7-message>
-    </f7-messages>
-    <f7-messagebar :placeholder="$t('message.placeholder')" :send-link="$t('app.send')" @submit="onSubmit"></f7-messagebar>
-  </f7-page>
+    <f7-page class="message-page">
+        <f7-navbar :title="nickname" :back-link="$t('app.back')" sliding></f7-navbar>
+        <f7-messages>
+            <f7-message v-for="message in messages"
+                        :key="message.id"
+                        :text="message.message"
+                        :label="formatDate(message.created_at)"
+                        :name="message.user.fullname"
+                        :avatar="message.user.cover_url"
+                        :type="getType(message.user.id)"
+                        @click="onClick"
+                        @click:text="onTextClick"
+                        @click:name="onNameClick"
+                        @click:avatar="onAvatarClick"
+            ></f7-message>
+        </f7-messages>
+        <f7-messagebar :placeholder="$t('message.placeholder')" :send-link="$t('app.send')"
+                       @submit="onSubmit"></f7-messagebar>
+    </f7-page>
 </template>
 
 <style lang="less">
-  .message-page {
-  }
+    .message-page {
+    }
 </style>
 
 <script>
-export default {
-  computed: {
-    nickname() {
-      let query = this.$route.query
-      return query.nickname || this.$t('app.chat')
-    }
-  },
-  data () {
-    return {
-      messages: [
-        {
-          mid: 1000,
-          day: 'Wendesday',
-          time: '13:34'
-        },
-        {
-          mid: 1001,
-          name: 'Vladimir',
-          text: 'How are you?',
-          label: 'Sent in good mood :)',
-          avatar: 'http://lorempixel.com/68/68/people/1',
-          date: 'Yesterday 13:34'
-        },
-        {
-          mid: 1002,
-          name: '',
-          text: 'I\'m good, thank you!',
-          type: 'received',
-          avatar: 'http://lorempixel.com/68/68/people/3',
-          date: 'Yesterday at 13:50'
-        }
-      ],
-      answerTimer: null,
-      answers:[
-        'Yes!',
-        'No',
-        'Hm...',
-        'I am not sure',
-        'And what about you?',
-        'May be ;)',
-        'Lorem ipsum dolor sit amet, consectetur',
-        'What?',
-        'Are you sure?',
-        'Of course',
-        'Need to think about it',
-        'Amazing!!!'
-      ]
-    }
-  },
-  methods: {
-    onClick(event) {
-      console.log('message click')
-    },
-    onAvatarClick() {
-      console.log('avatar-click')
-    },
-    onTextClick() {
-      console.log('text-click')
-    },
-    onNameClick() {
-      console.log('name-click')
-    },
-    onSubmit(text, clear) {
-      if (text.trim().length === 0) return
-      this.messages.push(this.generateMessage(text, 'Belin', 'http://lorempixel.com/68/68/people/1'))
-      if (this.answerTimer) clearTimeout(this.answerTimer)
-      this.answerTimer = setTimeout(_ => {
-        this.messages.push(this.generateMessage(null, this.nickname, 'http://lorempixel.com/68/68/people/3', 'received'))
-      }, 1000)
-      clear()
-    },
-    generateMessage(text, name, avatar, type = 'sent') {
-      text = text || this.answers[Math.floor(Math.random() * this.answers.length)]
-      return {
-        name,
-        avatar,
-        text,
-        type,
-        date: (function () {
-          let now = new Date()
-          let hours = now.getHours()
-          let minutes = now.getMinutes()
-          return hours + ':' + minutes
-        })()
+  import moment from 'moment'
+  import messageServices from '../api/message'
+  import Echo from 'laravel-echo'
+
+  window.Pusher = require('pusher-js')
+
+  export default {
+    computed: {
+      messages () {
+        return this.$store.state.messages
+      },
+      nickname () {
+        let query = this.$route.query
+        return query.nickname || this.$t('app.chat')
       }
+    },
+    methods: {
+      onClick (event) {
+        console.log('message click')
+      },
+      onAvatarClick () {
+        console.log('avatar-click')
+      },
+      onTextClick () {
+        console.log('text-click')
+      },
+      onNameClick () {
+        console.log('name-click')
+      },
+      onSubmit: function (text, clear) {
+        if (text.trim().length === 0) return
+        var data = {
+          message: text,
+          receiver_id: this.$route.query.uid
+        }
+        messageServices.sendMessage(data)
+        // Clear Message Bar
+        clear()
+      },
+      getType (id) {
+        if (id !== this.$store.getters.user.id) {
+          return 'received'
+        } else {
+          return 'sent'
+        }
+      },
+      formatDate (date) {
+        return moment(Date.parse(date)).fromNow()
+      }
+    },
+    mounted () {
+      let query = this.$route.query
+      this.$store.dispatch('getMessages', query.uid)
+
+      window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: '424e4a5f4c4828333a4b',
+        authEndpoint: 'http://localhost:8000/broadcasting/auth',
+        auth: {
+          headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+          }
+        },
+        cluster: 'eu',
+        encrypted: true
+      })
+      window.Echo.join('mychat')
+        .here((users) => {
+          console.log('users', users)
+        })
+        .joining((user) => {
+          console.log(user.name)
+        })
+        .leaving((user) => {
+          console.log(user.name)
+        })
+        .listen('MessageSent', (e) => {
+          console.log('event object', e)
+          this.messages.push({
+            message: e.message.message,
+            user: e.user
+          })
+        })
     }
   }
-}
 </script>

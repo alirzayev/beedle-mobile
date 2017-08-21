@@ -1,6 +1,16 @@
 <template>
-    <div class="contacts-view">
-      <f7-list contacts>
+    <f7-page class="contacts-view">
+        <f7-navbar>
+            <f7-nav-left>
+                <a href="#" class="back link">
+                    <f7-icon f7="left"></f7-icon>
+                    <span>{{$t('app.back')}}</span>
+                </a>
+            </f7-nav-left>
+            <f7-nav-center :title="$t('app.chat')"></f7-nav-center>
+        </f7-navbar>
+
+        <f7-list contacts>
         <f7-list-group v-for="(group, key) in contacts" :key="key">
           <f7-list-item :title="key" group-title></f7-list-item>
           <f7-list-item v-for="contact in group" 
@@ -12,7 +22,7 @@
           ></f7-list-item>
         </f7-list-group>
       </f7-list>
-    </div>
+    </f7-page>
 </template>
 
 <style lang="less">

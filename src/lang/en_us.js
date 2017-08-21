@@ -31,6 +31,7 @@ export default {
     login: 'Login',
     login_needed: 'You have to login!',
     logout: 'Logout',
+    trend: 'Trend',
     modal: {
       title: 'System',
       button_ok: 'OK'

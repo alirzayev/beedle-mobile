@@ -8,6 +8,10 @@ export default [
     component: require('./pages/profile.vue')
   },
   {
+    path: '/settings/',
+    component: require('./pages/settings.vue')
+  },
+  {
     path: '/user/',
     component: require('./pages/user.vue')
   },
@@ -22,6 +26,10 @@ export default [
   {
     path: '/about/',
     component: require('./pages/about.vue')
+  },
+  {
+    path: '/chats/',
+    component: require('./pages/contacts.vue')
   },
   {
     path: '/message/',

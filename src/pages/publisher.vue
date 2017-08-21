@@ -42,36 +42,36 @@
 <script>
   import topicService from '../api/topic'
   import Editor from '../components/editor.vue'
+
   export default {
-    data() {
+    data () {
       return {
         text: '',
+        brand_model : this.brand_model,
+        title : this.title,
         formData: new FormData()
       }
     },
     computed: {
-      brands(){
+      brands () {
         console.log(this.$store.state.brands)
         return this.$store.state.brands
       }
     },
-    mounted() {
+    mounted () {
       this.$store.dispatch('getBrands')
-      this.$nextTick(_ => {
-        this.$f7.addView('.popup-mypopup .view')
-      })
     },
     methods: {
-      editorTextChange(text) {
+      editorTextChange (text) {
         this.text = text
       },
-      openSmart(){
+      openSmart () {
         this.$f7.smartSelectNavbar = true
         this.$f7.smartSelectOpenIn = 'page'
         this.$f7.smartSelectOpen('.smart-select')
         console.log('smart')
       },
-      sendTweet() {
+      sendTweet () {
         this.formData.append('title', this.title)
         this.formData.append('model_id', this.brand_model)
         this.formData.append('content', this.text)

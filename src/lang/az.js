@@ -30,6 +30,7 @@ export default {
     login: 'Login',
     login_needed: 'Login olmaq vacibdir!',
     logout: 'Çıx',
+    trend: 'Trend',
     modal: {
       title: 'System',
       button_ok: 'OK'

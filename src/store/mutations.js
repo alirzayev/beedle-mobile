@@ -46,6 +46,9 @@ export default {
   [types.INIT_FILTERED_TOPICS] (state, { topics }) {
     Vue.set(state, 'filteredData', topics)
   },
+  [types.INIT_MESSAGES] (state, { messages }) {
+    Vue.set(state, 'messages', messages)
+  },
   [types.UPDATE_TIMETIME] (state, { mid, type }) {
     let item = find(state.timeline, p => p.id === mid)
     let update = {}

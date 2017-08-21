@@ -62,18 +62,19 @@
 </template>
 <script>
   import { Carousel, Slide } from 'vue-carousel'
+
   export default {
     computed: {
-      brands() {
+      brands () {
         return this.$store.state.brands
       },
-      posts() {
+      posts () {
         return this.$store.state.timeline
       },
-      comments() {
+      comments () {
         return this.$store.state.comments
       },
-      users() {
+      users () {
         return this.$store.state.users
       }
     },
@@ -81,20 +82,20 @@
       Carousel,
       Slide
     },
-    created() {
+    created () {
       this.$store.dispatch('getComments')
       this.$store.dispatch('getUsers')
       this.$nextTick(_ => {
       })
     },
     methods: {
-      routeToPost(id) {
+      routeToPost (id) {
         this.$f7.mainView.router.load({url: `/post/?mid=${id}`})
       },
-      routeToUser(id) {
+      routeToUser (id) {
         this.$f7.mainView.router.load({url: `/user/?uid=${id}`})
       },
-      routeToPosts(brand) {
+      routeToPosts (brand) {
         this.$f7.mainView.router.load({url: `/posts/?bid=${brand.id}&brand=${brand.name}`})
       }
     },

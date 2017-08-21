@@ -6,6 +6,7 @@ import modelServices from '../api/model'
 import commentServices from '../api/comments'
 import userServices from '../api/user'
 import notificationServices from '../api/notifications'
+import messageServices from '../api/message'
 import * as types from './mutation-types'
 
 export function getLoginUser ({commit}) {
@@ -137,6 +138,25 @@ export function getFilteredPosts ({commit}, brand_id) {
       commit(types.INIT_FILTERED_TOPICS, {
         topics
       })
+    })
+}
+
+export function getMessages ({commit}, user_id) {
+  messageServices.messages(user_id)
+    .then((response) => {
+      let messages = response.body.messages
+      console.log('chat messages', messages)
+      commit(types.INIT_MESSAGES, {
+        messages
+      })
+    })
+}
+
+export function sendMessage (data) {
+  messageServices.sendMessage(data)
+    .then((response) => {
+      let message = response.body.message
+      console.log('message sent', message)
     })
 }
 

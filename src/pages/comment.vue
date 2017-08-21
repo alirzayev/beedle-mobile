@@ -13,24 +13,25 @@
 <script>
   import Editor from '../components/editor.vue'
   import commentServices from '../api/comments'
+
   export default {
-    data() {
+    data () {
       return {
         text: ''
       }
     },
     methods: {
-      editorTextChange(text) {
+      editorTextChange (text) {
         this.text = text
       },
-      sendComment() {
+      sendComment () {
         let query = this.$route.query
         var formData = new FormData()
         formData.append('topic_id', query.tid)
         formData.append('content', this.text)
         commentServices.create(formData).then(
           (response) => {
-            if(response.body.error){
+            if (response.body.error) {
               this.$f7.alert(response.body.message)
             }
             this.$f7.alert(this.$t('comment.result'))

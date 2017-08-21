@@ -1,46 +1,36 @@
 <template>
-    <div class="settings-view">
-        <div v-if="isLoggedIn">
-            <f7-list class="user-profile">
-                <f7-list-item link="/profile/" :media="avatarMedia">
-                    <div slot="inner-start" class="detail">
-                        <div class="name">{{userInfo.fullname}}</div>
-                        <div class="location">
-                            <span>{{$t('app.email')}}: </span>
-                            <span>{{userInfo.email}}</span>
-                        </div>
-                    </div>
-                </f7-list-item>
-            </f7-list>
-            <f7-list>
-                <f7-list-item :title="$t('app.language')" link="/language/"
-                              media="<i class='iconfont icon-language'></i>"></f7-list-item>
-            </f7-list>
-            <f7-list>
-                <f7-list-item :title="$t('app.chat')" link="/feedback/"
-                              media="<i class='iconfont icon-feedback2'></i>"></f7-list-item>
-            </f7-list>
-            <f7-list>
-                <f7-list-item :title="$t('app.about')" link="/about/"
-                              media="<i class='iconfont icon-about1'></i>"></f7-list-item>
-            </f7-list>
-            <f7-list>
-                <f7-list-item :title="$t('app.logout')"
-                              @click="logout"
-                              media="<i class='iconfont icon-logout'></i>"></f7-list-item>
-            </f7-list>
+    <f7-page class="settings-view">
+            <f7-navbar>
+                <f7-nav-left>
+                    <a href="#" class="back link">
+                        <f7-icon f7="left"></f7-icon>
+                        <span>{{$t('app.back')}}</span>
+                    </a>
+                </f7-nav-left>
+                <f7-nav-center :title="$t('app.settings')"></f7-nav-center>
+            </f7-navbar>
 
-        </div>
-        <div v-else class="empty-content">
-            <i class="iconfont icon-about"/>
-            <div class="text">
-                <span>{{$t('app.login_needed')}}</span>
-                <p>
-                    <f7-link href="/login/">{{$t('app.login')}}</f7-link>
-                </p>
+            <div v-if="isLoggedIn">
+                <f7-list>
+                    <f7-list-item :title="$t('app.language')" link="/language/"
+                                  media="<i class='iconfont icon-language'></i>"></f7-list-item>
+                </f7-list>
+                <f7-list>
+                    <f7-list-item :title="$t('app.chat')" link="/feedback/"
+                                  media="<i class='iconfont icon-feedback2'></i>"></f7-list-item>
+                </f7-list>
+                <f7-list>
+                    <f7-list-item :title="$t('app.about')" link="/about/"
+                                  media="<i class='iconfont icon-about1'></i>"></f7-list-item>
+                </f7-list>
+                <f7-list>
+                    <f7-list-item :title="$t('app.logout')"
+                                  @click="logout"
+                                  media="<i class='iconfont icon-logout'></i>"></f7-list-item>
+                </f7-list>
+
             </div>
-        </div>
-    </div>
+    </f7-page>
 </template>
 
 <style lang="less">
@@ -58,24 +48,6 @@
             }
             .icon-about1 {
                 color: #FFCC33;
-            }
-        }
-        .user-profile {
-            .item-content {
-                padding-top: 5px;
-                padding-bottom: 5px;
-            }
-            .avatar {
-                width: 65px;
-                height: 65px;
-                border-radius: 5px;
-            }
-            .detail {
-                .location {
-                    color: #858585;
-                    font-size: 15px;
-                    margin-top: 5px;
-                }
             }
         }
     }

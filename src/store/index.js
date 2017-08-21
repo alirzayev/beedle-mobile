@@ -20,6 +20,7 @@ const state = {
   trends: [],
   comments: [],
   notifications: [],
+  messages: [],
 }
 
 export default new Vuex.Store({

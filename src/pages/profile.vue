@@ -1,15 +1,5 @@
 <template>
-    <f7-page class="profile-page">
-        <f7-navbar>
-            <f7-nav-left>
-                <a href="#" class="back link">
-                    <f7-icon f7="left"></f7-icon>
-                    <span>{{$t('app.back')}}</span>
-                </a>
-            </f7-nav-left>
-            <f7-nav-center :title="$t('app.profile')"></f7-nav-center>
-        </f7-navbar>
-
+    <div v-if="isLoggedIn" class="profile-page">
         <f7-list class="user-profile">
             <f7-list-item :media="avatarMedia">
                 <div class="detail">
@@ -26,7 +16,7 @@
                 <p v-if="user.car" class="text">{{user.car.model.brand.name}} {{user.car.model.name}}</p>
             </f7-col>
             <f7-col width="50" class="tool flex-rest-width">
-                <p class="title">Total</p>
+                <p class="title" v-text="$t('post.post')"></p>
                 <p class="text" v-text="500"></p>
             </f7-col>
         </f7-grid>
@@ -38,8 +28,7 @@
                     :scrollPerPage="true"
                     :perPageCustom="[[480, 2], [768, 3]]"
                     :perPage="4"
-                    :paginationEnabled="true"
-            >
+                    :paginationEnabled="true">
                 <slide v-for="brand in brands">
                     <div class="avatar">
                         <img :src="brand.cover_url"/>
@@ -84,7 +73,16 @@
             </carousel>
         </f7-card-content>
 
-    </f7-page>
+    </div>
+    <div v-else class="empty-content">
+        <i class="iconfont icon-about"/>
+        <div class="text">
+            <span>{{$t('app.login_needed')}}</span>
+            <p>
+                <f7-link href="/login/">{{$t('app.login')}}</f7-link>
+            </p>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -92,6 +90,9 @@
 
   export default {
     computed: {
+      isLoggedIn() {
+        return this.$store.getters.isLoggedIn
+      },
       user() {
         return this.$store.getters.user
       },
@@ -123,7 +124,6 @@
     }
 
     .profile-page {
-        padding-top: 30px;
         background-color: white;
         font-family: 'open sans', arial, sans-serif;
         font-size: 14px;
@@ -170,7 +170,6 @@
                 border: solid #eeeeee;
             }
             .text > p {
-                margin-top: 0px;
                 text-transform: uppercase;
                 font-size: 12px;
             }
@@ -185,7 +184,6 @@
                 border: solid #eeeeee;
             }
             .review > p {
-                margin-top: 0px;
                 text-align: center;
                 text-transform: uppercase;
                 font-size: 12px;

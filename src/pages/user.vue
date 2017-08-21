@@ -10,23 +10,27 @@
             <f7-nav-center :title="$t('app.profile')"></f7-nav-center>
         </f7-navbar>
 
-        <f7-list  class="user-profile">
+        <f7-list class="user-profile">
             <f7-list-item :media="avatarMedia">
-                <div class="detail">
+                <div class="user-text">
                     <div class="name">{{user.fullname}}</div>
                     <div class="fullname">
                         <span>{{user.email}}</span>
                     </div>
+                </div>
+                <div @click="openChat" class="chat-icon">
+                    <f7-icon size="24" f7="chat_fill"></f7-icon>
                 </div>
             </f7-list-item>
         </f7-list>
         <f7-grid class="custom-toolbar flex-row">
             <f7-col width="50" class="tool tool-border flex-rest-width">
                 <p class="title">Car</p>
-                <p class="text">Fiat 500</p>
+                <p v-if="user.car" class="text">{{user.car.name}}</p>
+                <p v-else class="text"> --- </p>
             </f7-col>
             <f7-col width="50" class="tool flex-rest-width">
-                <p class="title">Total</p>
+                <p class="title" v-text="$t('post.post')"></p>
                 <p class="text" v-text="500"></p>
             </f7-col>
         </f7-grid>
@@ -92,23 +96,23 @@
   import find from 'lodash/find'
 
   export default {
-    data() {
+    data () {
       return {
         user: {},
       }
     },
     computed: {
-      users(){
+      users () {
         return this.$store.state.users
       },
-      brands(){
+      brands () {
         return this.$store.state.brands
       },
-      avatarMedia() {
+      avatarMedia () {
         return `<img class='avatar' src='${this.user.cover_url}' />`
       }
     },
-    created() {
+    created () {
       let query = this.$route.query
       this.user = find(this.users, user => user.id === parseInt(query.uid))
       console.log('related user', this.user)
@@ -118,10 +122,13 @@
       Slide
     },
     methods: {
-      formatGender(gender) {
+      formatGender (gender) {
         if (gender === 'm') return this.$t('app.male')
         else if (gender === 'f') return this.$t('app.female')
         else return this.$t('app.unknown')
+      },
+      openChat () {
+        this.$f7.mainView.router.load({url: `/message/?uid=${this.user.id}&nickname=${this.user.fullname}`})
       }
     }
   }
@@ -138,12 +145,10 @@
     }
 
     .profile-page {
-        padding-top: 30px;
         background-color: white;
         font-family: 'open sans', arial, sans-serif;
         font-size: 14px;
         .user-profile {
-
             .item-content {
                 padding: 5px 10px;
             }
@@ -152,12 +157,18 @@
                 height: 65px;
                 border-radius: 50%;
             }
-            .detail {
+            .chat-icon {
+                float: right;
+                color: @mainColor;
+            }
+            .user-text {
+                float: left;
                 .fullname {
                     color: #858585;
                     font-size: 15px;
                     margin-top: 5px;
                 }
+
             }
         }
         .card-header {

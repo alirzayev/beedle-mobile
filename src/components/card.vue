@@ -1,10 +1,5 @@
 <template>
     <div class="card" @click="contentClick(data)">
-        <div class="card-content">
-            <div v-if="data.cover_url" class="image" @click.stop="openPhotoBrowser(data.cover_url)">
-                <img :src="data.cover_url">
-            </div>
-        </div>
         <div class="card-header">
             <div class="avatar">
                 <img :src="data.user.cover_url" alt="avatar">
@@ -17,15 +12,20 @@
         <div class="card-content">
             <div class="text">{{data.content}}</div>
         </div>
+        <div class="card-content">
+            <div v-if="data.cover_url" class="image" @click.stop="openPhotoBrowser(data.cover_url)">
+                <img :src="data.cover_url">
+            </div>
+        </div>
         <div class="card-footer flex-row" v-if="enableToolbar">
             <f7-button v-if="isLoggedIn && data" color="white" class="tool" :class="{liked: checkMyLike(data, user)}"
                        @click.stop="toggleLike(data.id, data.liked)">
                 <span class="fonticon f7-icons">bolt</span>
-                <span class="text" v-text="data.likes_count ? data.likes_count : $t('tweet.like')"></span>
+                <span class="text" v-text="data.likes_count ? data.likes_count : $t('app.trend')"></span>
             </f7-button>
             <f7-button disabled v-else color="white" class="tool">
                 <span class="fonticon f7-icons">bolt</span>
-                <span class="text" v-text="data.likes_count ? data.likes_count : $t('tweet.like')"></span>
+                <span class="text" v-text="data.likes_count ? data.likes_count : $t('app.trend')"></span>
             </f7-button>
             <f7-button v-if="isLoggedIn && isMyPost(data.user)" color="white" class="tool"
                        @click.stop="">
