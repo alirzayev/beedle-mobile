@@ -78,37 +78,52 @@
         <i class="iconfont icon-about"/>
         <div class="text">
             <span>{{$t('app.login_needed')}}</span>
-            <p>
-                <f7-link href="/login/">{{$t('app.login')}}</f7-link>
-            </p>
+            <div class="page-content">
+                <div class="content-block">
+                    <p><a href="#" class="open-login-screen">Login</a></p>
+                </div>
+            </div>
+            <login v-show="false"></login>
         </div>
     </div>
 </template>
 
 <script>
   import { Carousel, Slide } from 'vue-carousel'
+  import Login from '../pages/auth/login.vue'
 
   export default {
+    data () {
+      return {
+        isLoggedIn: this.$store.getters.isLoggedIn
+      }
+    },
     computed: {
-      isLoggedIn() {
-        return this.$store.getters.isLoggedIn
-      },
-      user() {
+      user () {
         return this.$store.getters.user
       },
-      users(){
+      users () {
         return this.$store.state.users
       },
-      brands(){
+      brands () {
         return this.$store.state.brands
       },
-      avatarMedia() {
+      avatarMedia () {
         return `<img class='avatar' src='${this.user.cover_url}' />`
+      },
+    },
+    methods: {
+      checkLogin (val) {
+        this.isLoggedIn = val
       }
+    },
+    created () {
+      this.$bus.$on('isLoggedIn', this.checkLogin)
     },
     components: {
       Carousel,
-      Slide
+      Slide,
+      Login
     }
   }
 </script>

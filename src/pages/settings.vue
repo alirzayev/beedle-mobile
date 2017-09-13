@@ -72,6 +72,8 @@
       logout(){
         this.$store.dispatch('destroyToken')
         this.$bus.$emit('refreshPosts')
+        this.$bus.$emit('isLoggedIn', false)
+        this.$f7.mainView.router.back()
       }
     },
     mounted(){

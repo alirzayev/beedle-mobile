@@ -29,6 +29,7 @@ export default {
     submitting: 'submitting...',
     empty_container: 'Empty Data ~',
     login: 'Login',
+    register: 'Register',
     login_needed: 'You have to login!',
     logout: 'Logout',
     trend: 'Trend',

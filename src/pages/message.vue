@@ -1,6 +1,14 @@
 <template>
     <f7-page class="message-page">
-        <f7-navbar :title="nickname" :back-link="$t('app.back')" sliding></f7-navbar>
+        <f7-navbar>
+            <f7-nav-left>
+                <a href="#" class="back link">
+                    <f7-icon f7="left"></f7-icon>
+                    <span>{{$t('app.back')}}</span>
+                </a>
+            </f7-nav-left>
+            <f7-nav-center :title="nickname"></f7-nav-center>
+        </f7-navbar>
         <f7-messages>
             <f7-message v-for="message in messages"
                         :key="message.id"
@@ -73,7 +81,7 @@
         }
       },
       formatDate (date) {
-        return moment(Date.parse(date)).fromNow()
+        return moment(Date.parse(date).toString()).fromNow()
       }
     },
     mounted () {
@@ -94,7 +102,7 @@
       })
       window.Echo.join('mychat')
         .here((users) => {
-          console.log('users', users)
+          console.log('chat users', users)
         })
         .joining((user) => {
           console.log(user.name)

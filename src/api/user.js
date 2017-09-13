@@ -14,6 +14,12 @@ export default {
       .catch((error) => Promise.reject(error))
   },
 
+  register(data) {
+    return Vue.http.post('api/register', data)
+      .then((response) => Promise.resolve(response))
+      .catch((error) => Promise.reject(error))
+  },
+
   delete(id) {
     return Vue.http.delete('api/admin/users/' + id)
       .then((response) => Promise.resolve(response))

@@ -10,13 +10,13 @@
                 <f7-navbar theme="white">
                     <f7-nav-left>
                         <f7-link href="/chats/">
-                            <f7-icon style="color: #1c1d1f" f7="chats_fill" size="20px"></f7-icon>
+                            <f7-icon v-show="isLoggedIn" style="color: #1c1d1f" f7="chats_fill" size="20px"></f7-icon>
                         </f7-link>
                     </f7-nav-left>
                     <f7-nav-center sliding>{{navbarTitle}}</f7-nav-center>
                     <f7-nav-right v-if="navbarTitle == 'Profile'">
                         <f7-link href="/settings/">
-                            <f7-icon style="color: #1c1d1f" f7="settings" size="22px"></f7-icon>
+                            <f7-icon v-show="isLoggedIn" style="color: #1c1d1f" f7="settings" size="22px"></f7-icon>
                         </f7-link>
                     </f7-nav-right>
                     <f7-nav-right v-else>
@@ -80,7 +80,6 @@
   import CommentPopup from './pages/comment.vue'
   import PublisherPopup from './pages/publisher.vue'
   import NotificationPopup from './pages/notifications.vue'
-  import LoginView from './pages/auth/login.vue'
   import Explore from './pages/explore.vue'
   import SearchView from './pages/search.vue'
 
@@ -128,7 +127,6 @@
       CommentPopup,
       PublisherPopup,
       NotificationPopup,
-      LoginView,
       Explore,
       SearchView
     },

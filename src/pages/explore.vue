@@ -85,8 +85,6 @@
     created () {
       this.$store.dispatch('getComments')
       this.$store.dispatch('getUsers')
-      this.$nextTick(_ => {
-      })
     },
     methods: {
       routeToPost (id) {

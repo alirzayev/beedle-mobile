@@ -28,6 +28,7 @@ export default {
     submitting: 'gönderilir...',
     empty_container: 'Boş ~',
     login: 'Login',
+    register: 'Qeydiyyat',
     login_needed: 'Login olmaq vacibdir!',
     logout: 'Çıx',
     trend: 'Trend',

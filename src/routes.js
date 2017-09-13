@@ -1,7 +1,7 @@
 export default [
   {
-    path: '/login/',
-    component: require('./pages/auth/login.vue')
+    path: '/register/',
+    component: require('./pages/auth/register.vue')
   },
   {
     path: '/profile/',
@@ -46,5 +46,5 @@ export default [
   {
     path: '/comment/',
     component: require('./pages/comment.vue')
-  },
+  }
 ]
