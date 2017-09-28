@@ -14,10 +14,12 @@
             <f7-col width="50" class="tool tool-border flex-rest-width">
                 <p class="title">Car</p>
                 <p v-if="user.car" class="text">{{user.car.model.brand.name}} {{user.car.model.name}}</p>
+                <p v-else class="text"> --- </p>
             </f7-col>
             <f7-col width="50" class="tool flex-rest-width">
                 <p class="title" v-text="$t('post.post')"></p>
-                <p class="text" v-text="500"></p>
+                <p v-if="user.topics" class="text" v-text="user.topics.length"></p>
+                <p v-else class="text"> 0 </p>
             </f7-col>
         </f7-grid>
 

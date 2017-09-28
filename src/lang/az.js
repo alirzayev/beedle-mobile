@@ -46,6 +46,7 @@ export default {
     result: 'Thank you for your feedback'
   },
   message: {
+    me:'Mən',
     placeholder: 'typing message...'
   },
   comment: {

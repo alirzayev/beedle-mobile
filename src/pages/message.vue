@@ -14,7 +14,7 @@
                         :key="message.id"
                         :text="message.message"
                         :label="formatDate(message.created_at)"
-                        :name="message.user.fullname"
+                        :name="getName(message.user.fullname)"
                         :avatar="message.user.cover_url"
                         :type="getType(message.user.id)"
                         @click="onClick"
@@ -81,7 +81,14 @@
         }
       },
       formatDate (date) {
-        return moment(Date.parse(date).toString()).fromNow()
+        return moment.parseZone(date).fromNow()
+      },
+      getName (name) {
+        if (name === this.nickname) {
+          return name
+        } else {
+          return this.$t('message.me')
+        }
       }
     },
     mounted () {

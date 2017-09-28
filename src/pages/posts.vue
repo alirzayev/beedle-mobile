@@ -19,17 +19,17 @@
   import Card from '../components/card.vue'
 
   export default {
-    data() {
+    data () {
       return {
         timeline: []
       }
     },
     computed: {
-      posts() {
+      posts () {
         return this.timeline
       },
     },
-    mounted() {
+    mounted () {
       let query = this.$route.query
       this.$nextTick(function () {
         this.$f7.showIndicator()
@@ -43,7 +43,7 @@
       Card
     },
     methods: {
-      avatarMedia(url) {
+      avatarMedia (url) {
         return `<img class='avatar' src='${url}' />`
       },
 

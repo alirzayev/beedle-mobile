@@ -9,7 +9,7 @@
     </f7-block>
     <f7-block class="detail">
         <p>Web: caspiansoft.com</p>
-        <p>Email: info@caspiansoft.com</p>
+        <p>Email: info@caspiansoft.net</p>
         <p>Twitter: @caspiansoft</p>
     </f7-block>
     <f7-block class="copyright">

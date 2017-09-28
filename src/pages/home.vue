@@ -4,8 +4,6 @@
             <f7-link tab-link="#trending" class="tool tool-border" :class="{pressed: pressed.trending}">TRENDING
 
 
-
-
             </f7-link>
             <f7-link tab-link="#recent" class="tool" :class="{pressed: pressed.recent}">RECENT</f7-link>
         </f7-toolbar>
@@ -29,8 +27,9 @@
 
 <script>
   import Card from '../components/card.vue'
+
   export default {
-    data(){
+    data () {
       return {
         pressed: {
           'trending': true,
@@ -39,25 +38,25 @@
       }
     },
     computed: {
-      isLoggedIn(){
+      isLoggedIn () {
         return this.$store.getters.isLoggedIn
       },
-      user() {
+      user () {
         return this.$store.getters.user
       },
-      timeline() {
+      timeline () {
         return this.$store.state.timeline
       },
-      trends() {
+      trends () {
         return this.$store.state.trends
       }
     },
-    mounted() {
+    mounted () {
       this.refresh()
       this.$bus.$on('refreshPosts', this.refresh)
     },
     methods: {
-      routeToPost(data) {
+      routeToPost (data) {
         this.$f7.mainView.router.load({url: `/post/?mid=${data.id}`})
       },
       tabActived (tab) {
@@ -69,11 +68,11 @@
           this.pressed.recent = true
         }
       },
-      refresh(){
+      refresh () {
         this.$nextTick(function () {
           this.$f7.showIndicator()
           // - if it is authenticated
-          if (this.isLoggedIn) {
+          if (this.isLoggedIn && this.user.car) {
             // - posts
             this.$store.dispatch('getTimeline', this.user.car.model_id).then(() => {
               this.$f7.hideIndicator()

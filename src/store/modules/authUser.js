@@ -34,6 +34,7 @@ const actions = {
   getAuthUser({commit}){
     return authService.user()
       .then((response) => {
+        localStorage.removeItem('user')
         localStorage.setItem('user', JSON.stringify(response.body))
         console.log('auth user', response)
         commit(AUTH_USER, {user: response.body})

@@ -24,15 +24,11 @@ import Routes from './routes'
 import App from './app'
 // Import Vuex store
 import store from './store'
-import { getLoginUser } from './store/actions'
-// Init network framework
-import './network'
 // Import language file
 import VueI18n from 'vue-i18n'
 import StoreCache from './utils/storeCache'
 import enUS from './lang/en_us'
 import az from './lang/az'
-import zhCN from './lang/zh_cn'
 // Carousel framework
 import VueCarousel from 'vue-carousel'
 
@@ -41,8 +37,8 @@ Vue.use(Framework7Vue)
 Vue.use(VueResource)
 Vue.use(VueCarousel)
 
-//Vue.http.options.root = 'http://beedle.caspiansoft.com'
-Vue.http.options.root = 'http://localhost:8000'
+//Vue.http.options.root = 'http://localhost:8000'
+Vue.http.options.root = 'http://beedle.caspiansoft.com'
 Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
 Vue.http.options.emulateJSON = true
 
@@ -62,7 +58,6 @@ Vue.use(VueI18n)
 Vue.config.lang = cache.get('lang') || 'en'
 Vue.locale('en', enUS)
 Vue.locale('az', az)
-Vue.locale('zh', zhCN)
 
 const EventBus = new Vue()
 
@@ -95,5 +90,3 @@ new Vue({
     app: App
   }
 })
-
-getLoginUser(store)

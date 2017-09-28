@@ -46,5 +46,9 @@ export default [
   {
     path: '/comment/',
     component: require('./pages/comment.vue')
+  },
+  {
+    path: '/update/',
+    component: require('./pages/update_profile.vue')
   }
 ]

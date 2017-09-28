@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="card-footer flex-row" v-if="enableToolbar">
-            <f7-button v-if="isLoggedIn && data" color="white" class="tool" :class="{liked: checkMyLike(data, user)}"
+            <f7-button v-if="isLoggedIn && data" color="white" class="tool" :class="{liked: isMyLike(data, user)}"
                        @click.stop="toggleLike(data.id, data.liked)">
                 <span class="fonticon f7-icons">bolt</span>
                 <span class="text" v-text="data.likes_count ? data.likes_count : $t('app.trend')"></span>
@@ -27,11 +27,11 @@
                 <span class="fonticon f7-icons">bolt</span>
                 <span class="text" v-text="data.likes_count ? data.likes_count : $t('app.trend')"></span>
             </f7-button>
-            <f7-button v-if="isLoggedIn && isMyPost(data.user)" color="white" class="tool"
-                       @click.stop="">
-                <span class="fonticon f7-icons">compose</span>
-                <span class="text" v-text="$t('app.edit')"></span>
-            </f7-button>
+            <!-- <f7-button v-if="isLoggedIn && isMyPost(data.user)" color="white" class="tool"
+                        @click.stop="">
+                 <span class="fonticon f7-icons">compose</span>
+                 <span class="text" v-text="$t('app.edit')"></span>
+             </f7-button>-->
             <f7-button color="white" class="tool" @click.stop="openCommentPopup">
                 <span class="fonticon f7-icons">chat</span>
                 <span class="text" v-text="data.comments_count ? data.comments_count : $t('tweet.comment')"></span>
@@ -42,12 +42,14 @@
 
 <script>
   import moment from 'moment'
+  import topicServices from '../api/topic'
   import { getRemoteAvatar } from '../utils/appFunc'
+
   export default {
     props: {
       data: {
         type: Object,
-        default() {
+        default () {
           return {}
         }
       },
@@ -57,18 +59,18 @@
       }
     },
     computed: {
-      isLoggedIn(){
+      isLoggedIn () {
         return this.$store.getters.isLoggedIn
       },
-      user(){
+      user () {
         return this.$store.getters.user
       }
     },
     methods: {
-      contentClick(data) {
+      contentClick (data) {
         this.$emit('card:content-click', data)
       },
-      openPhotoBrowser(url) {
+      openPhotoBrowser (url) {
         let pb = this.$f7.photoBrowser({
           zoom: 400,
           theme: 'dark',
@@ -76,33 +78,42 @@
         })
         pb.open()
       },
-      openCommentPopup() {
+      openCommentPopup () {
         this.$f7.popup('#commentPopup')
       },
-      formatTime(time) {
+      formatTime (time) {
         return moment(Date.parse(time)).fromNow()
       },
-      getAvatar(id) {
+      getAvatar (id) {
         return getRemoteAvatar(id)
       },
-      toggleLike(mid, status) {
-        this.$store.dispatch('updateTimeline', {
-          mid,
-          type: status ? 'unlike' : 'like'
-        })
-        this.$bus.$emit('refreshPosts')
+      toggleLike (mid, liked) {
+        if (!liked) {
+          return topicServices.like(mid)
+            .then((response) => {
+              console.log('likes', response)
+              this.$bus.$emit('refreshPosts')
+            })
+        } else {
+          return topicServices.dislike(mid)
+            .then((response) => {
+              console.log('dislikes', response)
+              this.$bus.$emit('refreshPosts')
+            })
+        }
       },
-      checkMyLike(data, user) {
-        data.likes.forEach(function (like) {
-          if (like.user_id === user.id) {
-            console.log('like', like)
+      isMyLike (data, user) {
+        data.likes.filter(function (like) {
+          if (like.user_id === user.id.toString()) {
             data.liked = true
-            return data.liked
+            return like
+          } else {
+            data.liked = false
           }
         })
         return data.liked
       },
-      isMyPost(user){
+      isMyPost (user) {
         if (this.user.id === user.id) {
           return true
         } else {
