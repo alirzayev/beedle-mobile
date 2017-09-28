@@ -107,8 +107,6 @@
           if (like.user_id === user.id.toString()) {
             data.liked = true
             return like
-          } else {
-            data.liked = false
           }
         })
         return data.liked
