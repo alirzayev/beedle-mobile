@@ -28,7 +28,8 @@
     "dependencies": {
         "axios": "^0.15.3",
         "body-parser": "^1.18.2",
-        "cordova-ios": "^4.4.0",
+        "cordova-ios": "^4.5.1",
+        "cordova-plugin-splashscreen": "git+https://github.com/apache/cordova-plugin-splashscreen.git",
         "cordova-plugin-whitelist": "1",
         "es6-object-assign": "^1.1.0",
         "es6-promise": "^4.1.0",
@@ -100,11 +101,10 @@
         "not ie <= 8"
     ],
     "cordova": {
-        "platforms": [
-            "ios"
-        ],
+        "platforms": [],
         "plugins": {
-            "cordova-plugin-whitelist": {}
+            "cordova-plugin-whitelist": {},
+            "cordova-plugin-splashscreen": {}
         }
     }
 }

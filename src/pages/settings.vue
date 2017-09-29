@@ -20,7 +20,7 @@
                                   media="<i class='iconfont icon-ios7person'></i>"></f7-list-item>
                 </f7-list>
                 <f7-list>
-                    <f7-list-item :title="$t('app.chat')" link="/feedback/"
+                    <f7-list-item :title="$t('app.chat')" link="/chats/"
                                   media="<i class='iconfont icon-feedback2'></i>"></f7-list-item>
                 </f7-list>
                 <f7-list>

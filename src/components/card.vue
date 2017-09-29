@@ -91,13 +91,13 @@
         if (!liked) {
           return topicServices.like(mid)
             .then((response) => {
-              console.log('likes', response)
+              console.log('I like it', response)
               this.$bus.$emit('refreshPosts')
             })
         } else {
           return topicServices.dislike(mid)
             .then((response) => {
-              console.log('dislikes', response)
+              console.log('I dislike it', response)
               this.$bus.$emit('refreshPosts')
             })
         }
