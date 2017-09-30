@@ -19,15 +19,15 @@
             </f7-block>
             <!-- Review Content-->
             <f7-card-header>Review</f7-card-header>
-            <f7-card-content class="review">
-                <div class="swiper-container swiper-3">
-                    <div class="swiper-pagination"></div>
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide" v-for="comment in comments">
-                            <img @click="routeToPost(comment.topic.id)" :src="comment.topic.model.cover_url"/>
-                        </div>
-                    </div>
-                </div>
+            <f7-card-content>
+                <carousel
+                        :scrollPerPage="true"
+                        :perPageCustom="[[480, 2], [768, 3]]"
+                        :perPage="4">
+                    <slide v-show="comments.length" class="review" v-for="comment in comments">
+                        <img @click="routeToPost(comment.topic.id)" :src="comment.topic.model.cover_url"/>
+                    </slide>
+                </carousel>
             </f7-card-content>
             <f7-block>
                 <hr size="1px" color="#c4c4c4"/>
@@ -52,6 +52,8 @@
     </f7-card>
 </template>
 <script>
+  import { Carousel, Slide } from 'vue-carousel'
+
   export default {
     computed: {
       brands () {
@@ -67,18 +69,15 @@
         return this.$store.state.users
       }
     },
+    components: {
+      Carousel,
+      Slide
+    },
     created () {
       this.$store.dispatch('getUsers')
       this.$store.dispatch('getComments')
     },
     mounted () {
-      this.$store.dispatch('getComments')
-      setInterval(() => {
-        this.$f7.swiper('.swiper-3', {
-          spaceBetween: 10,
-          slidesPerView: 3,
-        })
-      }, 3)
     },
     methods: {
       routeToPost (id) {
@@ -142,19 +141,15 @@
                 font-size: 12px;
             }
             .review {
-            }
-            .swiper-slide {
                 padding: 2px;
                 background: #fff;
                 box-sizing: border-box;
                 border: 1px solid #ccc;
             }
-            .swiper-slide > img {
+            .review > img {
                 text-align: center;
                 width: 100%;
                 display: block;
-            }
-            .swiper-container {
             }
         }
     }

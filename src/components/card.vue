@@ -1,6 +1,6 @@
 <template>
     <div class="card" @click="contentClick(data)">
-        <div class="card-header">
+        <div v-if="data.user" class="card-header">
             <div class="avatar">
                 <img :src="data.user.cover_url" alt="avatar">
             </div>

@@ -13,7 +13,7 @@
                             </f7-link>
                         </f7-nav-right>
                     </f7-navbar>
-                    <div v-if="!user" class="empty-content" >
+                    <div v-if="!user" class="empty-content">
                         <i class="iconfont icon-about"/>
                         <div class="text">
                             <span>{{$t('app.login_needed')}}</span>
@@ -48,32 +48,37 @@
 
 <script>
   import moment from 'moment'
+
   export default {
-    data() {
+    data () {
       return {}
     },
     computed: {
-      user(){
+      isLoggedIn () {
+        return this.$store.getters.isLoggedIn
+      },
+      user () {
         return this.$store.getters.user
       },
-      notifications(){
+      notifications () {
         return this.$store.state.notifications
       },
-      formatTime(time) {
+      formatTime (time) {
         return moment(Date.parse(time)).fromNow()
       },
     },
-    mounted() {
-      this.$store.dispatch('getNotifications')
-      this.$nextTick(_ => {
-        this.$f7.addView('.popup-mypopup .view')
-      })
+    mounted () {
+      if (this.isLoggedIn) {
+        this.$store.dispatch('getNotifications')
+        this.$nextTick(_ => {
+          this.$f7.addView('.popup-mypopup .view')
+        })
+      }
     },
     methods: {
-      avatarMedia(url) {
+      avatarMedia (url) {
         return `<img class='avatar' src='${url}' />`
       },
-
     }
   }
 </script>

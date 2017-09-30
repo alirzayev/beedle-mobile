@@ -15,7 +15,7 @@
                 <span>{{$t('tweet.comment')}}</span>
             </div>
             <div class="list">
-                <template v-if="post.comments.length > 0">
+                <div v-if="post.comments">
                     <div class="comment flex-row" v-for="(comment, index) in getComments" :key="comment.name">
                         <img class="avatar" :src="comment.owner.cover_url"/>
                         <div class="detail flex-rest-width">
@@ -24,7 +24,7 @@
                             <div class="text"><span>{{comment.content}}</span></div>
                         </div>
                     </div>
-                </template>
+                </div>
                 <div class="empty-content" v-else>
                     <i class="iconfont icon-wujieguoyangshi"/>
                     <div class="text">
@@ -80,7 +80,7 @@
       this.post = find(this.timeline, p => p.id === parseInt(query.mid))
       this.comments = this.post.comments
 
-      if (this.user.id === this.post.user.id) {
+      if (this.user === this.post.user) {
         notificationServices.update(query.mid)
           .then((response) => {
             console.log('notification is updated', response.body)
