@@ -21,10 +21,13 @@
             <f7-card-header>Review</f7-card-header>
             <f7-card-content>
                 <carousel
-                        :scrollPerPage="true"
-                        :perPageCustom="[[480, 2], [768, 3]]"
-                        :perPage="4">
-                    <slide v-show="comments.length" class="review" v-for="comment in comments">
+                          :scrollPerPage="false"
+                          :perPageCustom="[[768, 3], [1024, 4]]"
+                          :autoplay="true"
+                          :perPage="3"
+                          :paginationEnabled="false"
+                          :autoplayTimeout="5000">
+                    <slide class="review" v-for="comment in comments">
                         <img @click="routeToPost(comment.topic.id)" :src="comment.topic.model.cover_url"/>
                     </slide>
                 </carousel>
@@ -80,6 +83,9 @@
     mounted () {
     },
     methods: {
+      getComments () {
+        return this.comments
+      },
       routeToPost (id) {
         this.$f7.mainView.router.load({url: `/post/?mid=${id}`})
       },
