@@ -3,13 +3,13 @@ export default {
     app_name: 'Beedle',
     back: 'Geri',
     save: 'Saxla',
-    edit: 'Deyiş',
-    unknown: 'Bilinmeyen',
+    edit: 'Dəyiş',
+    unknown: 'Bilinməyən',
     home: 'Baş',
-    contacts: 'Elaqe',
-    settings: 'Ayarlar',
+    contacts: 'Əlaqə',
+    settings: 'Parametrlər',
     explore: 'Explore',
-    city: 'Şeher',
+    city: 'Şəhər',
     email: 'Email',
     profile: 'Profil',
     language: 'Dil',
@@ -21,8 +21,8 @@ export default {
     location: 'Location',
     male: 'Kişi',
     female: 'Qadın',
-    send: 'Gönder',
-    cancel: 'Leğv',
+    send: 'Göndər',
+    cancel: 'Ləğv',
     chat: 'Chat',
     close: 'Bağla',
     submitting: 'gönderilir...',
@@ -32,14 +32,15 @@ export default {
     login_needed: 'Login olmaq vacibdir!',
     logout: 'Çıx',
     trend: 'Trend',
+    brands:'Brendlər',
     modal: {
       title: 'System',
       button_ok: 'OK'
     }
   },
   tweet: {
-    comment: 'Şerhler',
-    like: 'Beyen'
+    comment: 'Şərhlər',
+    like: 'Trend'
   },
   feedback: {
     placeholder: 'Hi, any suggestion to tell us?',
@@ -47,20 +48,27 @@ export default {
   },
   message: {
     me:'Mən',
-    placeholder: 'typing message...'
+    placeholder: 'mesaj yazın...'
   },
   comment: {
-    placeholder: 'write a comment...',
-    result: 'Thank you for your comment'
+    placeholder: 'şərh yazın...',
+    result: 'Təşəkkürlər! şərhiniz uğurla göndərildi.'
   },
   publisher: {
     publisher: 'Publisher',
     placeholder: 'what\'s new with you.',
   },
   notification: {
-    notification: 'Notifications',
+    notification: 'Bildirişlər',
   },
   post: {
     post: 'Post'
-  }
+  },
+  explorer: {
+    reviews: 'Son Şərhlər',
+    people: 'İstifadəçilər'
+  },
+  user: {
+    interests: 'Favorilər'
+  },
 }

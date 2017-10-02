@@ -69,6 +69,10 @@
           message: text,
           receiver_id: this.$route.query.uid
         }
+        this.messages.push({
+          message: text,
+          user: this.$store.getters.user
+        })
         messageServices.sendMessage(data)
         // Clear Message Bar
         clear()
@@ -98,7 +102,7 @@
       window.Echo = new Echo({
         broadcaster: 'pusher',
         key: '424e4a5f4c4828333a4b',
-        authEndpoint: 'http://localhost:8000/broadcasting/auth',
+        authEndpoint: this.$http.options.root + '/broadcasting/auth',
         auth: {
           headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token')

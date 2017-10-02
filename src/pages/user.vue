@@ -37,7 +37,7 @@
         </f7-grid>
 
         <!-- Users Content-->
-        <f7-card-header>INTERESTED IN</f7-card-header>
+        <f7-card-header>{{$t('user.interests').toUpperCase()}}</f7-card-header>
         <f7-card-content>
             <carousel
                     :scrollPerPage="true"
@@ -87,11 +87,6 @@
       Slide
     },
     methods: {
-      formatGender (gender) {
-        if (gender === 'm') return this.$t('app.male')
-        else if (gender === 'f') return this.$t('app.female')
-        else return this.$t('app.unknown')
-      },
       openChat () {
         this.$f7.mainView.router.load({url: `/message/?uid=${this.user.id}&nickname=${this.user.fullname}`})
       },

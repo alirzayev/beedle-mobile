@@ -9,7 +9,7 @@
             </f7-nav-left>
             <f7-nav-center :title="this.$route.query.brand"></f7-nav-center>
             <f7-nav-right>
-                <f7-link @click="makeFavourite($route.query.bid)"
+                <f7-link v-show="isLoggedIn" @click="makeFavourite($route.query.bid)"
                          :icon-f7="fav ? 'favorites_fill' : 'favorites'"></f7-link>
             </f7-nav-right>
         </f7-navbar>
@@ -27,7 +27,7 @@
   export default {
     data () {
       return {
-        fav: false,
+        fav: null,
         timeline: [],
         interests: [],
       }
@@ -38,13 +38,16 @@
       },
       user () {
         return this.$store.getters.user
+      },
+      isLoggedIn () {
+        return this.$store.getters.isLoggedIn
       }
     },
     created () {
       userServices.user(this.user.id).then((response) => {
         this.interests = response.body.interests
+        this.checkFavourite(this.$route.query.bid)
       })
-      this.checkFavourite(this.$route.query.bid)
     },
     mounted () {
       let query = this.$route.query
@@ -67,17 +70,20 @@
         if (!this.fav) {
           favServices.create({'brand_id': id}).then((response) => {
             this.fav = true
+            this.$bus.$emit('refresh-user')
           })
         } else {
           favServices.delete(id).then((response) => {
             this.fav = false
+            this.$bus.$emit('refresh-user')
           })
         }
-        this.$bus.$emit('refreshUserData')
       },
       checkFavourite (id) {
+        this.fav = false
         for (var i = 0; i < this.interests.length; i++) {
-          if (this.interests[i].brand_id === parseInt(id)) {
+          if (this.interests[i].brand_id === id) {
+            console.log('my favourites', this.interests[i])
             this.fav = true
             break
           }

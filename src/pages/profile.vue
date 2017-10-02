@@ -3,9 +3,9 @@
         <f7-list class="user-profile">
             <f7-list-item :media="avatarMedia">
                 <div class="detail">
-                    <div class="name">{{userData.fullname}}</div>
+                    <div class="name">{{user.fullname}}</div>
                     <div class="fullname">
-                        <span>{{userData.email}}</span>
+                        <span>{{user.email}}</span>
                     </div>
                 </div>
             </f7-list-item>
@@ -13,18 +13,18 @@
         <f7-grid class="custom-toolbar flex-row">
             <f7-col width="50" class="tool tool-border flex-rest-width">
                 <p class="title">Car</p>
-                <p v-if="user.car" class="text">{{userData.car.model.brand.name}}</p>
+                <p v-if="user.car" class="text">{{user.car.model.brand.name}}</p>
                 <p v-else class="text"> --- </p>
             </f7-col>
             <f7-col width="50" class="tool flex-rest-width">
                 <p class="title" v-text="$t('post.post')"></p>
-                <p v-if="userData.topics" class="text" v-text="userData.topics.length"></p>
+                <p v-if="user.topics" class="text" v-text="user.topics.length"></p>
                 <p v-else class="text"> 0 </p>
             </f7-col>
         </f7-grid>
 
         <!-- Users Content-->
-        <f7-card-header>INTERESTED IN</f7-card-header>
+        <f7-card-header>{{$t('user.interests').toUpperCase()}}</f7-card-header>
         <f7-card-content>
             <carousel
                     :scrollPerPage="true"
@@ -33,7 +33,7 @@
                     :paginationEnabled="false"
                     :autoplay="true"
                     :autoplayTimeout="3000">
-                <slide v-for="interest in userData.interests">
+                <slide v-for="interest in user.interests">
                     <div @click="routeToPosts(interest.brand)" class="avatar">
                         <img :src="interest.brand.cover_url"/>
                     </div>
@@ -59,13 +59,11 @@
 <script>
   import { Carousel, Slide } from 'vue-carousel'
   import Login from '../pages/auth/login.vue'
-  import userServices from '../api/user'
 
   export default {
     data () {
       return {
         isLoggedIn: this.$store.getters.isLoggedIn,
-        userData: {}
       }
     },
     computed: {
@@ -81,9 +79,7 @@
     },
     methods: {
       refresh () {
-        userServices.user(this.user.id).then((response) => {
-          this.userData = response.body.user
-        })
+        this.$store.dispatch('getAuthUser')
       },
       checkLogin (val) {
         this.isLoggedIn = val
@@ -93,9 +89,9 @@
       }
     },
     created () {
-      this.$bus.$on('isLoggedIn', this.checkLogin)
       this.refresh()
-      this.$bus.$on('refreshUserData', this.refresh)
+      this.$bus.$on('isLoggedIn', this.checkLogin)
+      this.$bus.$on('refresh-user', this.refresh)
     },
     components: {
       Carousel,

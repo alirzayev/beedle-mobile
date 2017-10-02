@@ -2,7 +2,7 @@
     <f7-card>
         <!-- Brands Content-->
         <div class="explore-view">
-            <f7-card-header>Brands</f7-card-header>
+            <f7-card-header>{{$t('app.brands').toUpperCase()}}</f7-card-header>
             <f7-card-content>
                 <f7-grid no-gutter>
                     <f7-col v-for="brand in brands" width="33">
@@ -18,15 +18,15 @@
                 <hr size="1px" color="#c4c4c4"/>
             </f7-block>
             <!-- Review Content-->
-            <f7-card-header>Review</f7-card-header>
+            <f7-card-header>{{$t('explorer.reviews').toUpperCase()}}</f7-card-header>
             <f7-card-content>
                 <carousel
-                          :scrollPerPage="false"
-                          :perPageCustom="[[768, 3], [1024, 4]]"
-                          :autoplay="true"
-                          :perPage="3"
-                          :paginationEnabled="false"
-                          :autoplayTimeout="5000">
+                        :scrollPerPage="false"
+                        :perPageCustom="[[768, 3], [1024, 4]]"
+                        :autoplay="true"
+                        :perPage="3"
+                        :paginationEnabled="false"
+                        :autoplayTimeout="5000">
                     <slide class="review" v-for="comment in comments">
                         <img @click="routeToPost(comment.topic.id)" :src="comment.topic.model.cover_url"/>
                     </slide>
@@ -36,7 +36,7 @@
                 <hr size="1px" color="#c4c4c4"/>
             </f7-block>
             <!-- Users Content-->
-            <f7-card-header>People</f7-card-header>
+            <f7-card-header>{{$t('explorer.people').toUpperCase()}}</f7-card-header>
             <f7-card-content>
                 <f7-grid no-gutter>
                     <f7-col v-for="user in users" width="20">
@@ -56,6 +56,7 @@
 </template>
 <script>
   import { Carousel, Slide } from 'vue-carousel'
+
   export default {
     computed: {
       brands () {
@@ -100,9 +101,18 @@
 <style lang="less">
     @import "../assets/styles/mixins.less";
 
+    @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Open Sans'), local('OpenSans'), url('http://themes.googleusercontent.com/static/fonts/opensans/v5/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff') format('woff');
+    }
+
     .explore-view {
         margin: 0px 0px 20px;
+        font-family: 'open sans', arial, sans-serif;
         .card-header {
+            font-size: 15px;
             margin-top: 40px;
             background-color: @mainColor;
             color: #eeeeee;

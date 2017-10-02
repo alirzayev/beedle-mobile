@@ -33,6 +33,7 @@ export default {
     login_needed: 'You have to login!',
     logout: 'Logout',
     trend: 'Trend',
+    brands:'Brands',
     modal: {
       title: 'System',
       button_ok: 'OK'
@@ -63,5 +64,12 @@ export default {
   },
   post: {
     post: 'Post'
-  }
+  },
+  explorer: {
+    reviews: 'Last Reviews',
+    people: 'People'
+  },
+  user: {
+    interests: 'Interested In'
+  },
 }
