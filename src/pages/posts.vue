@@ -8,6 +8,10 @@
                 </a>
             </f7-nav-left>
             <f7-nav-center :title="this.$route.query.brand"></f7-nav-center>
+            <f7-nav-right>
+                <f7-link @click="makeFavourite($route.query.bid)"
+                         :icon-f7="fav ? 'favorites_fill' : 'favorites'"></f7-link>
+            </f7-nav-right>
         </f7-navbar>
 
         <f7-page>
@@ -17,17 +21,30 @@
 </template>
 <script>
   import Card from '../components/card.vue'
+  import favServices from '../api/favourite'
+  import userServices from '../api/auth'
 
   export default {
     data () {
       return {
-        timeline: []
+        fav: false,
+        timeline: [],
+        interests: [],
       }
     },
     computed: {
       posts () {
         return this.timeline
       },
+      user () {
+        return this.$store.getters.user
+      }
+    },
+    created () {
+      userServices.user(this.user.id).then((response) => {
+        this.interests = response.body.interests
+      })
+      this.checkFavourite(this.$route.query.bid)
     },
     mounted () {
       let query = this.$route.query
@@ -46,7 +63,26 @@
       avatarMedia (url) {
         return `<img class='avatar' src='${url}' />`
       },
-
+      makeFavourite (id) {
+        if (!this.fav) {
+          favServices.create({'brand_id': id}).then((response) => {
+            this.fav = true
+          })
+        } else {
+          favServices.delete(id).then((response) => {
+            this.fav = false
+          })
+        }
+        this.$bus.$emit('refreshUserData')
+      },
+      checkFavourite (id) {
+        for (var i = 0; i < this.interests.length; i++) {
+          if (this.interests[i].brand_id === parseInt(id)) {
+            this.fav = true
+            break
+          }
+        }
+      }
     }
   }
 </script>

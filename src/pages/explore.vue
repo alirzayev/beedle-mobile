@@ -56,7 +56,6 @@
 </template>
 <script>
   import { Carousel, Slide } from 'vue-carousel'
-
   export default {
     computed: {
       brands () {

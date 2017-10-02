@@ -3,9 +3,9 @@
         <f7-list class="user-profile">
             <f7-list-item :media="avatarMedia">
                 <div class="detail">
-                    <div class="name">{{user.fullname}}</div>
+                    <div class="name">{{userData.fullname}}</div>
                     <div class="fullname">
-                        <span>{{user.email}}</span>
+                        <span>{{userData.email}}</span>
                     </div>
                 </div>
             </f7-list-item>
@@ -13,12 +13,12 @@
         <f7-grid class="custom-toolbar flex-row">
             <f7-col width="50" class="tool tool-border flex-rest-width">
                 <p class="title">Car</p>
-                <p v-if="user.car" class="text">{{user.car.model.brand.name}} {{user.car.model.name}}</p>
+                <p v-if="user.car" class="text">{{userData.car.model.brand.name}}</p>
                 <p v-else class="text"> --- </p>
             </f7-col>
             <f7-col width="50" class="tool flex-rest-width">
                 <p class="title" v-text="$t('post.post')"></p>
-                <p v-if="user.topics" class="text" v-text="user.topics.length"></p>
+                <p v-if="userData.topics" class="text" v-text="userData.topics.length"></p>
                 <p v-else class="text"> 0 </p>
             </f7-col>
         </f7-grid>
@@ -30,48 +30,14 @@
                     :scrollPerPage="true"
                     :perPageCustom="[[480, 2], [768, 3]]"
                     :perPage="4"
-                    :paginationEnabled="true">
-                <slide v-for="brand in brands">
-                    <div class="avatar">
-                        <img :src="brand.cover_url"/>
-                    </div>
-                    <div class="text">
-                        <p class="text" v-text="brand.name"></p>
-                    </div>
-                </slide>
-                <slide v-for="brand in brands">
-                    <div class="avatar">
-                        <img :src="brand.cover_url"/>
-                    </div>
-                    <div class="text">
-                        <p class="text" v-text="brand.name"></p>
+                    :paginationEnabled="false"
+                    :autoplay="true"
+                    :autoplayTimeout="3000">
+                <slide v-for="interest in userData.interests">
+                    <div @click="routeToPosts(interest.brand)" class="avatar">
+                        <img :src="interest.brand.cover_url"/>
                     </div>
                 </slide>
-                <slide v-for="brand in brands">
-                    <div class="avatar">
-                        <img :src="brand.cover_url"/>
-                    </div>
-                    <div class="text">
-                        <p class="text" v-text="brand.name"></p>
-                    </div>
-                </slide>
-                <slide v-for="brand in brands">
-                    <div class="avatar">
-                        <img :src="brand.cover_url"/>
-                    </div>
-                    <div class="text">
-                        <p class="text" v-text="brand.name"></p>
-                    </div>
-                </slide>
-                <slide v-for="brand in brands">
-                    <div class="avatar">
-                        <img :src="brand.cover_url"/>
-                    </div>
-                    <div class="text">
-                        <p class="text" v-text="brand.name"></p>
-                    </div>
-                </slide>
-
             </carousel>
         </f7-card-content>
 
@@ -93,34 +59,43 @@
 <script>
   import { Carousel, Slide } from 'vue-carousel'
   import Login from '../pages/auth/login.vue'
+  import userServices from '../api/user'
 
   export default {
     data () {
       return {
-        isLoggedIn: this.$store.getters.isLoggedIn
+        isLoggedIn: this.$store.getters.isLoggedIn,
+        userData: {}
       }
     },
     computed: {
       user () {
         return this.$store.getters.user
       },
-      users () {
-        return this.$store.state.users
-      },
       brands () {
         return this.$store.state.brands
       },
       avatarMedia () {
         return `<img class='avatar' src='${this.user.cover_url}' />`
-      },
+      }
     },
     methods: {
+      refresh () {
+        userServices.user(this.user.id).then((response) => {
+          this.userData = response.body.user
+        })
+      },
       checkLogin (val) {
         this.isLoggedIn = val
+      },
+      routeToPosts (brand) {
+        this.$f7.mainView.router.load({url: `/posts/?bid=${brand.id}&brand=${brand.name}`})
       }
     },
     created () {
       this.$bus.$on('isLoggedIn', this.checkLogin)
+      this.refresh()
+      this.$bus.$on('refreshUserData', this.refresh)
     },
     components: {
       Carousel,

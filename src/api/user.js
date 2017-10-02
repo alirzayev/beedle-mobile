@@ -7,6 +7,11 @@ export default {
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },
+  user (id) {
+    return Vue.http.get('api/users/' + id)
+      .then((response) => Promise.resolve(response))
+      .catch((error) => Promise.reject(error))
+  },
   register (data) {
     return Vue.http.post('api/register', data)
       .then((response) => Promise.resolve(response))

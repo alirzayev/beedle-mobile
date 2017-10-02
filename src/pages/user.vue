@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div @click="openChat" class="chat-icon">
-                    <f7-icon size="24" f7="chat_fill"></f7-icon>
+                    <f7-button color="black">{{$t('app.chat')}}</f7-button>
                 </div>
             </f7-list-item>
         </f7-list>
@@ -31,7 +31,7 @@
             </f7-col>
             <f7-col width="50" class="tool flex-rest-width">
                 <p class="title" v-text="$t('post.post')"></p>
-                <p v-if="user.topics"class="text" v-text="user.topics.length"></p>
+                <p v-if="user.topics" class="text" v-text="user.topics.length"></p>
                 <p v-else class="text"> 0 </p>
             </f7-col>
         </f7-grid>
@@ -43,49 +43,14 @@
                     :scrollPerPage="true"
                     :perPageCustom="[[480, 2], [768, 3]]"
                     :perPage="4"
-                    :paginationEnabled="true"
-            >
-                <slide v-for="brand in brands">
-                    <div class="avatar">
-                        <img :src="brand.cover_url"/>
-                    </div>
-                    <div class="text">
-                        <p class="text" v-text="brand.name"></p>
+                    :paginationEnabled="false"
+                    :autoplay="true"
+                    :autoplayTimeout="3000">
+                <slide v-for="interest in user.interests">
+                    <div @click="routeToPosts(interest.brand)" class="avatar">
+                        <img :src="interest.brand.cover_url"/>
                     </div>
                 </slide>
-                <slide v-for="brand in brands">
-                    <div class="avatar">
-                        <img :src="brand.cover_url"/>
-                    </div>
-                    <div class="text">
-                        <p class="text" v-text="brand.name"></p>
-                    </div>
-                </slide>
-                <slide v-for="brand in brands">
-                    <div class="avatar">
-                        <img :src="brand.cover_url"/>
-                    </div>
-                    <div class="text">
-                        <p class="text" v-text="brand.name"></p>
-                    </div>
-                </slide>
-                <slide v-for="brand in brands">
-                    <div class="avatar">
-                        <img :src="brand.cover_url"/>
-                    </div>
-                    <div class="text">
-                        <p class="text" v-text="brand.name"></p>
-                    </div>
-                </slide>
-                <slide v-for="brand in brands">
-                    <div class="avatar">
-                        <img :src="brand.cover_url"/>
-                    </div>
-                    <div class="text">
-                        <p class="text" v-text="brand.name"></p>
-                    </div>
-                </slide>
-
             </carousel>
         </f7-card-content>
 
@@ -94,7 +59,7 @@
 
 <script>
   import { Carousel, Slide } from 'vue-carousel'
-  import find from 'lodash/find'
+  import userServices from '../api/user'
 
   export default {
     data () {
@@ -103,9 +68,6 @@
       }
     },
     computed: {
-      users () {
-        return this.$store.state.users
-      },
       brands () {
         return this.$store.state.brands
       },
@@ -114,9 +76,11 @@
       }
     },
     created () {
-      let query = this.$route.query
-      this.user = find(this.users, user => user.id === parseInt(query.uid))
+      let id = parseInt(this.$route.query.uid)
       console.log('related user', this.user)
+      userServices.user(id).then((response) => {
+        this.user = response.body.user
+      })
     },
     components: {
       Carousel,
@@ -130,6 +94,9 @@
       },
       openChat () {
         this.$f7.mainView.router.load({url: `/message/?uid=${this.user.id}&nickname=${this.user.fullname}`})
+      },
+      routeToPosts (brand) {
+        this.$f7.mainView.router.load({url: `/posts/?bid=${brand.id}&brand=${brand.name}`})
       }
     }
   }
@@ -160,7 +127,6 @@
             }
             .chat-icon {
                 float: right;
-                color: @mainColor;
             }
             .user-text {
                 float: left;
