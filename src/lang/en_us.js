@@ -34,6 +34,7 @@ export default {
     logout: 'Logout',
     trend: 'Trend',
     brands:'Brands',
+    terms:'Terms & Condition',
     modal: {
       title: 'System',
       button_ok: 'OK'

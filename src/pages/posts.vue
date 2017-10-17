@@ -92,28 +92,3 @@
     }
   }
 </script>
-<style lang="less">
-    .notification {
-        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-
-        .item-content {
-            padding: 5px 10px;
-        }
-        .avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-        }
-        .detail {
-            .fullname {
-                font-size: 14px;
-                margin-top: 5px;
-            }
-            .subtext {
-                color: #858585;
-                font-size: 12px;
-                margin-top: 5px;
-            }
-        }
-    }
-</style>

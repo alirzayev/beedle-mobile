@@ -12,7 +12,7 @@
                 <div class="col-lg-1 col-centered detail">
                     <p>
                         <f7-icon f7="email_fill"></f7-icon>
-                        info@beedle.az
+                        info@beedleapp.com
                     </p>
                     <p>
                         <f7-icon f7="social_twitter_fill"></f7-icon>

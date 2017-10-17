@@ -2,42 +2,46 @@ import Vue from 'vue'
 
 export default {
 
-  topics() {
+  topics () {
     return Vue.http.get('api/topics')
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },
-  trends() {
+  trends () {
     return Vue.http.get('api/topics/trends')
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },
-  show(id) {
+  show (id) {
     return Vue.http.get('api/topics/' + id)
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },
-  create(data) {
+  create (data) {
     return Vue.http.post('api/topics', data)
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },
 
-  delete(id) {
+  delete (id) {
     return Vue.http.delete('api/admin/brands/' + id)
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },
 
-  like(id) {
+  like (id) {
     return Vue.http.post('api/topics/' + id + '/like')
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },
-  dislike(id) {
+  dislike (id) {
     return Vue.http.post('api/topics/' + id + '/remove-like')
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
+  },
+  report (data) {
+    return Vue.http.post('api/report/topics/', data)
+      .then((response) => Promise.resolve(response))
+      .catch((error) => Promise.reject(error))
   }
-
 }

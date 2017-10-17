@@ -21,5 +21,10 @@ export default {
     return Vue.http.post('api/users/' + id + '/update', data)
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
+  },
+  report (data) {
+    return Vue.http.post('api/report/users/', data)
+      .then((response) => Promise.resolve(response))
+      .catch((error) => Promise.reject(error))
   }
 }

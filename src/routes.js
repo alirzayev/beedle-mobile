@@ -4,6 +4,10 @@ export default [
     component: require('./pages/auth/register.vue')
   },
   {
+    path: '/terms/',
+    component: require('./pages/terms.vue')
+  },
+  {
     path: '/profile/',
     component: require('./pages/profile.vue')
   },

@@ -24,7 +24,6 @@
                 <f7-list-item>
                     <f7-input type="password" v-model="password" placeholder="Password"/>
                 </f7-list-item>
-
                 <f7-list-item smart-select smart-select-searchbar title="Chose model..">
                     <select v-model="brand_model" name="models">
                         <option value="Model" selected disabled>Choose Models</option>
@@ -35,6 +34,22 @@
                 </f7-list-item>
                 <f7-list-item>
                     <input type="file" id="cover" @change="onFileChange"/>
+                </f7-list-item>
+
+                <f7-list-item>
+                    <label class="label-checkbox item-content">
+                        <!-- Checked by default -->
+                        <input type="checkbox" v-model="termsAccepted">
+                        <div color="black" class="item-media">
+                            <i class="icon icon-form-checkbox"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title">Accept</div>
+                            <div class="item-after">
+                                <f7-link href="/terms/">Terms & Conditions</f7-link>
+                            </div>
+                        </div>
+                    </label>
                 </f7-list-item>
             </f7-list>
         </div>
@@ -50,6 +65,7 @@
         fullname: this.fullname,
         email: this.email,
         password: this.password,
+        termsAccepted: this.termsAccepted,
         formData: new FormData()
       }
     },
@@ -68,15 +84,19 @@
         this.formData.append('email', this.email)
         this.formData.append('password', this.password)
         this.formData.append('model_id', this.brand_model)
+        this.formData.append('termsAccepted', this.termsAccepted)
         this.$f7.showPreloader(this.$t('app.submitting'))
         userService.register(this.formData)
           .then((response) => {
             if (response.body.error) {
+              this.$f7.hidePreloader()
               this.$f7.alert(response.body.message, 'Error Occurred!')
+              return
             }
             console.log('new user created', response.body)
             this.$f7.hidePreloader()
             this.$bus.$emit('refreshPosts')
+            this.$f7.loginScreen()
           })
       },
       onFileChange (ele) {

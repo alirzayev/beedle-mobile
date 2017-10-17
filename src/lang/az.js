@@ -33,6 +33,7 @@ export default {
     logout: 'Çıx',
     trend: 'Trend',
     brands:'Brendlər',
+    terms:'Qaydalar',
     modal: {
       title: 'System',
       button_ok: 'OK'
