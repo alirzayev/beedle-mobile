@@ -31,16 +31,22 @@ const actions = {
         commit(AUTHENTICATE_SUCCESS)
       })
   },
-  getAuthUser({commit}){
+  getAuthUser ({commit, dispatch}) {
     return authService.user()
       .then((response) => {
-        localStorage.removeItem('user')
-        localStorage.setItem('user', JSON.stringify(response.body))
-        console.log('auth user', response)
-        commit(AUTH_USER, {user: response.body})
+        if (response.body.error) {
+          console.log('login message', response.body.message)
+          dispatch('destroyToken')
+          window.f7.alert(response.body.message)
+        } else {
+          localStorage.removeItem('user')
+          localStorage.setItem('user', JSON.stringify(response.body))
+          console.log('auth user', response)
+          commit(AUTH_USER, {user: response.body})
+        }
       })
   },
-  destroyToken({commit}){
+  destroyToken ({commit}) {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
     commit(AUTHENTICATE_FAILURE)

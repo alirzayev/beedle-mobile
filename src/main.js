@@ -48,7 +48,7 @@ Vue.http.interceptors.push((request, next) => {
   next(function (response) {
     // modify response
     if (response.body.error === true) {
-      console.log('main.js -> error occured', response.body.message)
+      window.f7.alert(response.body.message)
     }
   })
 })

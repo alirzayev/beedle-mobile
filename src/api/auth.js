@@ -7,7 +7,7 @@ export default {
       .catch((error) => Promise.reject(error))
   },
 
-  user() {
+  user () {
     return Vue.http.get('api/user')
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
