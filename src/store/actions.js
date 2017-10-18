@@ -126,7 +126,7 @@ export function getMessages ({commit}, user_id) {
   messageServices.messages(user_id)
     .then((response) => {
       let messages = response.body.messages
-      console.log('chat messages', messages)
+      console.log('chat messages', response.body)
       commit(types.INIT_MESSAGES, {
         messages
       })

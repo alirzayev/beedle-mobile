@@ -47,7 +47,7 @@ Vue.http.interceptors.push((request, next) => {
   request.headers.set('Accept', 'application/json')
   next(function (response) {
     // modify response
-    if (response.body.error === true) {
+    if (response.body.error) {
       window.f7.alert(response.body.message)
     }
   })
