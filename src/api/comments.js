@@ -33,6 +33,11 @@ export default {
     return Vue.http.post('api/topics/' + id +'/remove-like')
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
+  },
+  report (data) {
+    return Vue.http.post('api/report/comments/', data)
+      .then((response) => Promise.resolve(response))
+      .catch((error) => Promise.reject(error))
   }
 
 }

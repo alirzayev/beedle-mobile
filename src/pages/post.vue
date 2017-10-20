@@ -28,13 +28,18 @@
                 <span>{{$t('tweet.comment')}}</span>
             </div>
             <div class="list">
-                <div v-if="post.comments">
+                <div v-if="comments.length">
                     <div class="comment flex-row" v-for="(comment, index) in getComments" :key="comment.name">
                         <img class="avatar" :src="comment.owner.cover_url"/>
                         <div class="detail flex-rest-width">
                             <div class="name"><span>{{comment.owner.fullname}}</span></div>
                             <div class="time"><span>{{formatTime(comment.created_at)}}</span></div>
-                            <div class="text"><span>{{comment.content}}</span></div>
+                            <div class="text">
+                                <span>{{comment.content}}</span>
+                                <span class="flag" @click="reportComment(comment.id)">
+                                    <f7-icon size="20px" f7="flag"></f7-icon>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -48,7 +53,7 @@
         </div>
         <f7-toolbar v-if="post && user" class="custom-toolbar flex-row">
             <f7-link class="tool tool-border flex-rest-width" :class="{liked: checkMyLike(post,user)}"
-                     @click="toggleLike(post.id, post.liked)">
+                     @click="toggleLike(post.id, post)">
                 <span class="fonticon f7-icons">bolt</span>
                 <span class="text" v-text="post.likes_count ? post.likes_count : $t('tweet.like')"></span>
             </f7-link>
@@ -132,10 +137,8 @@
                         </div>
                     </div>
                 </f7-list-item>
-
             </f7-list>
         </f7-popup>
-
     </f7-page>
 </template>
 
@@ -146,14 +149,14 @@
   import notificationServices from '../api/notifications'
   import topicServices from '../api/topic'
   import userServices from '../api/user'
-  import { getRemoteAvatar } from '../utils/appFunc'
   import { mapState } from 'vuex'
   import find from 'lodash/find'
+  import commentServices from '../api/comments'
 
   export default {
     data () {
       return {
-        post: {},
+        post: null,
         comments: []
       }
     },
@@ -169,48 +172,57 @@
       }
     },
     mounted () {
-      let query = this.$route.query
-      this.$store.dispatch('getComments')
-      this.post = find(this.timeline, p => p.id === parseInt(query.mid))
-      this.comments = this.post.comments
-
-      if (this.user === this.post.user) {
-        notificationServices.update(query.mid)
-          .then((response) => {
-            console.log('notification is updated', response.body)
-          })
-      }
+      this.refresh()
     },
     methods: {
       formatTime (time) {
         return moment(Date.parse(time)).fromNow()
       },
-      getAvatar (id) {
-        return getRemoteAvatar(id)
+      getCover (url) {
+        return `<img class='avatar' src='${url}' />`
       },
       openCommentPopup () {
         this.$f7.popup('#commentPopup')
       },
-      toggleLike (mid, status) {
-        this.$store.dispatch('updateTimeline', {
-          mid,
-          type: status ? 'unlike' : 'like'
-        })
-      },
-      checkMyLike (data, user) {
-        if (data.likes) {
-          data.likes.forEach(function (like) {
-            if (like.user_id === user.id) {
-              console.log('like', like)
-              data.liked = true
-              return data.liked
-            }
-          })
+      toggleLike (mid, post) {
+        if (!post.liked) {
+          return topicServices.like(mid)
+            .then((response) => {
+              console.log('I like it', response)
+              this.refresh()
+            })
+        } else {
+          return topicServices.dislike(mid)
+            .then((response) => {
+              console.log('I dislike it', response)
+              this.refresh()
+            })
         }
-        return data.liked
+      },
+      checkMyLike (post, user) {
+        post.likes.filter(function (like) {
+          if (like.user_id === parseInt(user.id)) {
+            post.liked = true
+            return like
+          }
+        })
+        return post.liked
       },
       refresh () {
-        this.$bus.$emit('refreshPosts')
+        this.$store.dispatch('getTimeline').then(() => {
+          this.$bus.$emit('refreshPosts')
+          let query = this.$route.query
+          this.$store.dispatch('getComments')
+          this.post = find(this.$store.state.timeline, p => p.id === parseInt(query.mid))
+          this.comments = this.post.comments
+
+          if (this.user === this.post.user) {
+            notificationServices.update(query.mid)
+              .then((response) => {
+                console.log('notification is updated', response.body)
+              })
+          }
+        })
       },
       reportTopic () {
         this.$f7.showIndicator()
@@ -227,7 +239,16 @@
           this.$f7.hideIndicator()
           this.$f7.alert('User is reported successfully!', 'Report')
         })
-      }
+      },
+      reportComment (id) {
+        this.$f7.confirm('Are you sure to report this comment?', 'Message', function () {
+          window.f7.showIndicator()
+          commentServices.report({comment_id: id, reason: 'Inappropriate comment'}).then(() => {
+            window.f7.hideIndicator()
+            window.f7.alert('Topic is reported successfully!', 'Report')
+          })
+        })
+      },
     },
     components: {
       Card
@@ -306,6 +327,10 @@
                     }
                     .text {
                         line-height: 20px;
+                        color: #5d5d5d;
+                    }
+                    .flag {
+                        float: right;
                         color: #5d5d5d;
                     }
                 }

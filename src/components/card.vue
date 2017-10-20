@@ -104,20 +104,20 @@
       },
       isMyLike (data, user) {
         data.likes.filter(function (like) {
-          if (like.user_id === user.id.toString()) {
+          if (like.user_id === user.id) {
             data.liked = true
             return like
           }
         })
         return data.liked
       },
-      isMyPost (user) {
+      /*isMyPost (user) {
         if (this.user.id === user.id) {
           return true
         } else {
           return false
         }
-      }
+      }*/
     }
   }
 </script>
