@@ -175,8 +175,8 @@
       this.refresh()
     },
     methods: {
-      formatTime (time) {
-        return moment(Date.parse(time)).fromNow()
+      formatTime (date) {
+        return moment.parseZone(date).fromNow()
       },
       getCover (url) {
         return `<img class='avatar' src='${url}' />`

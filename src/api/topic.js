@@ -40,7 +40,7 @@ export default {
       .catch((error) => Promise.reject(error))
   },
   report (data) {
-    return Vue.http.post('api/report/topics/', data)
+    return Vue.http.post('api/report/topics', data)
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   }

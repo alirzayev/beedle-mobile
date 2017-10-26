@@ -28,7 +28,7 @@
     "dependencies": {
         "axios": "^0.15.3",
         "body-parser": "^1.18.2",
-        "cordova-ios": "^4.5.2",
+        "cordova-ios": "^4.4.0",
         "cordova-plugin-splashscreen": "^4.0.3",
         "cordova-plugin-whitelist": "1",
         "es6-object-assign": "^1.1.0",

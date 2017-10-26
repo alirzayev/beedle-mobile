@@ -6,7 +6,7 @@
             </div>
             <div class="user flex-column">
                 <div class="name">{{data.user.fullname}}</div>
-                <div class="time">{{`#${data.id} `}}{{formatTime(data.created_at)}}</div>
+                <div class="time">{{formatTime(data.created_at)}}</div>
             </div>
         </div>
         <div class="card-content">
@@ -81,8 +81,8 @@
       openCommentPopup () {
         this.$f7.popup('#commentPopup')
       },
-      formatTime (time) {
-        return moment(Date.parse(time)).fromNow()
+      formatTime (date) {
+        return moment.parseZone(date).fromNow()
       },
       getAvatar (id) {
         return getRemoteAvatar(id)

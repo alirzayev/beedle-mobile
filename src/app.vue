@@ -27,22 +27,22 @@
                     </f7-nav-right>
                 </f7-navbar>
                 <f7-pages>
-                    <f7-page toolbar-fixed navbar-fixed>
+                    <f7-page>
                         <f7-toolbar tabbar>
                             <f7-link tab-link="#home" active>
-                                <f7-icon f7="home"></f7-icon>
+                                <f7-icon f7="home_fill"></f7-icon>
                             </f7-link>
                             <f7-link tab-link="#explore">
-                                <f7-icon f7="world"></f7-icon>
+                                <f7-icon f7="world_fill"></f7-icon>
                             </f7-link>
                             <f7-link tab-link="#search">
-                                <f7-icon f7="search"></f7-icon>
+                                <f7-icon f7="search_strong"></f7-icon>
                             </f7-link>
                             <f7-link open-popup="#notificationPopup">
-                                <f7-icon f7="bolt"></f7-icon>
+                                <f7-icon f7="bolt_fill"></f7-icon>
                             </f7-link>
                             <f7-link tab-link="#profile">
-                                <f7-icon f7="person"></f7-icon>
+                                <f7-icon f7="person_fill"></f7-icon>
                             </f7-link>
                         </f7-toolbar>
                         <f7-tabs>
@@ -134,3 +134,8 @@
     }
   }
 </script>
+<style lang="less">
+    .tab_menu {
+        margin: 0px;
+    }
+</style>
