@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <f7-page v-else>
-                        <f7-list v-if="notifications.length" v-for="notification in notifications" class="notification">
+                        <f7-list v-if="notifications.length" v-for="notification in notifications" :key="notification.id" class="notification">
                             <f7-list-item :media="avatarMedia(notification.owner.cover_url)"
                                           :link="'/post/?mid='+notification.topic.id">
                                 <div class="detail">

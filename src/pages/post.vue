@@ -201,7 +201,7 @@
       },
       checkMyLike (post, user) {
         post.likes.filter(function (like) {
-          if (like.user_id === parseInt(user.id)) {
+          if (like.user_id === user.id.toString()) {
             post.liked = true
             return like
           }

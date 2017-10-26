@@ -5,7 +5,7 @@
             <f7-card-header>{{$t('app.brands').toUpperCase()}}</f7-card-header>
             <f7-card-content>
                 <f7-grid no-gutter>
-                    <f7-col v-for="brand in brands" width="33">
+                    <f7-col v-for="brand in brands" :key="brand.id" width="33">
                         <div @click="routeToPosts(brand)">
                             <div class="avatar">
                                 <img :src="brand.cover_url"/>
@@ -27,7 +27,7 @@
                         :perPage="3"
                         :paginationEnabled="false"
                         :autoplayTimeout="5000">
-                    <slide class="review" v-for="comment in comments">
+                    <slide class="review" v-for="comment in comments" :key="comment.id">
                         <img @click="routeToPost(comment.topic.id)" :src="comment.topic.model.cover_url"/>
                     </slide>
                 </carousel>
@@ -39,7 +39,7 @@
             <f7-card-header>{{$t('explorer.people').toUpperCase()}}</f7-card-header>
             <f7-card-content>
                 <f7-grid no-gutter>
-                    <f7-col v-for="user in users" width="20">
+                    <f7-col v-for="user in users" width="20" :key="user.id">
                         <div class="avatar">
                             <div class="test">
                                 <img :src="user.cover_url" @click="routeToUser(user.id)"/>

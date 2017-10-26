@@ -104,7 +104,7 @@
       },
       isMyLike (data, user) {
         data.likes.filter(function (like) {
-          if (like.user_id === user.id) {
+          if (like.user_id === user.id.toString()) {
             data.liked = true
             return like
           }

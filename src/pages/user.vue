@@ -46,7 +46,7 @@
                     :paginationEnabled="false"
                     :autoplay="true"
                     :autoplayTimeout="3000">
-                <slide v-for="interest in user.interests">
+                <slide v-for="interest in user.interests" :key="interest.id">
                     <div @click="routeToPosts(interest.brand)" class="avatar">
                         <img :src="interest.brand.cover_url"/>
                     </div>

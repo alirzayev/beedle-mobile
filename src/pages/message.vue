@@ -45,8 +45,8 @@
                        @submit="onSubmit">
         </f7-messagebar>
         <f7-block v-if="block.isBlocked" class="block">
-            <div v-if="block.data.block_by === user.id">
-                <span><h2>This user is blocked </h2></span>
+            <div v-if="block.data.block_by == user.id">
+                <span><h2>You blocked this user</h2></span>
                 <f7-button @click="unBlockUser(block.data.id)" class="button-big">Unblock</f7-button>
             </div>
             <f7-block v-else>
@@ -144,7 +144,7 @@
       refresh () {
         let query = this.$route.query
         this.$store.dispatch('getMessages', query.uid).then((response) => {
-          console.log('blocked message', response.body.message)
+          console.log('blocked message', response)
         })
         messageServices.checkBlock(query.uid).then((response) => {
           this.block = response.body.block
