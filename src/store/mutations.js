@@ -18,6 +18,9 @@ export default {
   [types.INIT_BRANDS] (state, {brands}) {
     Vue.set(state, 'brands', brands)
   },
+  [types.INIT_MODELS] (state, {models}) {
+    Vue.set(state, 'models', models)
+  },
   [types.INIT_COMMENTS] (state, {comments}) {
     Vue.set(state, 'comments', comments)
   },

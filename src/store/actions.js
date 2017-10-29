@@ -30,6 +30,17 @@ export function getBrands ({commit}) {
     })
 }
 
+export function getModels ({commit}, id) {
+  modelServices.models(id)
+    .then((response) => {
+      let models = response.body.models
+      console.log('brand models', response.body)
+      commit(types.INIT_MODELS, {
+        models
+      })
+    })
+}
+
 export function getComments ({commit}) {
   commentServices.comments()
     .then((response) => {

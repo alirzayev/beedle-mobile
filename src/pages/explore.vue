@@ -6,13 +6,16 @@
             <f7-card-content>
                 <f7-grid no-gutter>
                     <f7-col v-for="brand in brands" :key="brand.id" width="33">
-                        <div @click="routeToPosts(brand)">
+                        <div @click="routeToModels(brand)">
                             <div class="avatar">
                                 <img :src="brand.cover_url"/>
                             </div>
                         </div>
                     </f7-col>
                 </f7-grid>
+                <f7-block class="more_btn">
+                    <f7-button href="/brands/" color="gray" round>All</f7-button>
+                </f7-block>
             </f7-card-content>
             <f7-block>
                 <hr size="1px" color="#c4c4c4"/>
@@ -26,7 +29,7 @@
                         :autoplay="true"
                         :perPage="3"
                         :paginationEnabled="false"
-                        :autoplayTimeout="5000">
+                        :autoplayTimeout="2000">
                     <slide class="review" v-for="comment in comments" :key="comment.id">
                         <img @click="routeToPost(comment.topic.id)" :src="comment.topic.model.cover_url"/>
                     </slide>
@@ -80,8 +83,6 @@
       this.$store.dispatch('getUsers')
       this.$store.dispatch('getComments')
     },
-    mounted () {
-    },
     methods: {
       getComments () {
         return this.comments
@@ -92,8 +93,8 @@
       routeToUser (id) {
         this.$f7.mainView.router.load({url: `/user/?uid=${id}`})
       },
-      routeToPosts (brand) {
-        this.$f7.mainView.router.load({url: `/posts/?bid=${brand.id}&brand=${brand.name}`})
+      routeToModels (brand) {
+        this.$f7.mainView.router.load({url: `/models/?bid=${brand.id}&brand=${brand.name}`})
       }
     },
   }
@@ -109,7 +110,7 @@
     }
 
     .explore-view {
-        margin: 0px 0px 20px;
+        margin: 0 0 20px;
         font-family: 'open sans', arial, sans-serif;
         .card-header {
             font-size: 15px;
@@ -134,7 +135,7 @@
             }
         }
         .card-content {
-            padding: 5px 10px;
+            padding: 20px 10px 20px;
             color: gray;
             text-align: center;
             .avatar > img {
@@ -165,6 +166,13 @@
                 text-align: center;
                 width: 100%;
                 display: block;
+            }
+            .more_btn {
+                padding-top: 20px;
+                padding-bottom: 10px;
+                padding-right: 10px;
+                float: right;
+                width: 80px;
             }
         }
     }

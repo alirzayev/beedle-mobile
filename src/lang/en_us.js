@@ -14,7 +14,7 @@ export default {
     email: 'Email',
     profile: 'Profile',
     language: 'Language',
-    feedback: 'Feedback',
+    feedback: 'Add Comment',
     about: 'About',
     avatar: 'Avatar',
     name: 'Name',
@@ -22,7 +22,7 @@ export default {
     location: 'Location',
     male: 'Male',
     female: 'Female',
-    send: 'Send',
+    send: 'Post',
     cancel: 'Cancel',
     chat: 'Chat',
     close: 'Close',
@@ -34,6 +34,7 @@ export default {
     logout: 'Logout',
     trend: 'Trend',
     brands:'Brands',
+    models: 'Models',
     terms:'Terms & Condition',
     modal: {
       title: 'System',
@@ -45,8 +46,8 @@ export default {
     like: 'Like'
   },
   feedback: {
-    placeholder: 'Hi, any suggestion to tell us?',
-    result: 'Thank you for your feedback'
+    placeholder: 'Type your comment content here..',
+    result: 'Thank you for your comment'
   },
   message: {
     me:'Me',
@@ -57,8 +58,8 @@ export default {
     result: 'Thank you for your comment'
   },
   publisher: {
-    publisher: 'Publisher',
-    placeholder: 'what\'s new with you.',
+    publisher: 'Add Post',
+    placeholder: 'type your topic content...',
   },
   notification: {
     notification: 'Notifications',

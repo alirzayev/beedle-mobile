@@ -35,7 +35,7 @@ export default {
       .catch((error) => Promise.reject(error))
   },
   report (data) {
-    return Vue.http.post('api/report/comments/', data)
+    return Vue.http.post('api/report/comments', data)
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   }

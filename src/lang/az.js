@@ -32,8 +32,9 @@ export default {
     login_needed: 'Login olmaq vacibdir!',
     logout: 'Çıx',
     trend: 'Trend',
-    brands:'Brendlər',
-    terms:'Qaydalar',
+    brands: 'Brendlər',
+    models: 'Models',
+    terms: 'Qaydalar',
     modal: {
       title: 'System',
       button_ok: 'OK'
@@ -48,7 +49,7 @@ export default {
     result: 'Thank you for your feedback'
   },
   message: {
-    me:'Mən',
+    me: 'Mən',
     placeholder: 'mesaj yazın...'
   },
   comment: {

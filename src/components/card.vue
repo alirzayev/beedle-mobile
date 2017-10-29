@@ -1,7 +1,7 @@
 <template>
     <div class="card" @click="contentClick(data)">
         <div v-if="data.user" class="card-header">
-            <div class="avatar">
+            <div class="avatar" @click="routeToUser(data.user.id)">
                 <img :src="data.user.cover_url" alt="avatar">
             </div>
             <div class="user flex-column">
@@ -110,6 +110,9 @@
           }
         })
         return data.liked
+      },
+      routeToUser (id) {
+        this.$f7.mainView.router.load({url: `/user/?uid=${id}`})
       },
       /*isMyPost (user) {
         if (this.user.id === user.id) {

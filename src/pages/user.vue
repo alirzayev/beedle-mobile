@@ -10,18 +10,21 @@
             <f7-nav-center :title="$t('app.profile')"></f7-nav-center>
         </f7-navbar>
 
-        <f7-list class="user-profile">
+        <f7-list media-list class="user-profile">
             <f7-list-item :media="avatarMedia">
-                <div class="user-text">
-                    <div class="name">{{user.fullname}}</div>
-                    <div class="fullname">
-                        <span>{{user.email}}</span>
+                <div class="item-inner">
+                    <div class="item-title-row">
+                        <div class="item-title">{{user.fullname}}</div>
+                        <div class="item-after">
+                            <div @click="openChat">
+                                <f7-button color="black">{{$t('app.chat')}}</f7-button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div @click="openChat" class="chat-icon">
-                    <f7-button color="black">{{$t('app.chat')}}</f7-button>
+                    <div class="subtitle">{{user.email}}</div>
                 </div>
             </f7-list-item>
+
         </f7-list>
         <f7-grid class="custom-toolbar flex-row">
             <f7-col width="50" class="tool tool-border flex-rest-width">
@@ -99,39 +102,22 @@
 
 <style lang="less">
     @import "../assets/styles/mixins.less";
-
-    @font-face {
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: 400;
-        src: local('Open Sans'), local('OpenSans'), url('http://themes.googleusercontent.com/static/fonts/opensans/v5/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff') format('woff');
-    }
-
     .profile-page {
         background-color: white;
         font-family: 'open sans', arial, sans-serif;
-        font-size: 14px;
         .user-profile {
-            .item-content {
-                padding: 5px 10px;
-            }
+            font-size: 16px;
             .avatar {
                 width: 65px;
                 height: 65px;
                 border-radius: 50%;
             }
-            .chat-icon {
-                float: right;
+            .subtitle {
+                color: #858585;
+                font-size: 14px;
+                margin-top: 5px;
             }
-            .user-text {
-                float: left;
-                .fullname {
-                    color: #858585;
-                    font-size: 15px;
-                    margin-top: 5px;
-                }
 
-            }
         }
         .card-header {
             background-color: @mainColor;

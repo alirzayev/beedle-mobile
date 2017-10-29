@@ -7,9 +7,10 @@
                     <span>{{$t('app.back')}}</span>
                 </a>
             </f7-nav-left>
-            <f7-nav-center :title="this.$route.query.brand"></f7-nav-center>
+            <f7-nav-center
+                    :title="this.$route.query.brand?this.$route.query.brand:this.$route.query.model"></f7-nav-center>
             <f7-nav-right>
-                <f7-link v-show="isLoggedIn" @click="makeFavourite($route.query.bid)"
+                <f7-link v-show="isLoggedIn && $route.query.bid" @click="makeFavourite($route.query.bid)"
                          :icon-f7="fav ? 'favorites_fill' : 'favorites'"></f7-link>
             </f7-nav-right>
         </f7-navbar>
@@ -53,10 +54,17 @@
       let query = this.$route.query
       this.$nextTick(function () {
         this.$f7.showIndicator()
-        this.$store.dispatch('getBrandTopics', query.bid).then(() => {
-          this.timeline = this.$store.state.timeline
-          this.$f7.hideIndicator()
-        })
+        if (query.mid) {
+          this.$store.dispatch('getTimeline', query.mid).then(() => {
+            this.timeline = this.$store.state.timeline
+            this.$f7.hideIndicator()
+          })
+        } else {
+          this.$store.dispatch('getBrandTopics', query.bid).then(() => {
+            this.timeline = this.$store.state.timeline
+            this.$f7.hideIndicator()
+          })
+        }
       })
     },
     components: {

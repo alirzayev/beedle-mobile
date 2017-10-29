@@ -14,6 +14,7 @@ const state = {
   lang: cache.get('lang') || 'en',
   contacts: [],
   brands: [],
+  models: [],
   users: [],
   timeline: [],
   filteredData: [],

@@ -11,10 +11,10 @@
         </f7-navbar>
 
         <div v-if="isLoggedIn">
-            <f7-list>
-                <f7-list-item :title="$t('app.language')" link="/language/"
+            <!--<f7-list>
+                <f7-list-item  :title="$t('app.language')" link="/language/"
                               media="<i class='iconfont icon-language'></i>"></f7-list-item>
-            </f7-list>
+            </f7-list>-->
             <f7-list>
                 <f7-list-item :title="$t('app.profile')" link="/update/"
                               media="<i class='iconfont icon-ios7person'></i>"></f7-list-item>

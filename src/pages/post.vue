@@ -30,7 +30,7 @@
             <div class="list">
                 <div v-if="comments.length">
                     <div class="comment flex-row" v-for="(comment, index) in getComments" :key="comment.name">
-                        <img class="avatar" :src="comment.owner.cover_url"/>
+                        <img @click="routeToUser(comment.owner.id)" class="avatar" :src="comment.owner.cover_url"/>
                         <div class="detail flex-rest-width">
                             <div class="name"><span>{{comment.owner.fullname}}</span></div>
                             <div class="time"><span>{{formatTime(comment.created_at)}}</span></div>
@@ -249,6 +249,10 @@
           })
         })
       },
+      routeToUser (id) {
+        this.$f7.mainView.router.load({url: `/user/?uid=${id}`})
+      },
+
     },
     components: {
       Card
