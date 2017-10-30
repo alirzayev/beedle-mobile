@@ -42,6 +42,7 @@
             <f7-card-header>{{$t('explorer.people').toUpperCase()}}</f7-card-header>
             <f7-card-content>
                 <carousel
+                        :scrollPerPage="false"
                         :perPageCustom="[[768, 3], [1024, 4]]"
                         :autoplay="true"
                         :perPage="4"
@@ -72,7 +73,13 @@
         return this.$store.state.comments
       },
       users () {
-        return this.$store.state.users
+        if (this.$store.getters.isLoggedIn) {
+          return this.$store.state.users.filter(user => {
+            return user.id !== this.$store.getters.user.id
+          })
+        } else {
+          return this.$store.state.users
+        }
       }
     },
     components: {
