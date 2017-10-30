@@ -7,17 +7,17 @@
                 <f7-grid no-gutter>
                     <f7-col v-for="brand in brands" :key="brand.id" width="33">
                         <div @click="routeToModels(brand)">
-                            <div class="avatar">
+                            <div class="cover">
                                 <img :src="brand.cover_url"/>
                             </div>
                         </div>
                     </f7-col>
                 </f7-grid>
-                <f7-block class="more_btn">
-                    <f7-button href="/brands/" color="gray" round>All</f7-button>
-                </f7-block>
             </f7-card-content>
-            <f7-block>
+            <f7-block class="more_btn">
+                <f7-button href="/brands/" color="gray" round>All</f7-button>
+            </f7-block>
+            <f7-block style="margin-top: 35px">
                 <hr size="1px" color="#c4c4c4"/>
             </f7-block>
             <!-- Review Content-->
@@ -41,19 +41,19 @@
             <!-- Users Content-->
             <f7-card-header>{{$t('explorer.people').toUpperCase()}}</f7-card-header>
             <f7-card-content>
-                <f7-grid no-gutter>
-                    <f7-col v-for="user in users" width="20" :key="user.id">
+                <carousel
+                        :perPageCustom="[[768, 3], [1024, 4]]"
+                        :autoplay="true"
+                        :perPage="4"
+                        :paginationEnabled="false"
+                        :autoplayTimeout="2000">
+                    <slide v-for="user in users" :key="user.id">
                         <div class="avatar">
-                            <div class="test">
-                                <img :src="user.cover_url" @click="routeToUser(user.id)"/>
-                            </div>
+                            <img :src="user.cover_url" @click="routeToUser(user.id)"/>
                         </div>
-                    </f7-col>
-                </f7-grid>
+                    </slide>
+                </carousel>
             </f7-card-content>
-            <f7-block>
-                <hr size="1px" color="#c4c4c4"/>
-            </f7-block>
         </div>
     </f7-card>
 </template>
@@ -112,9 +112,14 @@
     .explore-view {
         margin: 0 0 20px;
         font-family: 'open sans', arial, sans-serif;
+
+        .more_btn {
+            float: right;
+            width: 80px;
+        }
         .card-header {
             font-size: 15px;
-            margin-top: 40px;
+            margin-top: 15px;
             background-color: @mainColor;
             color: #eeeeee;
             &:after {
@@ -135,19 +140,19 @@
             }
         }
         .card-content {
-            padding: 20px 10px 20px;
+            padding: 0 10px 0 10px;
             color: gray;
             text-align: center;
-            .avatar > img {
+            .cover > img {
                 width: 50px;
                 height: 50px;
                 padding: 10px;
                 border-radius: 50%;
                 border: solid #eeeeee;
             }
-            .avatar .test > img {
-                width: 50px;
-                height: 50px;
+            .avatar > img {
+                width: 60px;
+                height: 60px;
                 border-radius: 50%;
                 border: solid #eeeeee;
             }
@@ -166,13 +171,6 @@
                 text-align: center;
                 width: 100%;
                 display: block;
-            }
-            .more_btn {
-                padding-top: 20px;
-                padding-bottom: 10px;
-                padding-right: 10px;
-                float: right;
-                width: 80px;
             }
         }
     }
