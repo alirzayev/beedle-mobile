@@ -2,12 +2,11 @@
 @import "./navbar.less";
 @import "./toolbar.less";
 
-
-.statusbar-overlay{
-    background: @mainColor;
+.statusbar-overlay {
+  background: @mainColor;
 }
 
-.flex-column{
+.flex-column {
   display: flex !important;
   flex-direction: column;
 
@@ -17,7 +16,7 @@
   }
 }
 
-.flex-row{
+.flex-row {
   display: flex !important;
   flex-direction: row;
 
@@ -28,24 +27,24 @@
 }
 
 .tabbar-fixed .page-content, .tabbar-through .page-content, .toolbar-fixed .page-content, .toolbar-through .page-content {
-    padding-bottom: 50px;
+  padding-bottom: 50px;
 }
 
-.searchbar-cancel{
+.searchbar-cancel {
   color: @mainColor;
 }
 
-.messagebar{
+.messagebar {
   .link {
     color: @mainColor;
   }
 }
 
-.empty-content{
+.empty-content {
   width: 100%;
   padding: 20px 0;
   text-align: center;
-  .iconfont{
+  .iconfont {
     font-size: 80px;
     color: #929292;
   }
@@ -54,4 +53,16 @@
     color: #929292;
     margin-top: 6px;
   }
+}
+
+.file-select > .select-button {
+  padding: .6rem;
+  color: white;
+  background-color: @mainColor;
+  border-radius: .3rem;
+  text-align: center;
+}
+
+.file-select > input[type="file"] {
+  display: none;
 }

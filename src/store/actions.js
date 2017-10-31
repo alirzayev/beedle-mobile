@@ -8,10 +8,10 @@ import notificationServices from '../api/notifications'
 import messageServices from '../api/message'
 import * as types from './mutation-types'
 
-export function getUsers ({commit}) {
-  userServices.users()
+export function getUsers ({commit}, data) {
+  userServices.users(data)
     .then((response) => {
-      let users = response.body.users
+      let users = response.body.users.data
       console.log('users', users)
       commit(types.INIT_USERS, {
         users

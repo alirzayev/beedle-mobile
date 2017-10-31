@@ -2,8 +2,8 @@ import Vue from 'vue'
 
 export default {
 
-  users () {
-    return Vue.http.get('api/users')
+  users (data) {
+    return Vue.http.get('api/users', {params: data})
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },

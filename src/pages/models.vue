@@ -14,7 +14,7 @@
         <f7-searchbar
                 cancel-link="Cancel"
                 search-list="#search-list"
-                placeholder="Search brand.."
+                placeholder="Search model.."
                 :clear-button="true"
                 @searchbar:search="onSearch"
                 @searchbar:enable="onEnable"

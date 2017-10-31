@@ -1,13 +1,13 @@
 <template>
   <div class="editor-container">
       <textarea type="textarea" :placeholder="placeholder" value="text" v-model="editText"></textarea>
-      <ul class="tools flex-row">
+     <!-- <ul class="tools flex-row">
           <li class="tool" v-show="enableTool('camera')"><i class="iconfont icon-ios7cameraoutline"></i></li>
           <li class="tool" v-show="enableTool('album')"><i class="iconfont icon-pic"></i></li>
           <li class="tool" v-show="enableTool('emotion')"><i class="iconfont icon-emotion"></i></li>
           <li class="tool" v-show="enableTool('at')"><i class="iconfont icon-iosatoutline"></i></li>          
           <li class="tool" v-show="enableTool('location')"><i class="iconfont icon-location"></i></li>                    
-      </ul>
+      </ul>-->
   </div>
 </template>
 

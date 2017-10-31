@@ -1,30 +1,53 @@
 <template>
-    <f7-page class="language-page">
-        <f7-navbar :title="$t('app.profile')" :back-link="$t('app.back')" sliding>
+    <f7-page class="update-page">
+        <f7-navbar>
+            <f7-nav-left>
+                <a href="#" class="back link">
+                    <f7-icon f7="left"></f7-icon>
+                    <span>{{$t('app.back')}}</span>
+                </a>
+            </f7-nav-left>
+            <f7-nav-center :title="$t('app.profile')"></f7-nav-center>
             <f7-nav-right>
                 <f7-link :text="$t('app.save')" @click="update"></f7-link>
             </f7-nav-right>
         </f7-navbar>
-        <f7-list form>
-            <!-- Text Input -->
+        <f7-block-title>Change Fullname</f7-block-title>
+        <f7-list>
             <f7-list-item>
-                <f7-label>Name</f7-label>
-                <f7-input type="text" v-model="fullname" :placeholder="user.fullname"/>
+                <f7-input type="text" v-model="fullname" placeholder="Enter fullname here.."/>
             </f7-list-item>
-            <!-- Password -->
-            <f7-list-item>
-                <f7-label>Password</f7-label>
-                <f7-input type="password" v-model="password" placeholder="Password"/>
-            </f7-list-item>
+        </f7-list>
+
+        <!-- Change car -->
+        <f7-block-title>Change Your Car</f7-block-title>
+        <f7-list>
             <f7-list-item smart-select smart-select-searchbar title="Select Car">
-                <select v-model="brand_model" name="models">
+                <select v-model="model_id" name="models">
                     <optgroup v-for="brand in brands" :label="brand.name">
                         <option v-for="model in brand.models" :value="model.id" selected>{{model.name}}</option>
                     </optgroup>
                 </select>
             </f7-list-item>
+        </f7-list>
+        <!-- Change profile picture -->
+        <f7-block-title>Change Profile Picture</f7-block-title>
+        <f7-list form>
             <f7-list-item>
-                <input type="file" id="cover" @change="onFileChange"/>
+                <label class="file-select">
+                    <div class="select-button">
+                        <span v-if="value">Image: {{value.name}}</span>
+                        <span v-else>Change Picture</span>
+                    </div>
+                    <input type="file" id="cover" @change="onFileChange"/>
+                </label>
+            </f7-list-item>
+        </f7-list>
+        <!-- Change Password -->
+        <f7-block-title>Change Password</f7-block-title>
+        <f7-list>
+            <f7-list-item>
+                <f7-input type="password" v-model="password" placeholder="Enter new password here.."/>
             </f7-list-item>
         </f7-list>
     </f7-page>
@@ -35,10 +58,11 @@
   export default {
     data () {
       return {
-        brand_model: this.brand_model,
+        model_id: this.model_id,
         fullname: this.fullname,
         password: this.password,
-        formData: {},
+        formData: new FormData(),
+        value: null
       }
     },
     computed: {
@@ -54,20 +78,13 @@
       this.$store.dispatch('getBrands')
     },
     methods: {
-      openSmart () {
-        this.$f7.smartSelectNavbar = true
-        this.$f7.smartSelectOpenIn = 'page'
-        this.$f7.smartSelectOpen('.smart-select')
-      },
       update () {
         this.$f7.showPreloader(this.$t('app.submitting'))
-        this.formData.fullname = this.fullname
-        console.log('model id', this.brand_model)
-        if (this.password) {
-          this.formData.password = this.password
-        }
-        if (this.brand_model) {
-          this.formData.model_id = this.brand_model
+        this.formData.append('fullname', this.fullname)
+        this.formData.append('password', this.password)
+        if (this.model_id) {
+          this.formData.append('model_id', this.model_id)
+          console.log('model id', this.brand_model)
         }
         userService.update(this.user.id, this.formData)
           .then((response) => {
@@ -86,8 +103,19 @@
         if (!files.length) {
           return
         }
-        this.formData.cover = files[0]
+        this.formData.append('cover', files[0])
+        this.value = files[0]
       }
     }
   }
 </script>
+<style lang="less">
+    @import "../assets/styles/mixins.less";
+
+    .update-page {
+        background-color: #eeeeee;
+        .item-divider {
+            background-color: #eeeeee;
+        }
+    }
+</style>

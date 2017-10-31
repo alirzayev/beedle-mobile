@@ -64,7 +64,7 @@
   export default {
     computed: {
       brands () {
-        return this.$store.state.brands
+        return this.$store.state.brands.slice(0, 5)
       },
       posts () {
         return this.$store.state.timeline
@@ -87,7 +87,7 @@
       Slide
     },
     created () {
-      this.$store.dispatch('getUsers')
+      this.$store.dispatch('getUsers', {paginate: 10})
       this.$store.dispatch('getComments')
     },
     methods: {

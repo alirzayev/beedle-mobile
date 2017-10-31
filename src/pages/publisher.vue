@@ -28,7 +28,13 @@
                                 </select>
                             </f7-list-item>
                             <f7-list-item>
-                                <input type="file" id="cover" @change="onFileChange"/>
+                                <label class="file-select">
+                                    <div class="select-button">
+                                        <span v-if="value">Image: {{value.name}}</span>
+                                        <span v-else>Select Image</span>
+                                    </div>
+                                    <input type="file" id="cover" @change="onFileChange"/>
+                                </label>
                             </f7-list-item>
                         </f7-list>
                         <editor :placeholder="$t('publisher.placeholder')" @text:change="editorTextChange"></editor>
@@ -47,9 +53,10 @@
     data () {
       return {
         text: '',
-        brand_model : this.brand_model,
-        title : this.title,
-        formData: new FormData()
+        brand_model: this.brand_model,
+        title: this.title,
+        formData: new FormData(),
+        value: null
       }
     },
     computed: {
@@ -92,8 +99,8 @@
         if (!files.length) {
           return
         }
-
         this.formData.append('cover', files[0])
+        this.value = files[0]
       }
     },
     components: {
