@@ -8,13 +8,14 @@
                     <span>{{$t('app.back')}}</span>
                 </a>
             </f7-nav-left>
-            <f7-nav-center :title="$t('app.brands')"></f7-nav-center>
+            <f7-nav-center :title="$t('explorer.people')"></f7-nav-center>
         </f7-navbar>
 
         <f7-searchbar
                 cancel-link="Cancel"
-                search-list=".search-list"
-                placeholder="Search brand.."
+                search-list=".list-block-search"
+                placeholder="Search user.."
+                searchIn=".item-title"
                 :clear-button="true"
                 @searchbar:search="onSearch"
                 @searchbar:enable="onEnable"
@@ -28,17 +29,17 @@
         </f7-list>
 
         <!-- Search-through list -->
-        <f7-list class="searchbar-found search-list">
-            <f7-list-item v-for="item in brands" :title="item.name" :media="getCover(item.cover_url)"
-                          :link="goToModels(item)"></f7-list-item>
+        <f7-list class="searchbar-found list-block-search">
+            <f7-list-item v-for="user in users" :title="user.fullname" :media="getCover(user.cover_url)"
+                          :link="goToUser(user.id)"></f7-list-item>
         </f7-list>
     </f7-page>
 </template>
 <script>
   export default {
     computed: {
-      brands () {
-        return this.$store.state.brands
+      users () {
+        return this.$store.state.users
       }
     },
     methods: {
@@ -59,10 +60,13 @@
       },
       goToModels (brand) {
         return `/models/?bid=${brand.id}&brand=${brand.name}`
-      }
+      },
+      goToUser (id) {
+        return `/user/?uid=${id}`
+      },
     },
     created () {
-      this.$store.dispatch('getBrands')
+      this.$store.dispatch('getUsers')
     }
   }
 </script>

@@ -4,7 +4,7 @@
         <f7-searchbar
                 cancel-link="Cancel"
                 search-list="#search-list"
-                placeholder="Search in items"
+                placeholder="Search posts"
                 :clear-button="true"
                 @searchbar:search="onSearch"
                 @searchbar:enable="onEnable"

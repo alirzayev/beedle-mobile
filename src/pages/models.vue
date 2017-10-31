@@ -13,7 +13,7 @@
 
         <f7-searchbar
                 cancel-link="Cancel"
-                search-list="#search-list"
+                search-list=".search-list"
                 placeholder="Search model.."
                 :clear-button="true"
                 @searchbar:search="onSearch"
@@ -28,7 +28,7 @@
         </f7-list>
 
         <!-- Search-through list -->
-        <f7-list class="searchbar-found" id="search-list">
+        <f7-list class="searchbar-found search-list">
             <f7-list-item title="All"
                           :link="goToAllTopics()"></f7-list-item>
             <f7-list-item v-for="item in models" :title="item.name"
@@ -44,19 +44,13 @@
       }
     },
     computed: {
-      models: {
-        get () {
-          return this.$store.state.models
-        },
-        set () {
-          this.items = this.$store.state.models
-        }
+      models () {
+        return this.$store.state.models
       }
     },
     methods: {
       onSearch: function (query, found) {
         console.log('search', query)
-        this.filteredItems(query)
       },
       onClear: function (event) {
         console.log('clear', event)
@@ -66,12 +60,6 @@
       },
       onDisable: function (event) {
         console.log('disable')
-        this.items = this.$store.state.models
-      },
-      filteredItems (query) {
-        this.items = this.$store.state.models.filter(item => {
-          return item.name.toLowerCase().match(query.toLowerCase())
-        })
       },
       goToModelTopics (model) {
         return `/posts/?mid=${model.id}&model=${model.name}`

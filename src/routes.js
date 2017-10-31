@@ -20,6 +20,10 @@ export default [
     component: require('./pages/user.vue')
   },
   {
+    path: '/users/',
+    component: require('./pages/users.vue')
+  },
+  {
     path: '/brands/',
     component: require('./pages/brands.vue')
   },

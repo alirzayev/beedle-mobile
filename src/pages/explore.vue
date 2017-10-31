@@ -55,6 +55,12 @@
                     </slide>
                 </carousel>
             </f7-card-content>
+            <f7-block class="more_btn">
+                <f7-button href="/users/" color="gray" round>All</f7-button>
+            </f7-block>
+            <f7-block style="margin-top: 35px">
+                <hr size="1px" color="#c4c4c4"/>
+            </f7-block>
         </div>
     </f7-card>
 </template>
@@ -87,7 +93,7 @@
       Slide
     },
     created () {
-      this.$store.dispatch('getUsers', {paginate: 10})
+      this.$store.dispatch('getUsers', {paginate: 8})
       this.$store.dispatch('getComments')
     },
     methods: {
