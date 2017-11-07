@@ -30,8 +30,10 @@
                         :perPage="3"
                         :paginationEnabled="false"
                         :autoplayTimeout="2000">
-                    <slide class="review" v-for="comment in comments" :key="comment.id">
-                        <img @click="routeToPost(comment.topic.id)" :src="comment.topic.model.cover_url"/>
+                    <slide v-for="comment in comments" :key="comment.id">
+                        <div class="review">
+                            <img @click="routeToPost(comment.topic.id)" :src="comment.topic.model.cover_url"/>
+                        </div>
                     </slide>
                 </carousel>
             </f7-card-content>
@@ -39,7 +41,8 @@
                 <hr size="1px" color="#c4c4c4"/>
             </f7-block>
             <!-- Users Content-->
-            <f7-card-header>{{$t('explorer.people').toUpperCase()}}</f7-card-header>
+            <f7-card-header>{{$t('explorer.people').toUpperCase()}}
+            </f7-card-header>
             <f7-card-content>
                 <carousel
                         :scrollPerPage="false"
@@ -125,35 +128,16 @@
     .explore-view {
         margin: 0 0 20px;
         font-family: 'open sans', arial, sans-serif;
-
         .more_btn {
             float: right;
             width: 80px;
         }
         .card-header {
             font-size: 15px;
-            margin-top: 15px;
             background-color: @mainColor;
             color: #eeeeee;
-            &:after {
-                height: 0;
-            }
-            .user {
-                justify-content: center;
-                .time {
-                    font-size: 12px;
-                    color: #8999a5;
-                    margin-top: 3px;
-                }
-                .name {
-                    color: @mainColor;
-                    font-weight: bold;
-                    font-size: 14px;
-                }
-            }
         }
         .card-content {
-            padding: 0 10px 0 10px;
             color: gray;
             text-align: center;
             .cover > img {
@@ -170,12 +154,11 @@
                 border: solid #eeeeee;
             }
             .text > p {
-                margin-top: 0px;
                 text-transform: uppercase;
                 font-size: 12px;
             }
             .review {
-                padding: 2px;
+                padding: 1px;
                 background: #fff;
                 box-sizing: border-box;
                 border: 1px solid #ccc;

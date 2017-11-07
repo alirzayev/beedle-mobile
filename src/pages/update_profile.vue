@@ -80,8 +80,13 @@
     methods: {
       update () {
         this.$f7.showPreloader(this.$t('app.submitting'))
-        this.formData.append('fullname', this.fullname)
-        this.formData.append('password', this.password)
+        if (this.fullname) {
+          this.formData.append('fullname', this.fullname)
+        }
+        if (this.password) {
+          this.formData.append('password', this.password)
+          this.$f7.alert(this.password)
+        }
         if (this.model_id) {
           this.formData.append('model_id', this.model_id)
           console.log('model id', this.brand_model)

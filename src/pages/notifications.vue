@@ -1,53 +1,38 @@
 <template>
-    <f7-popup id="notificationPopup" popup-mypopup>
-        <f7-view>
-            <f7-pages>
-                <f7-page navbar-fixed>
-                    <f7-navbar theme="white">
-                        <f7-nav-center :title="$t('notification.notification')"></f7-nav-center>
-                        <f7-nav-right>
-
-                            <f7-link close-popup>
-                                <f7-icon style="color: gray" f7="close" size="22px"></f7-icon>
-
-                            </f7-link>
-                        </f7-nav-right>
-                    </f7-navbar>
-                    <div v-if="!user" class="empty-content">
-                        <i class="iconfont icon-about"/>
-                        <div class="text">
-                            <span>{{$t('app.login_needed')}}</span>
+        <div v-if="!isLoggedIn" class="empty-content">
+            <i class="iconfont icon-about"/>
+            <div class="text">
+                <span>{{$t('app.login_needed')}}</span>
+            </div>
+        </div>
+        <div v-else>
+            <f7-list v-if="notifications.length" v-for="notification in notifications"
+                     :key="notification.id" class="notification">
+                <f7-list-item :media="avatarMedia(notification.owner.cover_url)"
+                              @click="updateNotification(notification.id)"
+                              :link="`/post/?mid=${notification.topic.id}`">
+                    <div class="detail">
+                        <div class="fullname"><strong>{{notification.owner.fullname}}</strong>
+                            commented on your post
+                        </div>
+                        <div class="subtext">
+                            <span>{{notification.created_at}}</span>
                         </div>
                     </div>
-                    <f7-page v-else>
-                        <f7-list v-if="notifications.length" v-for="notification in notifications" :key="notification.id" class="notification">
-                            <f7-list-item :media="avatarMedia(notification.owner.cover_url)"
-                                          :link="'/post/?mid='+notification.topic.id">
-                                <div class="detail">
-                                    <div class="fullname"><strong>{{notification.owner.fullname}}</strong>
-                                        commented on your post
-                                    </div>
-                                    <div class="subtext">
-                                        <span>{{notification.created_at}}</span>
-                                    </div>
-                                </div>
-                            </f7-list-item>
-                        </f7-list>
-                        <div class="empty-content" v-show="notifications.length===0">
-                            <i class="iconfont icon-wujieguoyangshi"/>
-                            <div class="text">
-                                <span>{{$t('app.empty_container')}}</span>
-                            </div>
-                        </div>
-                    </f7-page>
-                </f7-page>
-            </f7-pages>
-        </f7-view>
-    </f7-popup>
+                </f7-list-item>
+            </f7-list>
+            <div class="empty-content" v-show="notifications.length===0">
+                <i class="iconfont icon-wujieguoyangshi"/>
+                <div class="text">
+                    <span>{{$t('app.empty_container')}}</span>
+                </div>
+            </div>
+        </div>
 </template>
 
 <script>
   import moment from 'moment'
+  import notificationServices from '../api/notifications'
 
   export default {
     data () {
@@ -63,29 +48,33 @@
       notifications () {
         return this.$store.state.notifications
       },
-      formatTime (time) {
-        return moment(Date.parse(time)).fromNow()
+      formatTime (date) {
+        return moment.parseZone(date).fromNow()
       },
     },
-    mounted () {
+    created () {
       if (this.isLoggedIn) {
         this.$store.dispatch('getNotifications')
-        this.$nextTick(_ => {
-          this.$f7.addView('.popup-mypopup .view')
-        })
       }
+    },
+    beforeDestroy () {
+      this.$store.dispatch('getNotifications')
     },
     methods: {
       avatarMedia (url) {
         return `<img class='avatar' src='${url}' />`
       },
+      updateNotification (id) {
+        notificationServices.update(id)
+          .then((response) => {
+            console.log('notification is updated', response.body)
+          })
+      }
     }
   }
 </script>
 <style lang="less">
     .notification {
-        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-
         .item-content {
             padding: 5px 10px;
         }

@@ -2,6 +2,8 @@ export default {
   app: {
     app_name: 'Beedle',
     back: 'Back',
+    next: 'Next',
+    all: 'All',
     save: 'Save',
     edit: 'Edit',
     unknown: 'Unknown',
@@ -9,6 +11,7 @@ export default {
     contacts: 'Contacts',
     settings: 'Settings',
     explore: 'Explore',
+    notification: 'Notifications',
     search: 'Search',
     city: 'City',
     email: 'Email',
@@ -60,9 +63,6 @@ export default {
   publisher: {
     publisher: 'Add Post',
     placeholder: 'type your topic content...',
-  },
-  notification: {
-    notification: 'Notifications',
   },
   post: {
     post: 'Post'

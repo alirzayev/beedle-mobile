@@ -52,8 +52,8 @@
             </div>
         </div>
         <f7-toolbar v-if="post && user" class="custom-toolbar flex-row">
-            <f7-link class="tool tool-border flex-rest-width" :class="{liked: checkMyLike(post,user)}"
-                     @click="toggleLike(post.id, post)">
+            <f7-link class="tool tool-border flex-rest-width" :class="{liked: isLiked(post)}"
+                     @click="toggleLike(post.id)">
                 <span class="fonticon f7-icons">bolt</span>
                 <span class="text" v-text="post.likes_count ? post.likes_count : $t('tweet.like')"></span>
             </f7-link>
@@ -146,7 +146,6 @@
 <script>
   import Card from '../components/card.vue'
   import moment from 'moment'
-  import notificationServices from '../api/notifications'
   import topicServices from '../api/topic'
   import userServices from '../api/user'
   import { mapState } from 'vuex'
@@ -171,7 +170,7 @@
         return this.comments
       }
     },
-    mounted () {
+    created () {
       this.refresh()
     },
     methods: {
@@ -184,44 +183,30 @@
       openCommentPopup () {
         this.$f7.popup('#commentPopup')
       },
-      toggleLike (mid, post) {
-        if (!post.liked) {
-          return topicServices.like(mid)
-            .then((response) => {
-              console.log('I like it', response)
-              this.refresh()
-            })
-        } else {
-          return topicServices.dislike(mid)
-            .then((response) => {
-              console.log('I dislike it', response)
-              this.refresh()
-            })
-        }
+      toggleLike (mid) {
+        return topicServices.like(mid)
+          .then((response) => {
+            console.log(response.body.message)
+            this.refresh()
+          })
       },
-      checkMyLike (post, user) {
-        post.likes.filter(function (like) {
-          if (like.user_id === user.id.toString()) {
-            post.liked = true
-            return like
+      isLiked (data) {
+        data.liked = false
+        let user = this.user
+        data.likes.forEach(function (like) {
+          if (like.user_id === user.id) {
+            data.liked = true
           }
         })
-        return post.liked
+        return data.liked
       },
       refresh () {
         this.$store.dispatch('getTimeline').then(() => {
-          this.$bus.$emit('refreshPosts')
-          let query = this.$route.query
           this.$store.dispatch('getComments')
+          this.$store.dispatch('getNotifications')
+          let query = this.$route.query
           this.post = find(this.$store.state.timeline, p => p.id === parseInt(query.mid))
           this.comments = this.post.comments
-
-          if (this.user === this.post.user) {
-            notificationServices.update(query.mid)
-              .then((response) => {
-                console.log('notification is updated', response.body)
-              })
-          }
         })
       },
       reportTopic () {

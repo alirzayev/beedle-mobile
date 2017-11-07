@@ -28,7 +28,7 @@
                 </f7-navbar>
                 <f7-pages>
                     <f7-page>
-                        <f7-toolbar tabbar>
+                        <f7-toolbar tabbar scrollable>
                             <f7-link tab-link="#home" active>
                                 <f7-icon f7="home_fill"></f7-icon>
                             </f7-link>
@@ -38,7 +38,7 @@
                             <f7-link tab-link="#search">
                                 <f7-icon f7="search_strong"></f7-icon>
                             </f7-link>
-                            <f7-link open-popup="#notificationPopup">
+                            <f7-link tab-link="#notification">
                                 <f7-icon f7="bolt_fill"></f7-icon>
                             </f7-link>
                             <f7-link tab-link="#profile">
@@ -51,6 +51,9 @@
                             </f7-tab>
                             <f7-tab id="explore" @tab:show="tabActived('explore')">
                                 <explore></explore>
+                            </f7-tab>
+                            <f7-tab id="notification" @tab:show="tabActived('notification')">
+                                <notification-view></notification-view>
                             </f7-tab>
                             <f7-tab id="search" @tab:show="tabActived('search')">
                                 <search-view></search-view>
@@ -67,7 +70,6 @@
         <!-- Comment, publisher, Notification Popup -->
         <comment-popup></comment-popup>
         <publisher-popup></publisher-popup>
-        <notification-popup></notification-popup>
     </div>
 </template>
 
@@ -79,7 +81,7 @@
   import ProfileView from './pages/profile.vue'
   import CommentPopup from './pages/comment.vue'
   import PublisherPopup from './pages/publisher.vue'
-  import NotificationPopup from './pages/notifications.vue'
+  import NotificationView from './pages/notifications.vue'
   import Explore from './pages/explore.vue'
   import SearchView from './pages/search.vue'
 
@@ -108,8 +110,8 @@
             return this.$t('app.explore')
           case 'profile':
             return this.$t('app.profile')
-          case 'notifications':
-            return this.$t('app.explore')
+          case 'notification':
+            return this.$t('app.notification')
           case 'search':
             return this.$t('app.search')
         }
@@ -126,7 +128,7 @@
       ProfileView,
       CommentPopup,
       PublisherPopup,
-      NotificationPopup,
+      NotificationView,
       Explore,
       SearchView
     },

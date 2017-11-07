@@ -18,8 +18,8 @@
             </div>
         </div>
         <div class="card-footer flex-row" v-if="enableToolbar">
-            <f7-button v-if="isLoggedIn && data" color="white" class="tool" :class="{liked: isMyLike(data, user)}"
-                       @click.stop="toggleLike(data.id, data.liked)">
+            <f7-button v-if="isLoggedIn && data" color="white" class="tool" :class="{liked: isLiked(data)}"
+                       @click.stop="toggleLike(data.id)">
                 <span class="fonticon f7-icons">bolt</span>
                 <span class="text" v-text="data.likes_count ? data.likes_count : $t('app.trend')"></span>
             </f7-button>
@@ -42,9 +42,6 @@
 
 <script>
   import moment from 'moment'
-  import topicServices from '../api/topic'
-  import { getRemoteAvatar } from '../utils/appFunc'
-
   export default {
     props: {
       data: {
@@ -84,29 +81,15 @@
       formatTime (date) {
         return moment.parseZone(date).fromNow()
       },
-      getAvatar (id) {
-        return getRemoteAvatar(id)
+      toggleLike (mid) {
+        this.$bus.$emit('trendClick', mid)
       },
-      toggleLike (mid, liked) {
-        if (!liked) {
-          return topicServices.like(mid)
-            .then((response) => {
-              console.log('I like it', response)
-              this.$bus.$emit('refreshPosts')
-            })
-        } else {
-          return topicServices.dislike(mid)
-            .then((response) => {
-              console.log('I dislike it', response)
-              this.$bus.$emit('refreshPosts')
-            })
-        }
-      },
-      isMyLike (data, user) {
-        data.likes.filter(function (like) {
-          if (like.user_id === user.id.toString()) {
+      isLiked (data) {
+        data.liked = false
+        let user = this.user
+        data.likes.forEach(function (like) {
+          if (like.user_id === user.id) {
             data.liked = true
-            return like
           }
         })
         return data.liked

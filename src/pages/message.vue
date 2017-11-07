@@ -27,7 +27,7 @@
                 </f7-popover>
             </f7-nav-right>
         </f7-navbar>
-        <f7-messages>
+        <f7-messages style="padding-bottom: 40px" :autoLayout="true" :scrollMessages="true">
             <f7-message v-if="!block.isBlocked" v-for="message in messages"
                         :key="message.id"
                         :text="message.message"
@@ -119,9 +119,6 @@
   import messageServices from '../api/message'
   import Echo from 'laravel-echo'
   import userServices from '../api/user'
-
-  window.Pusher = require('pusher-js')
-
   export default {
     data () {
       return {
@@ -217,26 +214,24 @@
         })
       }
     },
-    mounted () {
+    created () {
       this.refresh()
       window.Echo = new Echo({
-        broadcaster: 'pusher',
-        key: '424e4a5f4c4828333a4b',
-        authEndpoint: this.$http.options.root + '/broadcasting/auth',
+        broadcaster: 'socket.io',
+        host: 'http://localhost:6001',
         auth: {
           headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token')
           }
         },
-        cluster: 'eu',
-        encrypted: true
       })
-      window.Echo.join('mychat')
+      // https://stackoverflow.com/questions/46129861/laravel-broadcast-event-not-firing
+      window.Echo.join('beedlechat')
         .here((users) => {
           console.log('chat users', users)
         })
         .joining((user) => {
-          console.log(user.name)
+          console.log('joined user', user.name)
         })
         .leaving((user) => {
           console.log(user.name)

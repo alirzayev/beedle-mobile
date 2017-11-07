@@ -31,7 +31,7 @@
         <f7-list class="searchbar-found search-list">
             <f7-list-item title="All"
                           :link="goToAllTopics()"></f7-list-item>
-            <f7-list-item v-for="item in models" :title="item.name"
+            <f7-list-item v-for="item in models" :title="item.name" :key="item.id"
                           :link="goToModelTopics(item)"></f7-list-item>
         </f7-list>
     </f7-page>
