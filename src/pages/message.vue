@@ -117,7 +117,6 @@
 <script>
   import moment from 'moment'
   import messageServices from '../api/message'
-  import Echo from 'laravel-echo'
   import userServices from '../api/user'
   export default {
     data () {
@@ -216,15 +215,6 @@
     },
     created () {
       this.refresh()
-      window.Echo = new Echo({
-        broadcaster: 'socket.io',
-        host: 'http://localhost:6001',
-        auth: {
-          headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
-          }
-        },
-      })
       // https://stackoverflow.com/questions/46129861/laravel-broadcast-event-not-firing
       window.Echo.join('beedlechat')
         .here((users) => {

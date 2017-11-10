@@ -1,33 +1,33 @@
 <template>
-        <div v-if="!isLoggedIn" class="empty-content">
-            <i class="iconfont icon-about"/>
-            <div class="text">
-                <span>{{$t('app.login_needed')}}</span>
-            </div>
+    <div v-if="!isLoggedIn" class="empty-content">
+        <i class="iconfont icon-about"/>
+        <div class="text">
+            <span>{{$t('app.login_needed')}}</span>
         </div>
-        <div v-else>
-            <f7-list v-if="notifications.length" v-for="notification in notifications"
-                     :key="notification.id" class="notification">
-                <f7-list-item :media="avatarMedia(notification.owner.cover_url)"
-                              @click="updateNotification(notification.id)"
-                              :link="`/post/?mid=${notification.topic.id}`">
-                    <div class="detail">
-                        <div class="fullname"><strong>{{notification.owner.fullname}}</strong>
-                            commented on your post
-                        </div>
-                        <div class="subtext">
-                            <span>{{notification.created_at}}</span>
-                        </div>
+    </div>
+    <div v-else>
+        <f7-list v-if="notifications.length" v-for="notification in notifications"
+                 :key="notification.id" class="notification">
+            <f7-list-item :media="avatarMedia(notification.data.owner.cover_url)"
+                          @click="updateNotification(notification.id)"
+                          :link="`/post/?mid=${notification.data.topic.id}`">
+                <div class="detail">
+                    <div class="fullname"><strong>{{notification.data.owner.fullname}}</strong>
+                        commented on your post
                     </div>
-                </f7-list-item>
-            </f7-list>
-            <div class="empty-content" v-show="notifications.length===0">
-                <i class="iconfont icon-wujieguoyangshi"/>
-                <div class="text">
-                    <span>{{$t('app.empty_container')}}</span>
+                    <div class="subtext">
+                        <span>{{notification.data.created_at}}</span>
+                    </div>
                 </div>
+            </f7-list-item>
+        </f7-list>
+        <div class="empty-content" v-show="notifications.length===0">
+            <i class="iconfont icon-wujieguoyangshi"/>
+            <div class="text">
+                <span>{{$t('app.empty_container')}}</span>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
@@ -55,10 +55,18 @@
     created () {
       if (this.isLoggedIn) {
         this.$store.dispatch('getNotifications')
+        window.Echo.private('App.Models.User.' + this.user.id)
+          .notification((event) => {
+            console.log('notification event', event)
+            let notification = {'data': event}
+            this.notifications.push(notification)
+            this.$f7.addNotification({
+              title: 'Beedle',
+              subtitle: event.owner.fullname + ' commented on your post',
+              media: this.avatarMedia(event.owner.cover_url)
+            })
+          })
       }
-    },
-    beforeDestroy () {
-      this.$store.dispatch('getNotifications')
     },
     methods: {
       avatarMedia (url) {

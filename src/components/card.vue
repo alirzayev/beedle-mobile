@@ -42,6 +42,7 @@
 
 <script>
   import moment from 'moment'
+
   export default {
     props: {
       data: {
@@ -86,12 +87,14 @@
       },
       isLiked (data) {
         data.liked = false
-        let user = this.user
-        data.likes.forEach(function (like) {
-          if (like.user_id === user.id) {
-            data.liked = true
-          }
-        })
+        if (this.user) {
+          let user = this.user
+          data.likes.forEach(function (like) {
+            if (like.user_id === user.id) {
+              data.liked = true
+            }
+          })
+        }
         return data.liked
       },
       routeToUser (id) {

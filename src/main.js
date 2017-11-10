@@ -29,6 +29,8 @@ import VueI18n from 'vue-i18n'
 import StoreCache from './utils/storeCache'
 import enUS from './lang/en_us'
 import az from './lang/az'
+// Laravel Echo
+import Echo from 'laravel-echo'
 // Carousel framework
 import VueCarousel from 'vue-carousel'
 
@@ -58,6 +60,16 @@ Vue.use(VueI18n)
 Vue.config.lang = cache.get('lang') || 'en'
 Vue.locale('en', enUS)
 Vue.locale('az', az)
+
+window.Echo = new Echo({
+  broadcaster: 'socket.io',
+  host: 'http://localhost:6001',
+  auth: {
+    headers: {
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    }
+  },
+})
 
 const EventBus = new Vue()
 
