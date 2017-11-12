@@ -50,6 +50,12 @@ export default {
   },
   [types.INIT_MESSAGES] (state, {messages}) {
     Vue.set(state, 'messages', messages)
+  },
+  [types.INIT_COUNTRIES] (state, {countries}) {
+    Vue.set(state, 'countries', countries)
+  },
+  [types.INIT_CITIES] (state, {cities}) {
+    Vue.set(state, 'cities', cities)
   }
 
 }

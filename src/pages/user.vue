@@ -11,17 +11,17 @@
         </f7-navbar>
 
         <f7-list media-list class="user-profile">
-            <f7-list-item :media="avatarMedia">
-                <div class="item-inner">
-                    <div class="item-title-row">
-                        <div class="item-title">{{user.fullname}}</div>
-                        <div class="item-after">
-                            <div @click="openChat">
-                                <f7-button color="black">{{$t('app.chat')}}</f7-button>
-                            </div>
+            <f7-list-item :media="avatarMedia" :title="user.fullname">
+                <div class="item-title-row">
+                    <div v-if="user.location" class="subtitle">
+                        {{getLocation(user.location).city}} / {{getLocation(user.location).country}}
+                    </div>
+                    <div v-else class="subtitle">Worldwide</div>
+                    <div style="float: right; margin-bottom: 10px">
+                        <div @click="openChat">
+                            <f7-button color="black">{{$t('app.chat')}}</f7-button>
                         </div>
                     </div>
-                    <div class="subtitle">{{user.email}}</div>
                 </div>
             </f7-list-item>
 
@@ -95,6 +95,12 @@
       },
       routeToPosts (brand) {
         this.$f7.mainView.router.load({url: `/posts/?bid=${brand.id}&brand=${brand.name}`})
+      },
+      getLocation (str) {
+        if (str !== 'undefined') {
+          var location = JSON.parse(str)
+          return location
+        }
       }
     }
   }
@@ -102,6 +108,7 @@
 
 <style lang="less">
     @import "../assets/styles/mixins.less";
+
     .profile-page {
         background-color: white;
         font-family: 'open sans', arial, sans-serif;
@@ -115,7 +122,6 @@
             .subtitle {
                 color: #858585;
                 font-size: 14px;
-                margin-top: 5px;
             }
 
         }

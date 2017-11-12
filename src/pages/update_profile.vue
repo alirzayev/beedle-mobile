@@ -18,6 +18,22 @@
                 <f7-input type="text" v-model="fullname" placeholder="Enter fullname here.."/>
             </f7-list-item>
         </f7-list>
+        <f7-block-title>Change Location</f7-block-title>
+        <f7-list>
+            <f7-list-item smart-select smart-select-searchbar style="color: #9c9c9c" title="Location (optional)">
+                <f7-icon slot="media" f7="world_fill"></f7-icon>
+                <select v-model="country" name="countries" @change="getCities()">
+                    <option v-for="(value,key) in countries" :value="key">{{value}}</option>
+                </select>
+            </f7-list-item>
+            <f7-list-item v-show="country" smart-select smart-select-searchbar style="color: #9c9c9c"
+                          title="City">
+                <f7-icon slot="media" f7="navigation_fill"></f7-icon>
+                <select v-model="city" name="cities">
+                    <option v-for="city in cities" :value="city">{{city}}</option>
+                </select>
+            </f7-list-item>
+        </f7-list>
 
         <!-- Change car -->
         <f7-block-title>Change Your Car</f7-block-title>
@@ -61,6 +77,8 @@
         model_id: this.model_id,
         fullname: this.fullname,
         password: this.password,
+        country: this.country,
+        city: this.city,
         formData: new FormData(),
         value: null
       }
@@ -72,10 +90,17 @@
       },
       user () {
         return this.$store.getters.user
+      },
+      countries () {
+        return this.$store.state.countries
+      },
+      cities () {
+        return this.$store.state.cities
       }
     },
-    mounted () {
+    created () {
       this.$store.dispatch('getBrands')
+      this.$store.dispatch('getCountries')
     },
     methods: {
       update () {
@@ -85,11 +110,19 @@
         }
         if (this.password) {
           this.formData.append('password', this.password)
-          this.$f7.alert(this.password)
         }
         if (this.model_id) {
           this.formData.append('model_id', this.model_id)
           console.log('model id', this.brand_model)
+        }
+        if (this.country) {
+          let location = {
+            'code': this.country,
+            'country': this.countries[this.country],
+            'city': this.city,
+          }
+          // store as string
+          this.formData.append('location', JSON.stringify(location))
         }
         userService.update(this.user.id, this.formData)
           .then((response) => {
@@ -110,6 +143,9 @@
         }
         this.formData.append('cover', files[0])
         this.value = files[0]
+      },
+      getCities () {
+        this.$store.dispatch('getCities', this.country)
       }
     }
   }

@@ -22,6 +22,9 @@ const state = {
   comments: [],
   notifications: [],
   messages: [],
+  countries: [],
+  cities: []
+
 }
 
 export default new Vuex.Store({

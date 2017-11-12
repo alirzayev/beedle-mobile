@@ -6,6 +6,7 @@ import commentServices from '../api/comments'
 import userServices from '../api/user'
 import notificationServices from '../api/notifications'
 import messageServices from '../api/message'
+import locationServices from '../api/location'
 import * as types from './mutation-types'
 
 export function getUsers ({commit}, data) {
@@ -149,5 +150,27 @@ export function sendMessage (data) {
     .then((response) => {
       let message = response.body.message
       console.log('message sent', message)
+    })
+}
+
+export function getCountries ({commit}) {
+  locationServices.countries()
+    .then((response) => {
+      let countries = response.body.countries
+      console.log('countries', countries)
+      commit(types.INIT_COUNTRIES, {
+        countries
+      })
+    })
+}
+
+export function getCities ({commit}, data) {
+  locationServices.cities(data)
+    .then((response) => {
+      let cities = response.body.cities
+      console.log('cities', cities)
+      commit(types.INIT_CITIES, {
+        cities
+      })
     })
 }

@@ -1,6 +1,6 @@
 <template>
-    <div class="card" @click="contentClick(data)">
-        <div v-if="data.user" class="card-header">
+    <div v-if="data" class="card" @click="contentClick(data)">
+        <div class="card-header">
             <div class="avatar" @click="routeToUser(data.user.id)">
                 <img :src="data.user.cover_url" alt="avatar">
             </div>
@@ -47,9 +47,7 @@
     props: {
       data: {
         type: Object,
-        default () {
-          return {}
-        }
+        default: {}
       },
       enableToolbar: {
         type: Boolean,
@@ -88,9 +86,9 @@
       isLiked (data) {
         data.liked = false
         if (this.user) {
-          let user = this.user
+          let user2 = this.$store.getters.user
           data.likes.forEach(function (like) {
-            if (like.user_id === user.id) {
+            if (like.user_id === user2.id) {
               data.liked = true
             }
           })

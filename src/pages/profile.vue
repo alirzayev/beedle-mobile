@@ -1,14 +1,8 @@
 <template>
     <div v-if="isLoggedIn" class="profile-page">
-        <f7-list class="user-profile">
-            <f7-list-item :media="avatarMedia">
-                <div class="detail">
-                    <div class="name">{{user.fullname}}</div>
-                    <div class="fullname">
-                        <span>{{user.email}}</span>
-                    </div>
-                </div>
-            </f7-list-item>
+        <f7-list media-list class="user-profile">
+            <f7-list-item :media="avatarMedia" :title="user.fullname"
+                          :text="getLocation(user.location).city + ' / ' + getLocation(user.location).country"></f7-list-item>
         </f7-list>
         <f7-grid class="custom-toolbar flex-row">
             <f7-col width="50" class="tool tool-border flex-rest-width">
@@ -86,6 +80,10 @@
       },
       routeToPosts (brand) {
         this.$f7.mainView.router.load({url: `/posts/?bid=${brand.id}&brand=${brand.name}`})
+      },
+      getLocation (str) {
+        let location = JSON.parse(str)
+        return location
       }
     },
     created () {
@@ -125,12 +123,10 @@
                 height: 65px;
                 border-radius: 50%;
             }
-            .detail {
-                .fullname {
-                    color: #858585;
-                    font-size: 15px;
-                    margin-top: 5px;
-                }
+            .item-title {
+                font-size: 16px;
+                font-weight: bold;
+                padding-top: 20px;
             }
         }
         .card-header {
