@@ -39,7 +39,7 @@
         <f7-block-title>Change Your Car</f7-block-title>
         <f7-list>
             <f7-list-item smart-select smart-select-searchbar title="Select Car">
-                <select v-model="model_id" name="models">
+                <select v-model="brand" name="models">
                     <optgroup v-for="brand in brands" :label="brand.name">
                         <option v-for="model in brand.models" :value="model.id" selected>{{model.name}}</option>
                     </optgroup>
@@ -74,7 +74,7 @@
   export default {
     data () {
       return {
-        model_id: this.model_id,
+        brand: this.brand,
         fullname: this.fullname,
         password: this.password,
         country: this.country,
@@ -111,9 +111,9 @@
         if (this.password) {
           this.formData.append('password', this.password)
         }
-        if (this.model_id) {
-          this.formData.append('model_id', this.model_id)
-          console.log('model id', this.brand_model)
+        if (this.brand) {
+          this.formData.append('model_id', this.brand)
+          console.log('model id', this.brand)
         }
         if (this.country) {
           let location = {

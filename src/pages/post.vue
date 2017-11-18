@@ -201,9 +201,7 @@
         return data.liked
       },
       refresh () {
-        this.$store.dispatch('getTimeline').then(() => {
-          this.$store.dispatch('getComments')
-          this.$store.dispatch('getNotifications')
+        return this.$store.dispatch('getTimeline').then(() => {
           let query = this.$route.query
           this.post = find(this.$store.state.timeline, p => p.id === parseInt(query.mid))
           this.comments = this.post.comments

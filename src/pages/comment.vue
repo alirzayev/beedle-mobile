@@ -42,8 +42,8 @@
               this.$f7.alert(response.body.message)
             }
             this.$f7.alert(this.$t('comment.result'))
-            this.$bus.$emit('refresh')
             console.log('comment created', response.body.comment)
+            this.$f7.mainView.router.load({url: `/post/?mid=${query.tid}`})
           }
         )
       }

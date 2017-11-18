@@ -101,7 +101,7 @@
       navbarTitle () {
         switch (this.activedTab) {
           case 'home':
-            if (this.isLoggedIn) {
+            if (this.isLoggedIn && this.userCar) {
               return this.userCar.model.name
             } else {
               return this.$t('app.app_name')

@@ -33,6 +33,7 @@
 <script>
   import moment from 'moment'
   import notificationServices from '../api/notifications'
+  import Echo from 'laravel-echo'
 
   export default {
     data () {
@@ -55,6 +56,15 @@
     created () {
       if (this.isLoggedIn) {
         this.$store.dispatch('getNotifications')
+        window.Echo = new Echo({
+          broadcaster: 'socket.io',
+          host: this.$http.options.root + ':6001',
+          auth: {
+            headers: {
+              'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+          },
+        })
         window.Echo.private('App.Models.User.' + this.user.id)
           .notification((event) => {
             console.log('notification event', event)
@@ -76,6 +86,7 @@
         notificationServices.update(id)
           .then((response) => {
             console.log('notification is updated', response.body)
+            this.$store.dispatch('getNotifications')
           })
       }
     }

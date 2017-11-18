@@ -82,9 +82,11 @@
         }
       },
       isMyFavourite (id) {
-        for (let i = 0; i < this.user.interests.length; i++) {
-          if (this.user.interests[i].brand_id === id) {
-            return true
+        if (this.user.interests) {
+          for (let i = 0; i < this.user.interests.length; i++) {
+            if (this.user.interests[i].brand_id === parseInt(id)) {
+              return true
+            }
           }
         }
         return false

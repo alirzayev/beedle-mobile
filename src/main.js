@@ -30,7 +30,6 @@ import StoreCache from './utils/storeCache'
 import enUS from './lang/en_us'
 import az from './lang/az'
 // Laravel Echo
-import Echo from 'laravel-echo'
 // Carousel framework
 import VueCarousel from 'vue-carousel'
 
@@ -39,8 +38,8 @@ Vue.use(Framework7Vue)
 Vue.use(VueResource)
 Vue.use(VueCarousel)
 
-Vue.http.options.root = 'http://localhost:8000'
-// Vue.http.options.root = 'http://beedle.caspiansoft.com'
+Vue.http.options.root = 'http://188.226.148.17'
+//Vue.http.options.root = 'http://beedle.caspiansoft.com'
 Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
 Vue.http.options.emulateJSON = true
 
@@ -60,16 +59,6 @@ Vue.use(VueI18n)
 Vue.config.lang = cache.get('lang') || 'en'
 Vue.locale('en', enUS)
 Vue.locale('az', az)
-
-window.Echo = new Echo({
-  broadcaster: 'socket.io',
-  host: 'http://localhost:6001',
-  auth: {
-    headers: {
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    }
-  },
-})
 
 const EventBus = new Vue()
 

@@ -3,7 +3,7 @@
         <f7-navbar :title="$t('app.about')" :back-link="$t('app.back')" sliding></f7-navbar>
         <f7-block>
             <div class="logo">
-                <img src="../../static/img/beedle_logo@2x.png" alt="logo">
+                <img src="../../static/img/beedle_logoo@2x.png" alt="logo">
             </div>
             <div class="app-name">Beedle</div>
         </f7-block>

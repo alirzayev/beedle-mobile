@@ -47,7 +47,7 @@
     props: {
       data: {
         type: Object,
-        default: {}
+        default: () => {}
       },
       enableToolbar: {
         type: Boolean,
