@@ -67,6 +67,9 @@
     },
     created () {
       this.$store.dispatch('getUsers')
+    },
+    beforeDestroy () {
+      this.$store.dispatch('getUsers', {paginate: 8})
     }
   }
 </script>

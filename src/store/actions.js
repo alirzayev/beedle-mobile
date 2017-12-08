@@ -42,8 +42,8 @@ export function getModels ({commit}, id) {
     })
 }
 
-export function getComments ({commit}, topic_id) {
-  commentServices.comments(topic_id)
+export function getComments ({commit}) {
+  commentServices.comments()
     .then((response) => {
       let comments = response.body.comments
       console.log('comments', comments)

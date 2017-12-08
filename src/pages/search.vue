@@ -12,15 +12,19 @@
                 @searchbar:clear="onClear"
         ></f7-searchbar>
 
-        <f7-list media-list class="searchbar-found list-block" id="search-list">
-            <f7-list-item class="" v-for="item in filteredPosts">
-                <div slot="inner">
-                    <div class="item-title">
-                        <card :key="item.id" :data="item"
-                              @card:content-click="routeToPost"></card>
-                    </div>
+        <!-- Will be visible if there is no any results found, defined by "searchbar-not-found" class -->
+        <f7-list class="searchbar-not-found">
+            <f7-list-item title="Nothing found"></f7-list-item>
+        </f7-list>
+
+        <!-- Search result -->
+        <f7-list class="searchbar-found" id="search-list">
+            <li class="result" v-for="item in filteredPosts">
+                <div class="item-title">
+                    <card :enable-toolbar="false" :key="item.id" :data="item"
+                          @card:content-click="routeToPost"></card>
                 </div>
-            </f7-list-item>
+            </li>
         </f7-list>
     </div>
 </template>
@@ -81,6 +85,10 @@
         margin: 0px;
         padding: 0px;
         background-color: #eeeeee;
+
+        .result {
+            background-color: #eeeeee;
+        }
     }
 
 </style>

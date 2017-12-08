@@ -2,9 +2,16 @@
     <f7-card>
         <!-- Brands Content-->
         <div class="explore-view">
-            <f7-card-header>{{$t('app.brands').toUpperCase()}}</f7-card-header>
+            <f7-card-header>
+                <div class="text">
+                    {{$t('app.brands').toUpperCase()}}
+                </div>
+                <div class="more_btn">
+                    <f7-button href="/brands/" fill color="black" round>All</f7-button>
+                </div>
+            </f7-card-header>
             <f7-card-content>
-                <f7-grid no-gutter>
+                <f7-grid>
                     <f7-col v-for="brand in brands" :key="brand.id" width="33">
                         <div @click="routeToModels(brand)">
                             <div class="cover">
@@ -14,56 +21,37 @@
                     </f7-col>
                 </f7-grid>
             </f7-card-content>
-            <f7-block class="more_btn">
-                <f7-button href="/brands/" color="gray" round>All</f7-button>
-            </f7-block>
-            <f7-block style="margin-top: 35px">
-                <hr size="1px" color="#c4c4c4"/>
-            </f7-block>
             <!-- Review Content-->
             <f7-card-header>{{$t('explorer.reviews').toUpperCase()}}</f7-card-header>
             <f7-card-content>
-                <carousel
-                        :scrollPerPage="false"
-                        :perPageCustom="[[768, 3], [1024, 4]]"
-                        :autoplay="true"
-                        :perPage="3"
-                        :paginationEnabled="false"
-                        :autoplayTimeout="2000">
-                    <slide v-for="comment in comments" :key="comment.id">
-                        <div class="review">
-                            <img @click="routeToPost(comment.topic.id)" :src="comment.topic.model.cover_url"/>
+                <f7-grid>
+                    <f7-col v-for="comment in comments" :key="comment.id" width="25">
+                        <div class="cover" @click="routeToPost(comment.topic.id)" v-if="comment.topic.cover">
+                            <img :src="comment.topic.cover_url"/>
                         </div>
-                    </slide>
-                </carousel>
+                    </f7-col>
+                </f7-grid>
             </f7-card-content>
-            <f7-block>
-                <hr size="1px" color="#c4c4c4"/>
-            </f7-block>
             <!-- Users Content-->
-            <f7-card-header>{{$t('explorer.people').toUpperCase()}}
+            <f7-card-header>
+                <div class="text">
+                    {{$t('explorer.people').toUpperCase()}}
+                </div>
+                <div class="more_btn">
+                    <f7-button href="/users/" fill color="black" round>All</f7-button>
+                </div>
             </f7-card-header>
             <f7-card-content>
-                <carousel
-                        :scrollPerPage="false"
-                        :perPageCustom="[[768, 3], [1024, 4]]"
-                        :autoplay="true"
-                        :perPage="4"
-                        :paginationEnabled="false"
-                        :autoplayTimeout="2000">
-                    <slide v-for="user in users" :key="user.id">
-                        <div class="avatar">
-                            <img :src="user.cover_url" @click="routeToUser(user.id)"/>
+                <f7-grid>
+                    <f7-col v-for="user in users" :key="user.id" width="25">
+                        <div @click="routeToUser(user.id)">
+                            <div class="cover">
+                                <img :src="user.cover_url"/>
+                            </div>
                         </div>
-                    </slide>
-                </carousel>
+                    </f7-col>
+                </f7-grid>
             </f7-card-content>
-            <f7-block class="more_btn">
-                <f7-button href="/users/" color="gray" round>All</f7-button>
-            </f7-block>
-            <f7-block style="margin-top: 35px">
-                <hr size="1px" color="#c4c4c4"/>
-            </f7-block>
         </div>
     </f7-card>
 </template>
@@ -98,6 +86,7 @@
     created () {
       this.$store.dispatch('getUsers', {paginate: 8})
       this.$store.dispatch('getComments')
+      this.$store.dispatch('getBrands')
     },
     methods: {
       getComments () {
@@ -118,36 +107,24 @@
 <style lang="less">
     @import "../assets/styles/mixins.less";
 
-    @font-face {
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: 400;
-        src: local('Open Sans'), local('OpenSans'), url('http://themes.googleusercontent.com/static/fonts/opensans/v5/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff') format('woff');
-    }
-
     .explore-view {
         margin: 0 0 20px;
-        font-family: 'open sans', arial, sans-serif;
-        .more_btn {
-            float: right;
-            width: 80px;
-        }
+
         .card-header {
             font-size: 15px;
             background-color: @mainColor;
-            color: #eeeeee;
+            color: white;
+            .text {
+                width: 85%;
+            }
+            .more_btn {
+                width: 15%;
+            }
         }
         .card-content {
             color: gray;
             text-align: center;
             .cover > img {
-                width: 50px;
-                height: 50px;
-                padding: 10px;
-                border-radius: 50%;
-                border: solid #eeeeee;
-            }
-            .avatar > img {
                 width: 60px;
                 height: 60px;
                 border-radius: 50%;
@@ -156,17 +133,6 @@
             .text > p {
                 text-transform: uppercase;
                 font-size: 12px;
-            }
-            .review {
-                padding: 1px;
-                background: #fff;
-                box-sizing: border-box;
-                border: 1px solid #ccc;
-            }
-            .review > img {
-                text-align: center;
-                width: 100%;
-                display: block;
             }
         }
     }

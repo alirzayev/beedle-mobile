@@ -10,7 +10,8 @@
             </div>
         </div>
         <div class="card-content">
-            <div class="text">{{data.content}}</div>
+            <div v-if="enableToolbar" class="text">{{data.shortText}}</div>
+            <div v-else class="text">{{data.content}}</div>
         </div>
         <div class="card-content">
             <div v-if="data.cover_url" class="image" @click.stop="openPhotoBrowser(data.cover_url)">

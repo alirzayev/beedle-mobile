@@ -2,8 +2,8 @@ import Vue from 'vue'
 
 export default {
 
-  comments (id) {
-    return Vue.http.get('api/comments/' + id)
+  comments () {
+    return Vue.http.get('api/comments/')
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },
