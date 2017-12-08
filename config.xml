@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.caspiansoft.beedle" ios-CFBundleVersion="0.0.5" version="1.0.1" xmlns="http://www.w3.org/ns/widgets">
+<widget id="com.caspiansoft.beedle" ios-CFBundleVersion="0.0.6" version="1.0.2" xmlns="http://www.w3.org/ns/widgets">
     <name>Beedle</name>
     <description>
         Car Forum App
@@ -18,7 +18,7 @@
     <allow-navigation href="http://188.226.148.17" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="StatusBarBackgroundColor" value="#ff9630" />
-    <preference name="StatusBarStyle" value="lightcontent" />
+    <preference name="StatusBarStyle" value="default" />
     <preference name="ShowSplashScreenSpinner" value="false" />
     <preference name="BackupWebStorage" value="local" />
     <platform name="ios">
@@ -51,4 +51,5 @@
     <plugin name="cordova-plugin-splashscreen" spec="^4.1.0" />
     <plugin name="cordova-plugin-console" spec="^1.1.0" />
     <plugin name="cordova-plugin-geolocation" spec="^3.0.0" />
+    <plugin name="cordova-plugin-statusbar" spec="~2.2.3" />
 </widget>

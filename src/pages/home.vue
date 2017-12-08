@@ -53,6 +53,7 @@
     created () {
       this.refresh()
       this.$bus.$on('refreshPosts', this.refresh)
+      this.$bus.$on('routeToPost', this.routeToPost)
       this.$bus.$on('trendClick', this.makeTrend)
     },
     methods: {
@@ -109,7 +110,6 @@
 
     .home-view {
         .tool {
-            font-weight: 400;
             font-size: 12px;
             justify-content: center;
             &.tool-border {

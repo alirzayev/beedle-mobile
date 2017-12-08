@@ -42,11 +42,11 @@ export function getModels ({commit}, id) {
     })
 }
 
-export function getComments ({commit}) {
-  commentServices.comments()
+export function getComments ({commit}, topic_id) {
+  commentServices.comments(topic_id)
     .then((response) => {
       let comments = response.body.comments
-      console.log('brands', comments)
+      console.log('comments', comments)
       commit(types.INIT_COMMENTS, {
         comments
       })

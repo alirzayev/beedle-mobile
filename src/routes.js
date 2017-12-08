@@ -49,7 +49,11 @@ export default [
   },
   {
     path: '/posts/',
-    component: require('./pages/posts.vue')
+    component: require('./pages/posts.vue'),
+  },
+  {
+    path: '/add-post/',
+    component: require('./pages/publisher.vue')
   },
   {
     path: '/post/',

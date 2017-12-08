@@ -9,7 +9,7 @@ export default {
   },
 
   trends (id) {
-    return Vue.http.get('api/topics/trends/' + id)
+    return Vue.http.get('api/trends/' + id)
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },

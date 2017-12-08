@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="card-footer flex-row" v-if="enableToolbar">
-            <f7-button v-if="isLoggedIn && data" color="white" class="tool" :class="{liked: isLiked(data)}"
+            <f7-button v-if="isLoggedIn && data" color="white" class="tool" :class="{liked: data.isMyLike}"
                        @click.stop="toggleLike(data.id)">
                 <span class="fonticon f7-icons">bolt</span>
                 <span class="text" v-text="data.likes_count ? data.likes_count : $t('app.trend')"></span>
@@ -32,7 +32,7 @@
                  <span class="fonticon f7-icons">compose</span>
                  <span class="text" v-text="$t('app.edit')"></span>
              </f7-button>-->
-            <f7-button color="white" class="tool" @click.stop="openCommentPopup">
+            <f7-button color="white" class="tool" @click.stop="openCommentPopup(data)">
                 <span class="fonticon f7-icons">chat</span>
                 <span class="text" v-text="data.comments_count ? data.comments_count : $t('tweet.comment')"></span>
             </f7-button>
@@ -74,8 +74,8 @@
         })
         pb.open()
       },
-      openCommentPopup () {
-        this.$f7.popup('#commentPopup')
+      openCommentPopup (post) {
+        this.$bus.$emit('routeToPost', post)
       },
       formatTime (date) {
         return moment.parseZone(date).fromNow()

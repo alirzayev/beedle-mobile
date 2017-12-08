@@ -43,7 +43,9 @@
             }
             this.$f7.alert(this.$t('comment.result'))
             console.log('comment created', response.body.comment)
-            this.$f7.mainView.router.load({url: `/post/?mid=${query.tid}`})
+            // REFRESH POST ON PREVIOUS PAGE BEFORE BACK
+            this.$bus.$emit('refreshPost', query.tid)
+            this.$f7.mainView.router.back()
           }
         )
       }

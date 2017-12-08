@@ -28,8 +28,8 @@
                 <span>{{$t('tweet.comment')}}</span>
             </div>
             <div class="list">
-                <div v-if="comments.length">
-                    <div class="comment flex-row" v-for="(comment, index) in getComments" :key="comment.name">
+                <div v-if="post.comments">
+                    <div class="comment flex-row" v-for="(comment, index) in post.comments" :key="comment.name">
                         <img @click="routeToUser(comment.owner.id)" class="avatar" :src="comment.owner.cover_url"/>
                         <div class="detail flex-rest-width">
                             <div class="name"><span>{{comment.owner.fullname}}</span></div>
@@ -52,7 +52,7 @@
             </div>
         </div>
         <f7-toolbar v-if="post && user" class="custom-toolbar flex-row">
-            <f7-link class="tool tool-border flex-rest-width" :class="{liked: isLiked(post)}"
+            <f7-link class="tool tool-border flex-rest-width" :class="{liked: post.isMyLike}"
                      @click="toggleLike(post.id)">
                 <span class="fonticon f7-icons">bolt</span>
                 <span class="text" v-text="post.likes_count ? post.likes_count : $t('tweet.like')"></span>
@@ -148,30 +148,23 @@
   import moment from 'moment'
   import topicServices from '../api/topic'
   import userServices from '../api/user'
-  import { mapState } from 'vuex'
-  import find from 'lodash/find'
   import commentServices from '../api/comments'
 
   export default {
     data () {
       return {
-        post: null,
-        comments: []
+        post: {}
       }
     },
     computed: {
-      ...mapState({
-        timeline: state => state.timeline,
-      }),
       user () {
         return this.$store.getters.user
-      },
-      getComments () {
-        return this.comments
       }
     },
     created () {
-      this.refresh()
+      let topicId = this.$route.query.mid
+      this.refresh(topicId)
+      this.$bus.$on('refreshPost', this.refresh)
     },
     methods: {
       formatTime (date) {
@@ -190,22 +183,12 @@
             this.refresh()
           })
       },
-      isLiked (data) {
-        data.liked = false
-        let user = this.user
-        data.likes.forEach(function (like) {
-          if (like.user_id === user.id) {
-            data.liked = true
-          }
+      refresh (topicId) {
+        topicServices.show(topicId).then((response) => {
+          this.post = response.body.topic
+          console.log('current topic', this.post)
         })
-        return data.liked
-      },
-      refresh () {
-        return this.$store.dispatch('getTimeline').then(() => {
-          let query = this.$route.query
-          this.post = find(this.$store.state.timeline, p => p.id === parseInt(query.mid))
-          this.comments = this.post.comments
-        })
+        this.$bus.$emit('refreshPosts')
       },
       reportTopic () {
         this.$f7.showIndicator()

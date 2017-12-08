@@ -20,7 +20,7 @@
                         </f7-link>
                     </f7-nav-right>
                     <f7-nav-right v-else>
-                        <f7-link open-popup="#publisherPopup"
+                        <f7-link href="/add-post/"
                                  v-show="activedTab === 'home'">
                             <f7-icon style="color: #1c1d1f" f7="add" size="22px"></f7-icon>
                         </f7-link>
@@ -28,7 +28,7 @@
                 </f7-navbar>
                 <f7-pages>
                     <f7-page>
-                        <f7-toolbar tabbar scrollable>
+                        <f7-toolbar tabbar>
                             <f7-link tab-link="#home" active>
                                 <f7-icon f7="home_fill"></f7-icon>
                             </f7-link>
@@ -66,10 +66,6 @@
                 </f7-pages>
             </f7-view>
         </f7-views>
-
-        <!-- Comment, publisher, Notification Popup -->
-        <comment-popup></comment-popup>
-        <publisher-popup></publisher-popup>
     </div>
 </template>
 
@@ -79,8 +75,6 @@
   import HomeView from './pages/home.vue'
   import ContactsView from './pages/contacts.vue'
   import ProfileView from './pages/profile.vue'
-  import CommentPopup from './pages/comment.vue'
-  import PublisherPopup from './pages/publisher.vue'
   import NotificationView from './pages/notifications.vue'
   import Explore from './pages/explore.vue'
   import SearchView from './pages/search.vue'
@@ -126,18 +120,18 @@
       HomeView,
       ContactsView,
       ProfileView,
-      CommentPopup,
-      PublisherPopup,
       NotificationView,
       Explore,
       SearchView
-    },
-    created () {
     }
   }
 </script>
 <style lang="less">
     .tab_menu {
         margin: 0px;
+    }
+    .tabbar {
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
     }
 </style>
