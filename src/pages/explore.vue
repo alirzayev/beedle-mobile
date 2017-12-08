@@ -26,7 +26,7 @@
             <f7-card-content>
                 <f7-grid>
                     <f7-col v-for="comment in comments" :key="comment.id" width="25">
-                        <div class="cover" @click="routeToPost(comment.topic.id)" v-if="comment.topic.cover">
+                        <div class="review" @click="routeToPost(comment.topic.id)" v-if="comment.topic.cover">
                             <img :src="comment.topic.cover_url"/>
                         </div>
                     </f7-col>
@@ -128,6 +128,11 @@
                 width: 60px;
                 height: 60px;
                 border-radius: 50%;
+                border: solid #eeeeee;
+            }
+            .review > img {
+                width: 60px;
+                height: 60px;
                 border: solid #eeeeee;
             }
             .text > p {

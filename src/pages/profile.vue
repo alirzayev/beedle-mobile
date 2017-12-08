@@ -102,16 +102,8 @@
 <style lang="less">
     @import "../assets/styles/mixins.less";
 
-    @font-face {
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: 400;
-        src: local('Open Sans'), local('OpenSans'), url('http://themes.googleusercontent.com/static/fonts/opensans/v5/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff') format('woff');
-    }
-
     .profile-page {
         background-color: white;
-        font-family: 'open sans', arial, sans-serif;
         font-size: 14px;
         .user-profile {
 
