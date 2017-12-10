@@ -20,21 +20,14 @@
         <!-- Users Content-->
         <f7-card-header>{{$t('user.interests').toUpperCase()}}</f7-card-header>
         <f7-card-content>
-            <carousel
-                    :scrollPerPage="true"
-                    :perPageCustom="[[480, 2], [768, 3]]"
-                    :perPage="4"
-                    :paginationEnabled="false"
-                    :autoplay="true"
-                    :autoplayTimeout="3000">
-                <slide v-for="interest in user.interests" :key="interest.id">
+            <f7-grid no-gutter>
+                <f7-col v-for="interest in user.interests" :key="interest.id" width="25">
                     <div @click="routeToPosts(interest.brand)" class="avatar">
                         <img :src="interest.brand.cover_url"/>
                     </div>
-                </slide>
-            </carousel>
+                </f7-col>
+            </f7-grid>
         </f7-card-content>
-
     </div>
     <div v-else class="empty-content">
         <i class="iconfont icon-about"/>

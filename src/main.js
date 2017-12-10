@@ -48,7 +48,7 @@ Vue.http.interceptors.push((request, next) => {
   request.headers.set('Accept', 'application/json')
   next(function (response) {
     // modify response
-    if (response.status == 401) {
+    if (response.status === 401) {
       console.log('you have to login to post!!')
       // if expired token exists
       store.dispatch('destroyToken')
