@@ -24,7 +24,7 @@ export default {
   },
 
   delete (id) {
-    return Vue.http.delete('api/admin/brands/' + id)
+    return Vue.http.delete('api/topics/' + id)
       .then((response) => Promise.resolve(response))
       .catch((error) => Promise.reject(error))
   },

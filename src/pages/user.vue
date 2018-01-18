@@ -26,6 +26,8 @@
             </f7-list-item>
 
         </f7-list>
+
+        <!-- User Cars & Posts-->
         <f7-grid class="custom-toolbar flex-row">
             <f7-col width="50" class="tool tool-border flex-rest-width">
                 <p class="title">Car</p>
@@ -34,27 +36,23 @@
             </f7-col>
             <f7-col width="50" class="tool flex-rest-width">
                 <p class="title" v-text="$t('post.post')"></p>
-                <p v-if="user.topics" class="text" v-text="user.topics.length"></p>
+                <f7-button v-if="user.topics" @click="routeToUserPosts(user)" color="black" fill>
+                    {{user.topics.length}}
+                </f7-button>
                 <p v-else class="text"> 0 </p>
             </f7-col>
         </f7-grid>
 
-        <!-- Users Content-->
+        <!-- User Interests-->
         <f7-card-header>{{$t('user.interests').toUpperCase()}}</f7-card-header>
         <f7-card-content>
-            <carousel
-                    :scrollPerPage="true"
-                    :perPageCustom="[[480, 2], [768, 3]]"
-                    :perPage="4"
-                    :paginationEnabled="false"
-                    :autoplay="true"
-                    :autoplayTimeout="3000">
-                <slide v-for="interest in user.interests" :key="interest.id">
-                    <div @click="routeToPosts(interest.brand)" class="avatar">
+            <f7-grid no-gutter>
+                <f7-col v-for="interest in user.interests" :key="interest.id" width="25">
+                    <div @click="routeToBrandPosts(interest.brand)" class="avatar">
                         <img :src="interest.brand.cover_url"/>
                     </div>
-                </slide>
-            </carousel>
+                </f7-col>
+            </f7-grid>
         </f7-card-content>
 
     </f7-page>
@@ -93,8 +91,11 @@
       openChat () {
         this.$f7.mainView.router.load({url: `/message/?uid=${this.user.id}&nickname=${this.user.fullname}`})
       },
-      routeToPosts (brand) {
+      routeToBrandPosts (brand) {
         this.$f7.mainView.router.load({url: `/posts/?bid=${brand.id}&brand=${brand.name}`})
+      },
+      routeToUserPosts (user) {
+        this.$f7.mainView.router.load({url: `/posts/?uid=${user.id}&fullname=${user.fullname}`})
       },
       getLocation (str) {
         if (str !== 'undefined') {

@@ -21,17 +21,6 @@
                     </f7-col>
                 </f7-grid>
             </f7-card-content>
-            <!-- Review Content-->
-            <f7-card-header>{{$t('explorer.reviews').toUpperCase()}}</f7-card-header>
-            <f7-card-content>
-                <f7-grid>
-                    <f7-col v-for="comment in comments" :key="comment.id" width="25">
-                        <div class="review" @click="routeToPost(comment.topic.id)" v-if="comment.topic.cover">
-                            <img :src="comment.topic.cover_url"/>
-                        </div>
-                    </f7-col>
-                </f7-grid>
-            </f7-card-content>
             <!-- Users Content-->
             <f7-card-header>
                 <div class="text">
@@ -52,6 +41,18 @@
                     </f7-col>
                 </f7-grid>
             </f7-card-content>
+            <!-- Review Content-->
+            <f7-card-header>{{$t('explorer.reviews').toUpperCase()}}</f7-card-header>
+            <f7-card-content>
+                <f7-grid>
+                    <f7-col v-for="comment in comments" :key="comment.id" width="25">
+                        <div class="cover" @click="routeToPost(comment.topic.id)"
+                             v-if="comment.topic.model.brand.cover_url">
+                            <img :src="comment.topic.model.brand.cover_url"/>
+                        </div>
+                    </f7-col>
+                </f7-grid>
+            </f7-card-content>
         </div>
     </f7-card>
 </template>
@@ -61,7 +62,7 @@
   export default {
     computed: {
       brands () {
-        return this.$store.state.brands.slice(0, 5)
+        return this.$store.state.brands.slice(0, 6)
       },
       posts () {
         return this.$store.state.timeline
@@ -84,7 +85,7 @@
       Slide
     },
     created () {
-      this.$store.dispatch('getUsers', {paginate: 8})
+      this.$store.dispatch('getUsers', {paginate: 4})
       this.$store.dispatch('getComments')
       this.$store.dispatch('getBrands')
     },

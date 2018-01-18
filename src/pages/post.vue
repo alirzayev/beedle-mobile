@@ -8,9 +8,9 @@
                 </a>
             </f7-nav-left>
             <f7-nav-center :title="$t('post.post')"></f7-nav-center>
-            <f7-nav-right>
+            <f7-nav-right v-if="isLoggedIn">
                 <f7-link open-popover>
-                    <f7-icon f7="flag"></f7-icon>
+                    <f7-icon f7="more_vertical"></f7-icon>
                 </f7-link>
                 <!-- Popover -->
                 <f7-popover>
@@ -18,6 +18,8 @@
                     <f7-list>
                         <f7-list-button open-popup="#reportUserPopup" close-popover>Report User</f7-list-button>
                         <f7-list-button open-popup="#reportTopicPopup" close-popover>Report Topic</f7-list-button>
+                        <f7-list-button v-if="post.isMyPost" @click="deletePost(post.id)" close-popover>Delete
+                        </f7-list-button>
                     </f7-list>
                 </f7-popover>
             </f7-nav-right>
@@ -53,7 +55,7 @@
         </div>
         <f7-toolbar v-if="post && user" class="custom-toolbar flex-row">
             <f7-link class="tool tool-border flex-rest-width" :class="{liked: post.isMyLike}"
-                     @click="toggleLike(post.id)">
+                     @click="makeTrend(post.id)">
                 <span class="fonticon f7-icons">bolt</span>
                 <span class="text" v-text="post.likes_count ? post.likes_count : $t('tweet.like')"></span>
             </f7-link>
@@ -159,9 +161,12 @@
     computed: {
       user () {
         return this.$store.getters.user
+      },
+      isLoggedIn () {
+        return this.$store.getters.isLoggedIn
       }
     },
-    created () {
+    mounted () {
       let topicId = this.$route.query.mid
       this.refresh(topicId)
       this.$bus.$on('refreshPost', this.refresh)
@@ -176,11 +181,11 @@
       openCommentPopup () {
         this.$f7.popup('#commentPopup')
       },
-      toggleLike (mid) {
-        return topicServices.like(mid)
+      makeTrend (pid) {
+        return topicServices.like(pid)
           .then((response) => {
-            console.log(response.body.message)
-            this.refresh()
+            console.log('I like it', response)
+            this.refresh(pid)
           })
       },
       refresh (topicId) {
@@ -218,10 +223,24 @@
       routeToUser (id) {
         this.$f7.mainView.router.load({url: `/user/?uid=${id}`})
       },
-
+      deletePost (id) {
+        let self = this
+        this.$f7.confirm('Are you sure to delete this post?', 'Message', function () {
+          window.f7.showIndicator()
+          topicServices.delete(id).then((response) => {
+            window.f7.hideIndicator()
+            window.f7.alert('Topic is deleted successfully!', 'Message')
+            self.$bus.$emit('refreshPosts')
+            self.$f7.mainView.router.back()
+          })
+        })
+      }
     },
     components: {
       Card
+    },
+    beforeDestroy () {
+      this.$bus.$emit('refreshPosts')
     }
   }
 </script>

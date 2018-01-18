@@ -130,7 +130,7 @@
             .avatar, .avatar > img {
                 width: 40px;
                 height: 40px;
-                border-radius: 4px;
+                border-radius: 50%;
                 margin-right: 9px;
             }
             .user {

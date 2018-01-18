@@ -109,6 +109,7 @@
     @import "../assets/styles/mixins.less";
 
     .home-view {
+        margin-bottom: 40px;
         .tool {
             font-size: 12px;
             justify-content: center;

@@ -38,8 +38,8 @@ Vue.use(Framework7Vue)
 Vue.use(VueResource)
 Vue.use(VueCarousel)
 
+// Vue.http.options.root = 'http://localhost:8000'
 Vue.http.options.root = 'http://188.226.148.17'
-//Vue.http.options.root = 'http://beedle.caspiansoft.com'
 Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
 Vue.http.options.emulateJSON = true
 

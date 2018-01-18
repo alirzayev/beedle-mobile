@@ -8,32 +8,30 @@
                 </a>
             </f7-nav-left>
             <f7-nav-center
-                    :title="this.$route.query.brand?this.$route.query.brand:this.$route.query.model"></f7-nav-center>
+                    :title="title"></f7-nav-center>
             <f7-nav-right>
                 <f7-link v-if="isLoggedIn && $route.query.bid" @click="makeFavourite($route.query.bid)"
                          :icon-f7="isMyFavourite(this.$route.query.bid) ? 'favorites_fill' : 'favorites'"></f7-link>
             </f7-nav-right>
         </f7-navbar>
-
-        <card v-for="(item, index) in posts" :key="item.id" :data="item" @card:content-click="routeToPost"></card>
+        <card v-for="post in posts" :key="post.id" :data="post" @card:content-click="routeToPost"></card>
     </f7-page>
 </template>
 <script>
   import Card from '../components/card.vue'
   import favServices from '../api/favourite'
+  import userServices from '../api/user'
 
   export default {
     data () {
       return {
         fav: null,
-        timeline: [],
+        title: '',
+        posts: [],
         interests: [],
       }
     },
     computed: {
-      posts () {
-        return this.timeline
-      },
       user () {
         return this.$store.getters.user
       },
@@ -42,21 +40,7 @@
       }
     },
     created () {
-      let query = this.$route.query
-      this.$nextTick(function () {
-        this.$f7.showIndicator()
-        if (query.mid) {
-          this.$store.dispatch('getTimeline', query.mid).then(() => {
-            this.timeline = this.$store.state.timeline
-            this.$f7.hideIndicator()
-          })
-        } else {
-          this.$store.dispatch('getBrandTopics', query.bid).then(() => {
-            this.timeline = this.$store.state.timeline
-            this.$f7.hideIndicator()
-          })
-        }
-      })
+      this.refresh()
     },
     beforeDestroy () {
       this.$bus.$emit('refreshPosts')
@@ -67,6 +51,34 @@
     methods: {
       avatarMedia (url) {
         return `<img class='avatar' src='${url}' />`
+      },
+      refresh () {
+        let query = this.$route.query
+        this.$nextTick(function () {
+          this.$f7.showIndicator()
+          if (query.mid) {
+            this.$store.dispatch('getTimeline', query.mid).then(() => {
+              this.posts = this.$store.state.timeline
+              this.title = query.model
+              this.$f7.hideIndicator()
+            })
+          }
+          if (query.uid) {
+            userServices.user(query.uid).then((response) => {
+              this.title = response.body.user.fullname
+              this.posts = response.body.user.topics
+              console.log('user topics', response.body.user.topics)
+              this.$f7.hideIndicator()
+            })
+          }
+          if (query.bid) {
+            this.$store.dispatch('getBrandTopics', query.bid).then(() => {
+              this.posts = this.$store.state.timeline
+              this.title = query.brand
+              this.$f7.hideIndicator()
+            })
+          }
+        })
       },
       makeFavourite (id) {
         if (!this.isMyFavourite(id)) {

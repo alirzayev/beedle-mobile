@@ -7,12 +7,12 @@
         <f7-grid class="custom-toolbar flex-row">
             <f7-col width="50" class="tool tool-border flex-rest-width">
                 <p class="title">Car</p>
-                <p v-if="user.car" class="text">{{user.car.model.brand.name}}</p>
+                <p v-if="user.car && user.car.model" class="text">{{user.car.model.brand.name}}</p>
                 <p v-else class="text"> --- </p>
             </f7-col>
             <f7-col width="50" class="tool flex-rest-width">
                 <p class="title" v-text="$t('post.post')"></p>
-                <p v-if="user.topics" class="text" v-text="user.topics.length"></p>
+                <f7-button v-if="user.topics" @click="routeToUserPosts(user)" color="black" fill>{{user.topics.length}}</f7-button>
                 <p v-else class="text"> 0 </p>
             </f7-col>
         </f7-grid>
@@ -20,14 +20,15 @@
         <!-- Users Content-->
         <f7-card-header>{{$t('user.interests').toUpperCase()}}</f7-card-header>
         <f7-card-content>
-            <f7-grid no-gutter>
+            <f7-grid>
                 <f7-col v-for="interest in user.interests" :key="interest.id" width="25">
-                    <div @click="routeToPosts(interest.brand)" class="avatar">
+                    <div @click="routeToBrandPosts(interest.brand)" class="avatar">
                         <img :src="interest.brand.cover_url"/>
                     </div>
                 </f7-col>
             </f7-grid>
         </f7-card-content>
+
     </div>
     <div v-else class="empty-content">
         <i class="iconfont icon-about"/>
@@ -71,8 +72,11 @@
       checkLogin (val) {
         this.isLoggedIn = val
       },
-      routeToPosts (brand) {
+      routeToBrandPosts (brand) {
         this.$f7.mainView.router.load({url: `/posts/?bid=${brand.id}&brand=${brand.name}`})
+      },
+      routeToUserPosts (user) {
+        this.$f7.mainView.router.load({url: `/posts/?uid=${user.id}&fullname=${user.fullname}`})
       },
       getLocation (str) {
         let location = JSON.parse(str)
